@@ -27,6 +27,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND ephyl_sources
     turbofsk_tx_impl.cc
+    turbofsk_rx_impl.cc
+    init_turbofsk.cc
 )
 
 set(ephyl_sources "${ephyl_sources}" PARENT_SCOPE)

@@ -19,5 +19,6 @@
 
 install(FILES
     ephyl_turbofsk_tx.xml
-    ephyl_turbofsk_tx.xml DESTINATION share/gnuradio/grc/blocks
+    ephyl_turbofsk_tx.xml
+    ephyl_turbofsk_rx.xml DESTINATION share/gnuradio/grc/blocks
 )
