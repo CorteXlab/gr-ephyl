@@ -33,13 +33,8 @@ namespace gr {
      private:
 
       mxArray *my_in; /* Define input parameters */
-      mxArray *mxNbBits;
       mxArray *outTx = NULL;    /* and output parameters to be passed to the library functions */
-      //mxArray *outRxBits = NULL;
-      //mxArray *outcrcCheck = NULL;
-      //int r, NbErr;
       int NbBits;
-      //double *realdata;
       double *a,*b;
       size_t a_size,b_size;
     

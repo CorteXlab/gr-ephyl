@@ -71,14 +71,19 @@ namespace gr {
       // init_mutex.unlock();
       get_turbofsk();
       
-      NbBits = 16;
+      // in EPHYL framework, the packet size is:
+      // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
+      NbBits = 128; 
       /* Create the input data */
       my_in = mxCreateDoubleMatrix(1,NbBits,mxREAL);
 
       b = mxGetPr(my_in);
       b_size = mxGetN(my_in);      
 
-      set_min_output_buffer(0,5473);
+      /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
+      set_min_output_buffer(0,14652);
+      // set_max_output_buffer(0,14652);
+      // set_min_noutput_items(14652);
     }
 
     /*
@@ -104,7 +109,7 @@ namespace gr {
     void
     turbofsk_tx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = 16;
+      ninput_items_required[0] = NbBits;
     }
 
     int
@@ -136,9 +141,9 @@ namespace gr {
       //   printf("%1.8f|",a[k]);
       // }
 
-      printf("\nTX Signal Size:\n");
-      printf("%d",(int)a_size);
-      printf("\n");
+      // printf("\nTX Signal Size:\n");
+      // printf("%d",(int)a_size);
+      // printf("\n");
 
       //int min_out = std::min(noutput_items,int(a_size));
       //for(int i = 0; i < min_out; i++){

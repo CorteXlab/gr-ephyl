@@ -69,20 +69,20 @@ namespace gr {
       // lib_turbofsk_init_rx++;
       // init_mutex_rx.unlock();
       get_turbofsk();
-      
-      NbBits = 5473;
+      cnt = 0;
+      Signal_len = 14652;
 
       /* Create the input data */
-      my_in = mxCreateDoubleMatrix(1,NbBits,mxREAL);
-      b = mxGetPr(my_in);
-      b_size = mxGetN(my_in);      
+      rx_in = mxCreateDoubleMatrix(1,Signal_len,mxREAL);
+      b = mxGetPr(rx_in);
+      b_size = mxGetN(rx_in);
 
       mxNbBits = mxCreateDoubleMatrix(1,1,mxREAL);
       realdata = mxGetPr(mxNbBits);
-      *realdata = (double) NbBits;
+      *realdata = 128 ;
 
 
-      set_min_output_buffer(0,16);
+      // set_min_output_buffer(0,16);
     }
 
     /*
@@ -90,24 +90,17 @@ namespace gr {
      */
     turbofsk_rx_impl::~turbofsk_rx_impl()
     {
-      mxDestroyArray(my_in);
+      mxDestroyArray(rx_in);
       mxDestroyArray(outRxBits);
       mxDestroyArray(outcrcCheck);
-
-      // init_mutex_rx.lock();
-      // lib_turbofsk_init_rx--;
-      // if (lib_turbofsk_init_rx == 0) {
-      //   libTurboFSK_v2Terminate();     
-      //   mclTerminateApplication();
-      // }
-      // init_mutex_rx.unlock();
+      mxDestroyArray(mxNbBits);
       release_turbofsk();
     }
 
     void
     turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = 16;
+      ninput_items_required[0] = Signal_len;
     }
 
     int
@@ -120,47 +113,69 @@ namespace gr {
       const float *in = (const float *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
 
-
-      for(int k=0;k<b_size;k++){
-        b[k] = double(in[k]);
+      for(int k=0;k<ninput_items[0];k++){
+        if (cnt != 0){
+          // Here we will probably have to enlarge rx_in : 
+          // e.g. rx_in = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
+          b[k+ninput_items[0]] = b[k];  // Move elements by ninput_items[0]
+        }
+        b[k] = double(in[k]);   // Fill the emptied elements with new input
       }
 
-        /* Call the Rx library function */
-      mlfMainRx(2, &outRxBits, &outcrcCheck, my_in, mxNbBits);
-      if (outRxBits != NULL){
-        realdata = mxGetPr(outRxBits);
-        r = mxGetN(outRxBits);
-        printf("RX:");
-        for(int k=0;k<r;k++){
-          printf("%1.0f",realdata[k]);
+      cnt += ninput_items[0];
+      if (cnt>=b_size) {
+
+        // printf("\nCaptured Signal Size:\n");
+        // printf("%d",(int)cnt);
+        // printf("\nSignal Length :\n");
+        // printf("%d",(int)b_size);
+        // printf("\n");            
+        cnt = 0;
+
+          /* Call the Rx library function */
+        mlfMainRx(2, &outRxBits, &outcrcCheck, rx_in, mxNbBits);
+
+        if (outRxBits != NULL){
+          realdata = mxGetPr(outRxBits);
+          r = mxGetN(outRxBits);
+          printf("\nRX Bits:\n");
+          for(int k=0;k<r;k++){
+            printf("%1.0f",realdata[k]);
+          }
+          printf("\n");
+          if(r==0)
+            printf("RX packet not detected.");
+          else {
+            NbErr = 0;
+            // for(int k=0;k<Signal_len;k++){
+            //   if(data[k] != realdata[k])
+            //     NbErr++;
+            // }
+            realdata = mxGetPr(outcrcCheck);
+            if (*realdata==0.0){
+              printf("CRC not OK\n");
+            }
+            else if (*realdata==1.0) {
+              printf("CRC OK\n");
+            }
+            else printf("No packet detected.\n");
+          }
+          for(int i=0;i < r; i++) {
+            out[i] = realdata[i];
+          }
         }
-        printf("\n");
-        // if(r==0)
-        //   printf("RX packet not detected.");
-        // else {
-        //   NbErr = 0;
-        //   // for(int k=0;k<NbBits;k++){
-        //   //   if(data[k] != realdata[k])
-        //   //     NbErr++;
-        //   // }
-        //   realdata = mxGetPr(outcrcCheck);
-        //   if (*realdata==0.0){
-        //     printf("CRC not OK %d Errors / %d bits\n",NbErr,NbBits);
-        //   }
-        //   else if (*realdata==1.0) {
-        //     printf("CRC OK     %d Errors / %d bits\n",NbErr,NbBits);
-        //   }
-        //   else printf("No packet detected.\n");
-        // }
+        else {
+          printf("Error, output NULL pointer.\n");
+          throw new std::exception();
         }
+
+      }
       else {
-        printf("Error, output NULL pointer.\n");
-
+        r = 0;
       }
 
-
-      consume_each (a_size);
-      return a_size;
+      consume_each (r);
+      return r;
 
     }
 

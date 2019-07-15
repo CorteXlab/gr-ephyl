@@ -32,9 +32,9 @@ namespace gr {
     {
      private:
 
-      mxArray *my_in;  /*Define input parameters 
+      mxArray *rx_in;  /*Define input parameters 
       // mxArray *outTx = NULL;    /* and output parameters to be passed to the library functions */
-      int r, NbErr,NbBits;
+      int r, NbErr,Signal_len,cnt;
       mxArray *mxNbBits;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
