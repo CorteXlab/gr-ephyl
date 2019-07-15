@@ -150,7 +150,7 @@ namespace gr {
             // for(int k=0;k<Signal_len;k++){
             //   if(data[k] != realdata[k])
             //     NbErr++;
-            // }
+            // } 
             realdata = mxGetPr(outcrcCheck);
             if (*realdata==0.0){
               printf("CRC not OK\n");
