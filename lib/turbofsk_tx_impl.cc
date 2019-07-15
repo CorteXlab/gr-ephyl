@@ -93,16 +93,6 @@ namespace gr {
     {
       mxDestroyArray(my_in);
       mxDestroyArray(outTx);
-      // init_mutex.lock();
-      // lib_turbofsk_init--;
-      // if (lib_turbofsk_init == 0) {
-      //   //  Call the library termination routine 
-      //   libTurboFSK_v2Terminate();     
-
-      //   /* Note that you should call mclTerminate application at the end of your application */
-      //   mclTerminateApplication();
-      // }
-      // init_mutex.unlock();
       release_turbofsk();
     }
 
@@ -122,10 +112,10 @@ namespace gr {
       const unsigned char *in = (const unsigned char *) input_items[0];
       float *out = (float *) output_items[0];
 
-      printf("\nTX Bits:\n");
+      // printf("\nTX Bits:\n");
       for(int k=0;k<b_size;k++){
         b[k] = double(in[k]);
-        printf("%1.0f",b[k]);
+        // printf("%1.0f",b[k]);
       }
 
 /************************************************************************/

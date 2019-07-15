@@ -32,15 +32,15 @@ namespace gr {
     {
      private:
 
-      mxArray *rx_in;  /*Define input parameters 
-      // mxArray *outTx = NULL;    /* and output parameters to be passed to the library functions */
-      int r, NbErr,Signal_len,cnt;
+      mxArray *rx_in;  /* Define input parameters  */
       mxArray *mxNbBits;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
-      double *realdata;
-      double *a,*b;
-      size_t a_size,b_size;
+      int r, NbErr,Signal_len,NbBits,cnt;
+      double *c,*d,*realdata,*realcrc;
+      // double *realcrc;
+      // double *c,*d;
+      size_t c_size,d_size;
     
      public:
       turbofsk_rx_impl();

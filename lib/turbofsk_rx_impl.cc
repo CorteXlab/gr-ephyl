@@ -51,38 +51,22 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
-      // init_mutex_rx.lock();
-      // if (lib_turbofsk_init_rx == 0) {
-      //   if( !mclInitializeApplication(NULL,0) )
-      //   {
-      //     fprintf(stderr, "Could not initialize the application.\n");
-      //     init_mutex_rx.unlock();
-      //     throw new std::exception();
-      //   }
-
-      //   if (!libTurboFSK_v2Initialize()){
-      //     fprintf(stderr,"Could not initialize the library.\n");
-      //     init_mutex_rx.unlock();
-      //     throw new std::exception();
-      //   } 
-      // }
-      // lib_turbofsk_init_rx++;
-      // init_mutex_rx.unlock();
       get_turbofsk();
       cnt = 0;
       Signal_len = 14652;
+      NbBits = 128;
 
       /* Create the input data */
-      rx_in = mxCreateDoubleMatrix(1,Signal_len,mxREAL);
-      b = mxGetPr(rx_in);
-      b_size = mxGetN(rx_in);
+      rx_in = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);    // Take input twice, to 
+      d = mxGetPr(rx_in);
+      d_size = mxGetN(rx_in);
 
       mxNbBits = mxCreateDoubleMatrix(1,1,mxREAL);
       realdata = mxGetPr(mxNbBits);
-      *realdata = 128 ;
+      *realdata = NbBits ;
 
 
-      // set_min_output_buffer(0,16);
+      set_min_output_buffer(0,NbBits);
     }
 
     /*
@@ -115,21 +99,20 @@ namespace gr {
 
       for(int k=0;k<ninput_items[0];k++){
         if (cnt != 0){
-          // Here we will probably have to enlarge rx_in : 
-          // e.g. rx_in = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
-          b[k+ninput_items[0]] = b[k];  // Move elements by ninput_items[0]
+          d[k+ninput_items[0]] = d[k];  // Move elements by ninput_items[0]
         }
-        b[k] = double(in[k]);   // Fill the emptied elements with new input
+        d[k] = double(in[k]);   // Fill the emptied elements with new input
       }
 
       cnt += ninput_items[0];
-      if (cnt>=b_size) {
 
-        // printf("\nCaptured Signal Size:\n");
-        // printf("%d",(int)cnt);
-        // printf("\nSignal Length :\n");
-        // printf("%d",(int)b_size);
-        // printf("\n");            
+      printf("\nCaptured Signal Size:\n");
+      printf("%d",(int)cnt);
+      printf("\nSignal Length :\n");
+      printf("%d",(int)d_size);
+      printf("\n");  
+
+      if (cnt>=d_size) {
         cnt = 0;
 
           /* Call the Rx library function */
@@ -142,20 +125,23 @@ namespace gr {
           for(int k=0;k<r;k++){
             printf("%1.0f",realdata[k]);
           }
-          printf("\n");
           if(r==0)
             printf("RX packet not detected.");
           else {
+            printf("\nPayload Size:\n ");
+            printf("%d",r);
+            printf("\n");  
+
             NbErr = 0;
             // for(int k=0;k<Signal_len;k++){
             //   if(data[k] != realdata[k])
             //     NbErr++;
             // } 
-            realdata = mxGetPr(outcrcCheck);
-            if (*realdata==0.0){
+            realcrc = mxGetPr(outcrcCheck);
+            if (*realcrc==0.0){
               printf("CRC not OK\n");
             }
-            else if (*realdata==1.0) {
+            else if (*realcrc==1.0) {
               printf("CRC OK\n");
             }
             else printf("No packet detected.\n");
