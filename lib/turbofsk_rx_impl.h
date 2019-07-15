@@ -36,10 +36,8 @@ namespace gr {
       mxArray *mxNbBits;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
-      int r, NbErr,Signal_len,NbBits,cnt;
+      int r, NbErr,Signal_len,NbBits,pow2_buffer,cnt;
       double *c,*d,*realdata,*realcrc;
-      // double *realcrc;
-      // double *c,*d;
       size_t c_size,d_size;
     
      public:
@@ -48,7 +46,7 @@ namespace gr {
 
 
       // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+      // void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
       int general_work(int noutput_items,
            gr_vector_int &ninput_items,

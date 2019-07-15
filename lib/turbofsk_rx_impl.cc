@@ -52,12 +52,19 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
       get_turbofsk();
-      cnt = 0;
+
+      // in EPHYL framework, the packet size is:
+      // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
+      NbBits = 128; 
+      /*  Signal_len = (64*32)+(1+(NbBits+16)/8)*4*137+(1+int((1+(NbBits+16)/8)*4/5))*137 */
       Signal_len = 14652;
-      NbBits = 128;
+      pow2_buffer = Signal_len;
+      // pow2_buffer = pow(2,int(std::log2(Signal_len)+1))-1;
+      
+      cnt = 0;
 
       /* Create the input data */
-      rx_in = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);    // Take input twice, to 
+      rx_in = mxCreateDoubleMatrix(1,pow2_buffer*2,mxREAL);    // Take input twice, to 
       d = mxGetPr(rx_in);
       d_size = mxGetN(rx_in);
 
@@ -81,11 +88,11 @@ namespace gr {
       release_turbofsk();
     }
 
-    void
-    turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
-    {
-      ninput_items_required[0] = Signal_len;
-    }
+    // void
+    // turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
+    // {
+    //   ninput_items_required[0] = pow2_buffer;
+    // }
 
     int
     turbofsk_rx_impl::general_work (int noutput_items,
@@ -106,8 +113,11 @@ namespace gr {
 
       cnt += ninput_items[0];
 
+      printf("\nInput buffer:\n");
+      printf("%d",(int)ninput_items[0]);
       printf("\nCaptured Signal Size:\n");
       printf("%d",(int)cnt);
+
       printf("\nSignal Length :\n");
       printf("%d",(int)d_size);
       printf("\n");  

@@ -34,7 +34,7 @@ namespace gr {
 
       mxArray *my_in; /* Define input parameters */
       mxArray *outTx = NULL;    /* and output parameters to be passed to the library functions */
-      int NbBits;
+      int NbBits,Signal_len,pow2_buffer;
       double *a,*b;
       size_t a_size,b_size;
     

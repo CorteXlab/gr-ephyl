@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "turbofsk_tx_impl.h"
 #include <algorithm>
+#include <cmath>
 #include "init_turbofsk.h"
 
 // using namespace std;
@@ -51,39 +52,24 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof(unsigned char)),
               gr::io_signature::make(1, 1, sizeof(float)))
     {
-      // init_mutex.lock();
-      // if (lib_turbofsk_init == 0) {
-      //   if( !mclInitializeApplication(NULL,0) )
-      //   {
-      //     fprintf(stderr, "Could not initialize the application.\n");
-      //     init_mutex.unlock();
-      //     throw new std::exception();
-      //   }
-
-      //   if (!libTurboFSK_v2Initialize()){
-      //     fprintf(stderr,"Could not initialize the library.\n");
-      //     init_mutex.unlock();
-      //     throw new std::exception();
-      //     // printf("AAAA");
-      //   } 
-      // }
-      // lib_turbofsk_init++;
-      // init_mutex.unlock();
       get_turbofsk();
       
       // in EPHYL framework, the packet size is:
       // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
       NbBits = 128; 
+      /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
+      Signal_len = 14652;
+      pow2_buffer = 16383;
+      // pow2_buffer = Signal_len;
+      // pow2_buffer = pow(2,int(std::log2(Signal_len)+1));
+
+      set_min_output_buffer(0,pow2_buffer);
+      // set_max_output_buffer(0,pow2_buffer);
+
       /* Create the input data */
       my_in = mxCreateDoubleMatrix(1,NbBits,mxREAL);
-
       b = mxGetPr(my_in);
       b_size = mxGetN(my_in);      
-
-      /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
-      set_min_output_buffer(0,14652);
-      // set_max_output_buffer(0,14652);
-      // set_min_noutput_items(14652);
     }
 
     /*
@@ -112,38 +98,37 @@ namespace gr {
       const unsigned char *in = (const unsigned char *) input_items[0];
       float *out = (float *) output_items[0];
 
-      // printf("\nTX Bits:\n");
+      printf("\nTX Bits:\n");
       for(int k=0;k<b_size;k++){
         b[k] = double(in[k]);
-        // printf("%1.0f",b[k]);
+        printf("%1.0f",b[k]);
       }
 
 /************************************************************************/
       mlfMainTx(1, &outTx, my_in);
 /************************************************************************/      
-      // printf("\nOTHMANE\n");
 
       a = mxGetPr(outTx);
       a_size = mxGetM(outTx);  // We use mxGetM instead of mxGetN because mlfmainTx transposes input
+
+      for(int i=0;i < pow2_buffer; i++) {
+        if (i< a_size)
+          out[i] = a[i];
+        else
+          out[i] = 0;
 
       // printf("\nTX Signal:\n");
       // for(int k=0;k<a_size;k++){
       //   printf("%1.8f|",a[k]);
       // }
-
       // printf("\nTX Signal Size:\n");
       // printf("%d",(int)a_size);
       // printf("\n");
 
-      //int min_out = std::min(noutput_items,int(a_size));
-      //for(int i = 0; i < min_out; i++){
-
-      for(int i=0;i < a_size; i++) {
-        out[i] = a[i];
       }
-      add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)a_size));
-      consume_each (a_size);
-      return a_size;
+      add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)pow2_buffer));
+      consume_each (pow2_buffer);
+      return pow2_buffer;
 
     }
 
