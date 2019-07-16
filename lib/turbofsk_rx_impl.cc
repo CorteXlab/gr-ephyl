@@ -57,20 +57,17 @@ namespace gr {
       // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
       NbBits = 128; 
       /*  Signal_len = (64*32)+(1+(NbBits+16)/8)*4*137+(1+int((1+(NbBits+16)/8)*4/5))*137 */
-      Signal_len = 14652;
-      pow2_buffer = Signal_len;
-      // pow2_buffer = pow(2,int(std::log2(Signal_len)+1))-1;
-      
+      Signal_len = 14652;      
       cnt = 0;
 
       /* Create the input data */
-      rx_in = mxCreateDoubleMatrix(1,pow2_buffer*2,mxREAL);    // Take input twice, to 
+      rx_in = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);    // Take input twice, to 
       d = mxGetPr(rx_in);
       d_size = mxGetN(rx_in);
 
       mxNbBits = mxCreateDoubleMatrix(1,1,mxREAL);
-      realdata = mxGetPr(mxNbBits);
-      *realdata = NbBits ;
+      double *bits = mxGetPr(mxNbBits);
+      *bits = NbBits ;
 
 
       set_min_output_buffer(0,NbBits);
@@ -91,7 +88,7 @@ namespace gr {
     // void
     // turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     // {
-    //   ninput_items_required[0] = pow2_buffer;
+    //   ninput_items_required[0] = Signal_len;
     // }
 
     int
@@ -104,75 +101,65 @@ namespace gr {
       const float *in = (const float *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
 
-      for(int k=0;k<ninput_items[0];k++){
-        if (cnt != 0){
-          d[k+ninput_items[0]] = d[k];  // Move elements by ninput_items[0]
-        }
-        d[k] = double(in[k]);   // Fill the emptied elements with new input
+      // printf("\nNINPUT: %d\n",ninput_items[0]);
+      printf("\navant fill buffer cnt: %d\n",cnt);
+
+      int index_input;
+      for (index_input=0;
+           index_input < ninput_items[0] && cnt < d_size;
+           index_input++, cnt++) {
+        d[cnt] = double(in[index_input]);
       }
+      printf("\naprès fill buffer cnt: %d\n",cnt);
+      printf("\non consomme %d\n", index_input);
+      consume_each(index_input);
 
-      cnt += ninput_items[0];
-
-      printf("\nInput buffer:\n");
-      printf("%d",(int)ninput_items[0]);
-      printf("\nCaptured Signal Size:\n");
-      printf("%d",(int)cnt);
-
-      printf("\nSignal Length :\n");
-      printf("%d",(int)d_size);
-      printf("\n");  
-
-      if (cnt>=d_size) {
-        cnt = 0;
+      int r = 0;
+      if (cnt==d_size) {
+        printf("\non appelle mlfMainRx\n");
 
           /* Call the Rx library function */
         mlfMainRx(2, &outRxBits, &outcrcCheck, rx_in, mxNbBits);
-
         if (outRxBits != NULL){
+          double *realdata,*realcrc;
           realdata = mxGetPr(outRxBits);
           r = mxGetN(outRxBits);
           printf("\nRX Bits:\n");
           for(int k=0;k<r;k++){
             printf("%1.0f",realdata[k]);
           }
-          if(r==0)
-            printf("RX packet not detected.");
-          else {
-            printf("\nPayload Size:\n ");
-            printf("%d",r);
-            printf("\n");  
 
-            NbErr = 0;
-            // for(int k=0;k<Signal_len;k++){
-            //   if(data[k] != realdata[k])
-            //     NbErr++;
-            // } 
+          if(r==0){
+            printf("RX packet not detected.");
+          }
+          else {
             realcrc = mxGetPr(outcrcCheck);
+            // printf("\nCRC Check Len: %d\n",int(mxGetM(outcrcCheck)));
+
             if (*realcrc==0.0){
-              printf("CRC not OK\n");
+              printf("\nCRC not OK\n");
             }
             else if (*realcrc==1.0) {
-              printf("CRC OK\n");
+              printf("\nCRC OK\n");
             }
             else printf("No packet detected.\n");
-          }
-          for(int i=0;i < r; i++) {
-            out[i] = realdata[i];
+
+            for(int i=0;i < r; i++) {
+              out[i] = realdata[i];
+            }
           }
         }
         else {
           printf("Error, output NULL pointer.\n");
           throw new std::exception();
+        } 
+        for (int i = 0; i < Signal_len ; i++) {
+          d[i] = d[i+Signal_len];
         }
-
-      }
-      else {
-        r = 0;
+        cnt = Signal_len;
       }
 
-      consume_each (r);
       return r;
-
     }
 
   } /* namespace ephyl */

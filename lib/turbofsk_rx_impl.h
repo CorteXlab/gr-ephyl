@@ -36,8 +36,8 @@ namespace gr {
       mxArray *mxNbBits;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
-      int r, NbErr,Signal_len,NbBits,pow2_buffer,cnt;
-      double *c,*d,*realdata,*realcrc;
+      int NbErr,Signal_len,NbBits,pow2_buffer,cnt;
+      double *d;
       size_t c_size,d_size;
     
      public:
