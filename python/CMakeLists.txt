@@ -31,7 +31,7 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    DESTINATION ${GR_PYTHON_DIR}/ephyl
+    data_and_access_control.py DESTINATION ${GR_PYTHON_DIR}/ephyl
 )
 
 ########################################################################
@@ -44,3 +44,4 @@ set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_turbofsk_tx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_turbofsk_tx.py)
 GR_ADD_TEST(qa_turbofsk_tx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_turbofsk_tx.py)
 GR_ADD_TEST(qa_turbofsk_rx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_turbofsk_rx.py)
+GR_ADD_TEST(qa_data_and_access_control ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_data_and_access_control.py)
