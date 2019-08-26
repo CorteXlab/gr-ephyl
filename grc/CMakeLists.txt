@@ -21,5 +21,7 @@ install(FILES
     ephyl_turbofsk_tx.xml
     ephyl_turbofsk_tx.xml
     ephyl_turbofsk_rx.xml
-    ephyl_data_and_access_control.xml DESTINATION share/gnuradio/grc/blocks
+    ephyl_data_and_access_control.xml
+    ephyl_sn_scheduler.xml
+    ephyl_tag_2_msg.xml DESTINATION share/gnuradio/grc/blocks
 )

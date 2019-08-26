@@ -31,7 +31,9 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    data_and_access_control.py DESTINATION ${GR_PYTHON_DIR}/ephyl
+    data_and_access_control.py
+    sn_scheduler.py
+    tag_2_msg.py DESTINATION ${GR_PYTHON_DIR}/ephyl
 )
 
 ########################################################################
@@ -45,3 +47,5 @@ GR_ADD_TEST(qa_turbofsk_tx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_t
 GR_ADD_TEST(qa_turbofsk_tx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_turbofsk_tx.py)
 GR_ADD_TEST(qa_turbofsk_rx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_turbofsk_rx.py)
 GR_ADD_TEST(qa_data_and_access_control ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_data_and_access_control.py)
+GR_ADD_TEST(qa_sn_scheduler ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_sn_scheduler.py)
+GR_ADD_TEST(qa_tag_2_msg ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_tag_2_msg.py)
