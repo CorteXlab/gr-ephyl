@@ -34,4 +34,6 @@ except ImportError:
 from data_and_access_control import data_and_access_control
 from sn_scheduler import sn_scheduler
 from tag_2_msg import tag_2_msg
+from bs_scheduler import bs_scheduler
+from tag_2_msg_char import tag_2_msg_char
 #

@@ -33,7 +33,9 @@ GR_PYTHON_INSTALL(
     __init__.py
     data_and_access_control.py
     sn_scheduler.py
-    tag_2_msg.py DESTINATION ${GR_PYTHON_DIR}/ephyl
+    tag_2_msg.py
+    bs_scheduler.py
+    tag_2_msg_char.py DESTINATION ${GR_PYTHON_DIR}/ephyl
 )
 
 ########################################################################
@@ -49,3 +51,5 @@ GR_ADD_TEST(qa_turbofsk_rx ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_t
 GR_ADD_TEST(qa_data_and_access_control ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_data_and_access_control.py)
 GR_ADD_TEST(qa_sn_scheduler ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_sn_scheduler.py)
 GR_ADD_TEST(qa_tag_2_msg ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_tag_2_msg.py)
+GR_ADD_TEST(qa_bs_scheduler ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_bs_scheduler.py)
+GR_ADD_TEST(qa_tag_2_msg_char ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_tag_2_msg_char.py)

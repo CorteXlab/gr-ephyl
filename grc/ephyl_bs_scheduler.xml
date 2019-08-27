@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <block>
-  <name>Sensor Scheduler</name>
-  <key>ephyl_sn_scheduler</key>
+  <name>Base Station Scheduler</name>
+  <key>ephyl_bs_scheduler</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.sn_scheduler($num_slots, $bch_time, $Sync_time, $guard_time, $Slot_time, $Proc_time, $wanted_tag,$length_tag_key, $samp_rate)</make>
- 
+  <make>ephyl.bs_scheduler($num_slots, $bch_time, $Sync_time, $guard_time, $Slot_time, $Proc_time, $Beacon_Sequence, $samp_rate)</make>
+
+
   <param>
     <name>Number of Slots</name>
     <key>num_slots</key>
@@ -49,50 +50,32 @@
   </param>
   
   <param>
-    <name>Trigger tag</name>
-    <key>wanted_tag</key>
-    <value>"corr_est"</value>
+    <name>Beacon Sequence</name>
+    <key>Beacon_Sequence</key>
+    <value>[0]</value>
     <type>raw</type>
   </param>
-  
-  <param>
-    <name>Length tag key</name>
-    <key>length_tag_key</key>
-    <value>"packet_len"</value>
-    <type>raw</type>
-  </param>
-  
-  <param>
+
+   <param>
     <name>Sample rate</name>
     <key>samp_rate</key>
     <value>1000000</value>
     <type>int</type>
   </param>
- 
-
-
 
 
   <sink>
     <name>in</name>
-    <type>message</type>
-  </sink>
-  <sink>
-    <name>slot</name>
-    <type>message</type>
-  </sink>
-  <sink>
-    <name>trig</name>
-    <type>message</type>
+    <type>complex</type>
   </sink>
 
   <source>
-    <name>out</name>
+    <name>out0</name>
     <type>complex</type>
   </source>
   <source>
-    <name>busy</name>
-    <type>message</type>
+    <name>bcn</name>
+    <type>complex</type>
   </source>
 
 

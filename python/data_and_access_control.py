@@ -218,8 +218,9 @@ class data_and_access_control(gr.sync_block):
 
 
             #################################################################            
-            # With No Control Policy, simply increment slots each frame
+            # With No Control Policy, keep old slots
             else :
+                # self.control == 'NONE'
                 if v.count('p') > 0 :
                     if v.count('s') > 0 :
                         self.error = 0
@@ -227,8 +228,8 @@ class data_and_access_control(gr.sync_block):
                         self.error = 1
                 else :
                     self.error = 1
-                # new_slots = used_slots
-                new_slots = np.random.choice(self.bs_slots, 2).tolist()
+                new_slots = used_slots
+                # new_slots = np.random.choice(self.bs_slots, 2).tolist()
                 
             ############################################################################################
 
