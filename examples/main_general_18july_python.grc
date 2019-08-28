@@ -532,7 +532,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1e6</value>
+      <value>int(1e6)</value>
     </param>
   </block>
   <block>
@@ -1079,7 +1079,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(264, 1032)</value>
+      <value>(256, 1280)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1377,7 +1377,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1736, 296)</value>
+      <value>(1416, 240)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1386,6 +1386,37 @@
     <param>
       <key>id</key>
       <value>blocks_message_debug_0</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_message_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(744, 1336)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_debug_1</value>
     </param>
   </block>
   <block>
@@ -1412,7 +1443,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(56, 1032)</value>
+      <value>(56, 1200)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1781,7 +1812,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 1308)</value>
+      <value>(200, 1084)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2040,7 +2071,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1592, 1188)</value>
+      <value>(1528, 1188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2197,7 +2228,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 1316)</value>
+      <value>(440, 1092)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2464,7 +2495,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1328, 1152)</value>
+      <value>(1288, 1160)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2598,7 +2629,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>'basic'</value>
+      <value>''</value>
     </param>
   </block>
   <block>
@@ -2652,7 +2683,7 @@
     </param>
     <param>
       <key>_io_cache</key>
-      <value>('Data/Slot Mux \n&amp; Decrypt ID', 'blk', [], [('frame_n', 'message', 1), ('data', 'message', 1), ('slot_n', 'message', 1)], [('final_msg', 'message', 1)], 'Embedded Python Block example', [])</value>
+      <value>('Data/Slot Mux \n&amp; Decrypt ID', 'blk', [], [('frame_n', 'message', 1), ('slot_n', 'message', 1), ('data', 'message', 1)], [('final_msg', 'message', 1)], 'Embedded Python Block example', [])</value>
     </param>
     <param>
       <key>_source_code</key>
@@ -2771,7 +2802,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2959,7 +2990,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 1072)</value>
+      <value>(48, 1240)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3046,7 +3077,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>threshold</key>
-      <value>1</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -3559,7 +3590,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3599,6 +3630,77 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
   </block>
   <block>
+    <key>ephyl_bs_scheduler</key>
+    <param>
+      <key>bch_time</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>Beacon_Sequence</key>
+      <value>zc</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(184, 628)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>guard_time</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_bs_scheduler_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_slots</key>
+      <value>len(bs_slots)</value>
+    </param>
+    <param>
+      <key>Proc_time</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>Slot_time</key>
+      <value>T_s</value>
+    </param>
+    <param>
+      <key>Sync_time</key>
+      <value>T_sync</value>
+    </param>
+  </block>
+  <block>
     <key>ephyl_data_and_access_control</key>
     <param>
       <key>Control</key>
@@ -3622,7 +3724,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3635,6 +3737,45 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <param>
       <key>id</key>
       <value>ephyl_data_and_access_control_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_msg_mux</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1248, 256)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_msg_mux_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -3997,11 +4138,11 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 1116)</value>
+      <value>(704, 1036)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4042,6 +4183,210 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     <param>
       <key>wanted_tag</key>
       <value>'corr_est'</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_sn_scheduler</key>
+    <param>
+      <key>bch_time</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(696, 1148)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>guard_time</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_sn_scheduler_0</value>
+    </param>
+    <param>
+      <key>length_tag_key</key>
+      <value>"packet_len2"</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_slots</key>
+      <value>len(bs_slots)</value>
+    </param>
+    <param>
+      <key>Proc_time</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>Slot_time</key>
+      <value>T_s</value>
+    </param>
+    <param>
+      <key>Sync_time</key>
+      <value>T_sync</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'corr_est'</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_tag_2_msg</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(456, 1348)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_tag_2_msg_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'corr_est'</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_tag_2_msg_char</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(216, 244)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_tag_2_msg_char_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>"FRAME"</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_tag_2_msg_char</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(216, 292)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_tag_2_msg_char_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'PUSCH'</value>
     </param>
   </block>
   <block>
@@ -4212,7 +4557,7 @@ import re
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example"""
 
-    def __init__(self, bs_slots = [1],Control=True):  # only default arguments here
+    def __init__(self, bs_slots = [1],Control='nocontrol'):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -4265,7 +4610,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         # self.enc_ID = self.encrypt(self.ID)
         self.enc_ID = self.ID
 
-        self.tmp_data = self.rand_data(14)      # Created to keep the same data bits
+        self.tmp_data = self.rand_data(16)      # Created to keep the same data bits
         self.lines = self.gen_rand_pld(self.tmp_data,True,2)        
 
     def rand_slots(self,len) :
@@ -4295,7 +4640,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             res = []
             slots = map(str, slots)
             if not data :
-                data = self.rand_data(14)    
+                data = self.rand_data(16)    
             
             if rand_s :  
                 slots = self.rand_slots(n)
@@ -4309,14 +4654,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         res.append(slots[j]+'\t'+data[:len(data)-len(slots[j])+1])      
                 else :
                     res = '0'+'\t'+data
-
-
-            # print "#################################"
-            # print res
-            # print data
-            # print slots
-            # print "#################################" 
-            
             return res 
 
 
@@ -4371,51 +4708,33 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         # Check for slot activity
                         if rx[f][1] == tx[j][0]:     
                             v += 's'
-                            # Check for matching id
-                            if rx[f][2] == self.ID:     
-                                v += 'i'
-                                # Check for matching payload
-                                if rx[f][3] == tx[j][1]:     
-                                    v += 'p'
-                                h = f 
-                        # print tx[j]
-                        # print rx[f][2] 
-                        # print self.ID
+                        # Check for matching id
+                        if rx[f][2] == self.ID:     
+                            v += 'i'
+                        # Check for matching payload
+                        if rx[f][3] == tx[j][1]:     
+                            v += 'p'
+                        h = f 
+
+                        # print "SCORE:"
+                        # print v
+
                         rx[f][2] == self.ID
 
                         tx[j] = '\t'.join(tx[j])
 
             if not (any(active_slots) and any(used_slots))  :
-                active_slots = [0]            
-            ############################################################################################
-            remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
-            remaining.sort()
+                active_slots = [0]     
 
-            # With Control Policy 
-            if self.control :
-                # if v.count('i') &gt; 1 and v.count('p') &gt; 1 :
+            # remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
+            # remaining.sort()
+
+            ############################################################################################
+            # With Othmane Control Policy 
+            if self.control == 'basic' :
                 if v.count('p') &gt;= 1 :
                     new_slots = rx[h][1]
-                    # new_slots = used_slots
                     self.error = 0
-
-                # elif v.count('i') == 1 and v.count('p') == 1 :
-                #     # if h == -1 :
-                #     #     new_slots = rx[1]
-                #     # else :
-                #     #     new_slots = rx[h][1]
-                #     new_slots = rx[h][1]
-                #     # new_slots = used_slots
-                #     self.error = 0    
-
-                # elif v.count('s') &gt; 0 and (v.count('i') == 0 or v.count('p') == 0):
-                #     new_slots = np.random.choice(remaining, 2).tolist()
-                #     self.error = 0
-
-                # elif v.count('s') == 0 :
-                #     new_slots = used_slots
-                #     self.error = 1
-
                 else :
                     # new_slots = np.random.choice(remaining, 2).tolist()
                     tmp = map(int,used_slots)
@@ -4426,10 +4745,24 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                     new_slots = map(str,tmp)
                     self.error = 1
             #################################################################
+            # With UCB
+            if self.control == 'UCB' :
+                pass
+
+
+
+
+
+
+
+
+
+
+
+
+            #################################################################            
             # With No Control Policy, simply increment slots each frame
             else :
-                # if v.count('i') == 2 or v.count('p') == 2 :
-                #     self.error = 0
                 if v.count('p') &gt; 0 :
                     if v.count('s') &gt; 0 :
                         self.error = 0
@@ -4437,9 +4770,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         self.error = 1
                 else :
                     self.error = 1
-                # new_slots = used_slots
+                new_slots = used_slots
                 
-                new_slots = np.random.choice(self.bs_slots, 2).tolist()
+                # new_slots = np.random.choice(self.bs_slots, 2).tolist()
             ############################################################################################
 
             used_slots = list(set(used_slots))
@@ -4473,6 +4806,8 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                     ########################################################################################################
                     # Scheduler informs a frame reset (frame finished)
                     elif self.busy == 'RESET_FRAME' :
+
+
                         ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
                         # Activity in DL :
                         if any(self.RX_frame) :
@@ -4513,7 +4848,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         ############################################################################################
                         self.RX_frame = [] 
                         self.error_list = np.append(self.error_list,self.error)
-                        # print "PER counter = " + str(self.cnt)
+                        
                         # Compute self.PER
                         if self.cnt%6==0 and self.cnt !=0 :
                             # Shift PER to the right
@@ -5028,7 +5363,7 @@ True : Simple control access
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(208, 1816)</value>
+      <value>(200, 1896)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6672,11 +7007,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(208, 316)</value>
+      <value>(208, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6755,7 +7090,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -6852,11 +7187,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 1108)</value>
+      <value>(448, 1276)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7045,7 +7380,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1416, 308)</value>
+      <value>(1432, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7072,7 +7407,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1784, 1188)</value>
+      <value>(1760, 1188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7234,7 +7569,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 1316)</value>
+      <value>(32, 1092)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7261,7 +7596,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 1172)</value>
+      <value>(488, 1180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7342,7 +7677,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 1188)</value>
+      <value>(24, 1356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7496,6 +7831,12 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
   </connection>
   <connection>
     <source_block_id>blocks_complex_to_mag_squared_0</source_block_id>
+    <sink_block_id>ephyl_tag_2_msg_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_complex_to_mag_squared_0</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -7639,8 +7980,20 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>data</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_tagged_stream_to_pdu_0_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>data</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_tagged_stream_to_pdu_0_0_0</source_block_id>
     <sink_block_id>ephyl_sn_sched</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_tagged_stream_to_pdu_0_0_0</source_block_id>
+    <sink_block_id>ephyl_sn_scheduler_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>in</sink_key>
   </connection>
@@ -7783,6 +8136,18 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
+    <sink_block_id>dddd</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
+    <sink_block_id>blocks_keep_m_in_n_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>ephyl_data_and_access_control_0</source_block_id>
     <sink_block_id>virtual_sink_0_1_0_0_0</sink_block_id>
     <source_key>Array</source_key>
@@ -7801,6 +8166,18 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>pdus</sink_key>
   </connection>
   <connection>
+    <source_block_id>ephyl_msg_mux_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>final_msg</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_msg_mux_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0_0_0</sink_block_id>
+    <source_key>final_msg</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>ephyl_sn_sched</source_block_id>
     <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
     <source_key>busy</source_key>
@@ -7811,6 +8188,60 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_sn_scheduler_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
+    <source_key>busy</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_sn_scheduler_0</source_block_id>
+    <sink_block_id>blocks_throttle_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_0</source_block_id>
+    <sink_block_id>blocks_message_debug_1</sink_block_id>
+    <source_key>tag_msg</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_0</source_block_id>
+    <sink_block_id>ephyl_sn_sched</sink_block_id>
+    <source_key>tag_msg</source_key>
+    <sink_key>trig</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_0</source_block_id>
+    <sink_block_id>ephyl_sn_scheduler_0</sink_block_id>
+    <source_key>tag_msg</source_key>
+    <sink_key>trig</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0</source_block_id>
+    <sink_block_id>data_slot_mux</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>frame_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>frame_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0_0</source_block_id>
+    <sink_block_id>data_slot_mux</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>slot_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>slot_n</sink_key>
   </connection>
   <connection>
     <source_block_id>fft_vxx_0</source_block_id>
@@ -7856,7 +8287,19 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
   </connection>
   <connection>
     <source_block_id>tag2msg_sn</source_block_id>
+    <sink_block_id>blocks_message_debug_1</sink_block_id>
+    <source_key>bcn_trig</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg_sn</source_block_id>
     <sink_block_id>ephyl_sn_sched</sink_block_id>
+    <source_key>bcn_trig</source_key>
+    <sink_key>trig</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg_sn</source_block_id>
+    <sink_block_id>ephyl_sn_scheduler_0</sink_block_id>
     <source_key>bcn_trig</source_key>
     <sink_key>trig</sink_key>
   </connection>
@@ -7897,14 +8340,38 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>slot</sink_key>
   </connection>
   <connection>
+    <source_block_id>virtual_source_1_2_0_2</source_block_id>
+    <sink_block_id>ephyl_sn_scheduler_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>slot</sink_key>
+  </connection>
+  <connection>
     <source_block_id>virtual_source_1_2_0_2_0</source_block_id>
     <sink_block_id>ephyl_bs_core</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>virtual_source_1_2_0_2_0</source_block_id>
+    <sink_block_id>ephyl_bs_scheduler_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
     <sink_block_id>digital_diff_decoder_bb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>ephyl_tag_2_msg_char_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>ephyl_tag_2_msg_char_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

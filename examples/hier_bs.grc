@@ -1,0 +1,2531 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?grc format='1' created='3.7.11'?>
+<flow_graph>
+  <timestamp>Mon Apr  8 16:38:06 2019</timestamp>
+  <block>
+    <key>options</key>
+    <param>
+      <key>author</key>
+      <value>Othmane Oubejja</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>3000,3000</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>[ephyl]</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>description</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(0, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>hb</value>
+    </param>
+    <param>
+      <key>hier_block_src_path</key>
+      <value>.:</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>hier_bs</value>
+    </param>
+    <param>
+      <key>max_nouts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>qt_qss_theme</key>
+      <value></value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value></value>
+    </param>
+    <param>
+      <key>run_command</key>
+      <value>{python} -u {filename}</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>prompt</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>thread_safe_setters</key>
+      <value></value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>IoT BS Emulator</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_constellation</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const_points</key>
+      <value>[-1-1j, -1+1j, 1+1j, 1-1j]</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>qpsk</value>
+    </param>
+    <param>
+      <key>dims</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1680, 308)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>constel</value>
+    </param>
+    <param>
+      <key>rot_sym</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>soft_dec_lut</key>
+      <value>None</value>
+    </param>
+    <param>
+      <key>precision</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>sym_map</key>
+      <value>[0, 1, 3, 2]</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(416, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>M</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>32</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(328, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>N</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(352, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>BCH duration (ms)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(656, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Guard time duration (ms)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>20</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(816, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Proc duration (ms)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>50</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(968, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>T_s</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Slot duration (ms)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>50</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(504, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>T_sync</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Sync duration (ms)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>100</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_keep_m_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(424, 356)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_m_in_n_0</value>
+    </param>
+    <param>
+      <key>m</key>
+      <value>M</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>int(M*(1+cp_ratio))</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>offset</key>
+      <value>int(cp_ratio*M)</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_keep_one_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1296, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_one_in_n_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_keep_one_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1120, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_one_in_n_1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>M*2</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_repack_bits_bb</key>
+    <param>
+      <key>k</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>l</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>endianness</key>
+      <value>gr.GR_MSB_FIRST</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(752, 708)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_repack_bits_bb_1</value>
+    </param>
+    <param>
+      <key>len_tag_key</key>
+      <value>burst</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>align_output</key>
+      <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_stream_to_vector</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(568, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_stream_to_vector_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>M</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tagged_stream_to_pdu</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(984, 716)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tagged_stream_to_pdu_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>tag</key>
+      <value>burst</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_vector_to_stream</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(936, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_vector_to_stream_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>M</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(200, 92)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>bs_slots</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>BS Slots</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>range(5)</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(504, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cp_ratio</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.25</value>
+    </param>
+  </block>
+  <block>
+    <key>epy_block</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_io_cache</key>
+      <value>('Data/Slot Mux \n&amp; Decrypt ID', 'blk', [], [('frame_n', 'message', 1), ('slot_n', 'message', 1), ('data', 'message', 1)], [('final_msg', 'message', 1)], 'Embedded Python Block example', [])</value>
+    </param>
+    <param>
+      <key>_source_code</key>
+      <value>"""
+Embedded Python Blocks:
+
+Each time this file is saved, GRC will instantiate the first class it finds
+to get ports and parameters of your block. The arguments to __init__  will
+be the parameters. All of them are required  to have default values!
+"""
+
+import numpy as np
+import pmt
+import time
+import random
+import threading
+from gnuradio import gr, gr_unittest, blocks
+
+from Crypto.Cipher import AES
+import base64
+
+
+class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
+    """Embedded Python Block example"""
+
+    def __init__(self):  # only default arguments here
+        """arguments to this function show up as parameters in GRC"""
+        gr.sync_block.__init__(
+            self,
+            name='Data/Slot Mux \n&amp; Decrypt ID',   # will show up in GRC
+            in_sig=[],
+            out_sig=[]
+        )
+        self.message_port_register_in(pmt.to_pmt("data"))        
+        self.set_msg_handler(pmt.intern("data"), self.handle_data)
+        self.message_port_register_in(pmt.to_pmt("slot_n"))
+        self.set_msg_handler(pmt.intern("slot_n"), self.handle_slot)
+        self.message_port_register_in(pmt.to_pmt("frame_n"))
+        self.set_msg_handler(pmt.intern("frame_n"), self.handle_frame)        
+        
+        self.message_port_register_out(pmt.to_pmt("final_msg"))
+
+        self.lock = threading.Lock()
+
+        self.slot_n = -1
+        self.frame_n = 0
+        self.frame_msg = 0
+        self.data = []
+
+
+    def decrypt(self,mystr) :
+        secret_key = '0123456789ABCDEF' # create new &amp; store somewhere safe
+        cipher = AES.new(secret_key,AES.MODE_ECB)
+        try :
+            decoded = cipher.decrypt(base64.b64decode(mystr))
+            return decoded.strip()  # Get rid of space padding
+        except :
+            return False
+
+    def handle_frame(self, msg_pmt):
+        with self.lock :
+
+            self.frame_n = pmt.to_python(pmt.cdr(msg_pmt))
+            self.frame_msg = np.uint8([ord(c) for c in (str(self.frame_n[1]+1))+"\t"])
+            # print self.frame_msg
+    
+
+    def handle_slot(self, msg_pmt):
+        with self.lock :
+
+            self.slot_n = pmt.to_python(pmt.cdr(msg_pmt))
+            self.slot_msg = np.uint8([ord(c) for c in (str(self.slot_n[1])+"\t")])
+            # print self.slot_n[1]
+
+    def handle_data(self, msg_pmt):
+        with self.lock : 
+            self.data = pmt.to_python(pmt.cdr(msg_pmt))
+            # self.data = np.delete(self.data,-1)     # Delete \n
+            l = [chr(c) for c in self.data]
+            l = ''.join(l)
+            # ID = self.decrypt(l[:24])
+            # # print ID
+            
+            # # print "Successful decryption of ID : " + ID
+            # l = ID + "\t" + l[24:]
+            l = list(l)
+            self.data = [ord(c) for c in l]     # We replace the crypted part with the decrypted one
+            ID = False
+            # print self.data
+            if self.slot_n &gt;= 0 :
+                res = np.append(self.slot_msg, self.data)
+                res = np.append(self.frame_msg, res)
+                res = res.tolist()
+                # print res
+                res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),res))
+                self.message_port_pub(pmt.to_pmt("final_msg"), res_pdu)
+
+
+            # if any([ID]) :      # Check if Crypted ID is valid
+            #     # print "Successful decryption of ID : " + ID
+            #     l = ID + "\t" + l[24:]
+            #     l = list(l)
+            #     self.data = [ord(c) for c in l]     # We replace the crypted part with the decrypted one
+            #     ID = False
+            #     if self.slot_n &gt;= 0 :
+            #         res = np.append(self.slot_msg, self.data)
+            #         res = np.append(self.frame_msg, res)
+            #         res = res.tolist()
+            #         # print res
+            #         res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),res))
+            #         self.message_port_pub(pmt.to_pmt("final_msg"), res_pdu)                    </value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1296, 696)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>data_slot_mux</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_constellation_decoder_cb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>constellation</key>
+      <value>constel</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1672, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_constellation_decoder_cb_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_correlate_access_code_xx_ts</key>
+    <param>
+      <key>access_code</key>
+      <value>digital.packet_utils.default_access_code</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>Correlates with access code to extract the payload.</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(424, 700)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_correlate_access_code_xx_ts_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tagname</key>
+      <value>burst</value>
+    </param>
+    <param>
+      <key>threshold</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_costas_loop_cc</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1448, 376)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_costas_loop_cc_0</value>
+    </param>
+    <param>
+      <key>w</key>
+      <value>2*3.14/100</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>order</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>use_snr</key>
+      <value>False</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_diff_decoder_bb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(232, 716)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_diff_decoder_bb_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>modulus</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>epy_block</key>
+    <param>
+      <key>bch_time</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>Beacon_Sequence</key>
+      <value>zc</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_io_cache</key>
+      <value>('BS Scheduler', 'blk', [('num_slots', '5'), ('bch_time', '20'), ('Sync_time', '50'), ('guard_time', '100'), ('Slot_time', '50'), ('Proc_time', '50'), ('Beacon_Sequence', '[0]'), ('sample_rate', '200000')], [('0', 'complex', 1)], [('0', 'complex', 1), ('1', 'complex', 1)], 'EPHYL Demo : Base Station \n    - All durations are expressed in millisecond', ['num_slots'])</value>
+    </param>
+    <param>
+      <key>_source_code</key>
+      <value>
+"""
+Embedded Python Blocks:
+
+Each time this file is saved, GRC will instantiate the first class it finds
+to get ports and parameters of your block. The arguments to __init__  will
+be the parameters. All of them are required to have default values!
+"""
+
+import numpy as np
+from gnuradio import gr
+import time
+import threading
+import pmt
+
+IDLE = 0
+BCH = 1
+SYNC = 2
+PUSCH = 3
+GUARD = 4
+PROC = 5
+
+# state = {"IDLE" : 0, "BCH" : 1, "SYNC" : 2, "PUSCH" : 3, "GUARD" : 4} 
+# STATE_K = sorted(state.keys())
+# STATE_V = sorted(state.values())
+
+
+class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
+    """EPHYL Demo : Base Station 
+    - All durations are expressed in millisecond"""
+
+    def __init__(self, num_slots=5,
+        bch_time=20, Sync_time=50, guard_time=100, Slot_time=50, Proc_time = 50, 
+        Beacon_Sequence=[0],sample_rate=200000):  
+        """arguments to this function show up as parameters in GRC"""
+        gr.sync_block.__init__(
+            self,
+            name='BS Scheduler',   # will show up in GRC
+            in_sig=[np.complex64],
+            out_sig=[np.complex64,np.complex64]
+        )
+
+
+        # self.message_port_register_out(pmt.intern("slot_n"))
+        ##################################################
+        # Parameters
+        ##################################################
+        # self.T_bch = T_bch        
+        # self.T_g = guard_time
+        # self.T_rf = RF_switch_time
+        # self.T_s = Slot_duration
+        self.num_slots = num_slots
+        self.bcn = Beacon_Sequence
+        self.samp_rate = int(sample_rate/1000)
+        # self.samp_rate = int(sample_rate/1000)
+
+        ##################################################
+        # Variables
+        ##################################################
+        # self.state = -1
+        self.state = IDLE  # DEBUG (no uhd)
+        self.state_dbg = -1
+        self.slot_cnt_dbg = -1
+        self.slot_cnt = -1
+        self.rx_time = 0
+        self.timer = 0
+        self.samp_cnt = 0
+        self.samp_cnt_abs = 0
+        self.to_return1 = 0
+        self.bcn_sent = False
+        self.frame_cnt = 0
+
+        self.diff = self.left = 0
+
+        ## Here we set states data, 
+        ## PS : SYNC has a constant offset of +guard_time to compensate the LISTEN state of the sensor nodes
+        ## Have a look at the same variable in the sensor scheduler block
+        self.STATES = [range(6) \
+            ,['IDLE','BCH','SYNC','PUSCH','GUARD','PROC'] \
+            ,[0,bch_time,Sync_time+guard_time,Slot_time,guard_time,Proc_time]]
+
+        # self.frame_time = self.T_bch + self.T_rf + num_slots*(self.T_s+self.T_g) + self.T_rf
+
+        self.lock = threading.Lock()  
+
+    def to_time(self,n_samp) :
+        return n_samp/float(self.samp_rate)
+
+    def to_samples(self,duration) :
+        return int(duration*self.samp_rate)
+
+    def next_state(self) :
+        # state = self.STATES[0][int((state+1)%len(self.STATES[0]))]
+        if self.state &lt; len(self.STATES[0])-1 :
+            self.state += 1
+        else :
+            self.state = 1
+
+    def run_state(self,Input,output1,output2) :
+
+        state_samp = self.to_samples(self.STATES[2][self.state])
+        self.diff = state_samp-self.samp_cnt
+
+        ###############################################################################
+        ## If the cuurent state cannot run completely, 
+        ## i.e the sample count exceeds the number of samples required for the current state      
+        if self.diff &lt;= 0 :
+
+            self.samp_cnt_abs += self.diff
+            self.samp_cnt = 0
+            output1 = np.delete(output1,slice(len(output1)+self.diff,len(output1)))    # Since diff is negative
+            
+            if self.state == BCH :
+                self.samp_cnt_abs = 0
+
+            elif self.state == SYNC :
+                self.slot_cnt += 1
+                # print "BS : " + str(self.nitems_written(0)+len(output1))
+
+            elif self.state == GUARD :
+                self.slot_cnt += 1
+                if self.slot_cnt &lt; self.num_slots :
+                    # Return to PUSCH
+                    self.state -= 2
+
+                else :
+                    # print "[BS] TOTAL SLOTS + GRD TIME : " + str(self.to_time(self.samp_cnt_abs))
+                    self.slot_cnt = -1
+
+            elif self.state not in self.STATES[0] :
+                print("STATE ERROR")
+                exit(1)
+            
+            elif self.state == PUSCH : 
+                output1[:] = Input[:len(output1)]
+            ## DEBUG    
+            # elif self.state in (SYNC,BCH) :
+            # #     output1[:] = [1]*len(output1)
+            #     output1[:] = Input[:len(output1)]
+            else :
+                output1[:] = [0]*len(output1)
+
+            output2[:] = [0]*len(output2)
+            self.next_state()
+            
+            # Add tags for each state
+            offset = self.nitems_written(0)+len(output1)
+            if self.state == PROC :
+                key = pmt.intern("FRAME")
+                value = pmt.to_pmt(self.frame_cnt)
+                # value = pmt.to_pmt(self.frame_cnt-1)
+                print "[BS] ================= FRAME " + str(self.frame_cnt) + " FINISH ================="
+                self.frame_cnt += 1
+                self.samp_cnt_abs = 0
+                self.bcn_sent = False
+            else :
+                key = pmt.intern(self.STATES[1][self.state])
+                value = pmt.to_pmt(self.slot_cnt)
+            self.add_item_tag(0,offset, key, value)
+
+        ###############################################################################
+        ## If the cuurent state can still run completely one more time
+        else :
+            if self.state == PUSCH :
+
+                output1[:] = Input[:]
+
+            elif self.state == BCH :
+                if not(self.bcn_sent) :
+                    bcn_z = self.bcn + 10*[0]         # Some zero padding
+                    Q = int(len(output1)/len(bcn_z))
+                    R = int(len(output1)%len(bcn_z))
+                    # output1[:] = bcn_z + (len(output1)-len(bcn_z))*[0]
+                    output1[:] = bcn_z*Q + [0]*R
+                    self.bcn_sent = True
+                else : 
+                    output1[:] = [0]*len(output1)
+                    output2[:] = [0]*len(output2)                    
+
+            elif self.state == SYNC :
+                output1[:] = [0]*len(output1)
+                output2[:] = [0]*len(output2)
+            else :
+                output1[:] = [0]*len(output1)
+                # output2[:] = [0]*len(output2)
+        ###############################################################################
+
+        if self.state != BCH :
+            output1[:] = Input[:len(output1)]
+
+        self.to_return1 = len(output1)
+        # output2 = output2[:len(output1)]
+        # output2[:] = [0]*len(output1)
+
+    def work(self, input_items, output_items):
+        with self.lock :
+
+            self.samp_cnt += len(output_items[0])
+            self.samp_cnt_abs += len(output_items[0])
+
+            if self.state == -1 :
+                num_input_items = len(input_items[0])
+                nread = self.nitems_read(0)
+                tags = self.get_tags_in_range(0, nread, nread+num_input_items)
+                for tag in tags:
+                    msg = pmt.cons(tag.key,tag.value)
+                    msg_tup = pmt.to_python(msg)
+                    if msg_tup[0] == 'rx_time' :
+                        # self.rx_time = msg_tup[1][1]
+                        self.rx_time = msg_tup[1][0]+msg_tup[1][1]
+                        print "[BS] RX TIME : " + str(self.rx_time)
+                        self.samp_cnt -= self.rx_time
+                        self.samp_cnt_abs -= self.rx_time
+                        self.state = IDLE
+                        break
+                return len(output_items[0])
+
+            # if self.state_dbg != self.state :
+            #     self.state_dbg = self.state
+            #     print "[BS] STATE " + self.STATES[1][self.state] + " START : " + str(self.to_time(self.to_return1))
+            #     print "[BS] STATE " + self.STATES[1][self.state] + " START : " + str(self.to_time(self.samp_cnt_abs))
+                
+                # if (self.state == PUSCH) :
+                #     print "[BS] STATE PUSCH @ SLOT : " + str(self.slot_cnt)
+                # self.samp_cnt = 0
+            # else :
+
+            if self.state == BCH :
+                self.run_state(input_items[0],output_items[1],output_items[0])
+            else :
+                self.run_state(input_items[0],output_items[0],output_items[1])
+
+            return self.to_return1
+
+</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(216, 436)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>guard_time</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_bs_core</value>
+    </param>
+    <param>
+      <key>num_slots</key>
+      <value>len(bs_slots)</value>
+    </param>
+    <param>
+      <key>Proc_time</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>sample_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>Slot_time</key>
+      <value>T_s</value>
+    </param>
+    <param>
+      <key>Sync_time</key>
+      <value>T_sync</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_bs_scheduler</key>
+    <param>
+      <key>bch_time</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>Beacon_Sequence</key>
+      <value>zc</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(192, 340)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>guard_time</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_bs_scheduler_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_slots</key>
+      <value>len(bs_slots)</value>
+    </param>
+    <param>
+      <key>Proc_time</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>int(samp_rate)</value>
+    </param>
+    <param>
+      <key>Slot_time</key>
+      <value>T_s</value>
+    </param>
+    <param>
+      <key>Sync_time</key>
+      <value>T_sync</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_msg_mux</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1240, 600)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_msg_mux_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_tag_2_msg_char</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(240, 588)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_tag_2_msg_char_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>"FRAME"</value>
+    </param>
+  </block>
+  <block>
+    <key>ephyl_tag_2_msg_char</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(240, 636)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ephyl_tag_2_msg_char_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'PUSCH'</value>
+    </param>
+  </block>
+  <block>
+    <key>fft_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>M</value>
+    </param>
+    <param>
+      <key>forward</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(736, 344)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nthreads</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>shift</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>window</key>
+      <value></value>
+    </param>
+  </block>
+  <block>
+    <key>import</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(0, 108)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>import_0</value>
+    </param>
+    <param>
+      <key>import</key>
+      <value>import math, sys, numpy as np, random</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1456, 628)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>message</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>DL</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(440, 460)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>BCH</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1672, 228)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0_0_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>BS Frame</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(448, 228)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>BS Frame</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(56, 388)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_source_0</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>UL</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(200, 8)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Sample rate</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1e6</value>
+    </param>
+  </block>
+  <block>
+    <key>epy_block</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_io_cache</key>
+      <value>('Slot tag to Message', 'blk', [('wanted_tag', "'corr_start'")], [('0', 'byte', 1)], [('slot_msg', 'message', 1)], 'Embedded Python Block example', ['wanted_tag'])</value>
+    </param>
+    <param>
+      <key>_source_code</key>
+      <value>"""
+Embedded Python Blocks:
+
+Each time this file is saved, GRC will instantiate the first class it finds
+to get ports and parameters of your block. The arguments to __init__  will
+be the parameters. All of them are required  to have default values!
+"""
+
+import numpy as np
+import pmt
+import time
+import random
+from gnuradio import gr, gr_unittest, blocks
+
+
+class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
+    """Embedded Python Block example"""
+
+    def __init__(self,wanted_tag="corr_start"):  # only default arguments here
+        """arguments to this function show up as parameters in GRC"""
+        gr.sync_block.__init__(
+            self,
+            name='Slot tag to Message',   # will show up in GRC
+            in_sig=[np.uint8],
+            out_sig=[]
+        )
+        self.wanted_tag = wanted_tag
+        self.message_port_register_out(pmt.to_pmt("slot_msg"))        
+
+    def work(self, input_items, output_items):
+
+        num_input_items = len(input_items[0])
+        nread = self.nitems_read(0)
+        tags = self.get_tags_in_range(0, nread, nread+num_input_items)
+
+        for tag in tags:
+            msg = pmt.cons(tag.key,tag.value)
+            msg_tup = pmt.to_python(msg)
+            if msg_tup[0] == self.wanted_tag :
+                # print msg
+                slot_msg = pmt.cons(pmt.make_dict(), msg)
+                self.message_port_pub(pmt.to_pmt("slot_msg"), slot_msg)
+                break
+
+        return num_input_items</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(248, 828)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tag2msg</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'PUSCH'</value>
+    </param>
+  </block>
+  <block>
+    <key>epy_block</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_io_cache</key>
+      <value>('Slot tag to Message', 'blk', [('wanted_tag', "'corr_start'")], [('0', 'byte', 1)], [('slot_msg', 'message', 1)], 'Embedded Python Block example', ['wanted_tag'])</value>
+    </param>
+    <param>
+      <key>_source_code</key>
+      <value>"""
+Embedded Python Blocks:
+
+Each time this file is saved, GRC will instantiate the first class it finds
+to get ports and parameters of your block. The arguments to __init__  will
+be the parameters. All of them are required  to have default values!
+"""
+
+import numpy as np
+import pmt
+import time
+import random
+from gnuradio import gr, gr_unittest, blocks
+
+
+class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
+    """Embedded Python Block example"""
+
+    def __init__(self,wanted_tag="corr_start"):  # only default arguments here
+        """arguments to this function show up as parameters in GRC"""
+        gr.sync_block.__init__(
+            self,
+            name='Slot tag to Message',   # will show up in GRC
+            in_sig=[np.uint8],
+            out_sig=[]
+        )
+        self.wanted_tag = wanted_tag
+        self.message_port_register_out(pmt.to_pmt("slot_msg"))        
+
+    def work(self, input_items, output_items):
+
+        num_input_items = len(input_items[0])
+        nread = self.nitems_read(0)
+        tags = self.get_tags_in_range(0, nread, nread+num_input_items)
+
+        for tag in tags:
+            msg = pmt.cons(tag.key,tag.value)
+            msg_tup = pmt.to_python(msg)
+            if msg_tup[0] == self.wanted_tag :
+                # print msg
+                slot_msg = pmt.cons(pmt.make_dict(), msg)
+                self.message_port_pub(pmt.to_pmt("slot_msg"), slot_msg)
+                break
+
+        return num_input_items</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(248, 780)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tag2msg_0</value>
+    </param>
+    <param>
+      <key>wanted_tag</key>
+      <value>'FRAME'</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1880, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_sink_0_1_1</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>packet_rx</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(56, 716)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_source_1_2_0_2_1</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>packet_rx</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1120, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>zc</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Correlation sequence (Zadoff-Chu)</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[complex(1,0),complex(-0.959492973614497,-0.281732556841430),complex(-0.654860733945284,-0.755749574354259),complex(-0.142314838273288,0.989821441880932),-complex(-0.959492973614497,0.281732556841430),-complex(0.415415013001886,0.909631995354519),complex(-0.959492973614501,0.281732556841419),complex(-0.142314838273291,0.989821441880932),complex(-0.654860733945281,-0.755749574354262),-complex(-0.959492973614493,-0.281732556841446),complex(1,-9.82193361864236e-16)]</value>
+    </param>
+  </block>
+  <connection>
+    <source_block_id>blocks_keep_m_in_n_0</source_block_id>
+    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_0</source_block_id>
+    <sink_block_id>digital_costas_loop_cc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_1</source_block_id>
+    <sink_block_id>blocks_keep_one_in_n_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_repack_bits_bb_1</source_block_id>
+    <sink_block_id>blocks_tagged_stream_to_pdu_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_stream_to_vector_0</source_block_id>
+    <sink_block_id>fft_vxx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_tagged_stream_to_pdu_0_0</source_block_id>
+    <sink_block_id>data_slot_mux</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>data</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_tagged_stream_to_pdu_0_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>data</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_vector_to_stream_0</source_block_id>
+    <sink_block_id>blocks_keep_one_in_n_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>data_slot_mux</source_block_id>
+    <sink_block_id>pad_sink_0_0</sink_block_id>
+    <source_key>final_msg</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_constellation_decoder_cb_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_correlate_access_code_xx_ts_1</source_block_id>
+    <sink_block_id>blocks_repack_bits_bb_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_costas_loop_cc_0</source_block_id>
+    <sink_block_id>digital_constellation_decoder_cb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_costas_loop_cc_0</source_block_id>
+    <sink_block_id>pad_sink_0_0_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_diff_decoder_bb_0</source_block_id>
+    <sink_block_id>digital_correlate_access_code_xx_ts_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_core</source_block_id>
+    <sink_block_id>blocks_keep_m_in_n_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_core</source_block_id>
+    <sink_block_id>pad_sink_0_0_0</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
+    <sink_block_id>pad_sink_0_0_0</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
+    <sink_block_id>blocks_keep_m_in_n_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_msg_mux_0</source_block_id>
+    <sink_block_id>pad_sink_0_0</sink_block_id>
+    <source_key>final_msg</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>frame_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_tag_2_msg_char_0_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>slot_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fft_vxx_0</source_block_id>
+    <sink_block_id>blocks_vector_to_stream_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>ephyl_bs_core</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>ephyl_bs_scheduler_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg</source_block_id>
+    <sink_block_id>data_slot_mux</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>slot_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>slot_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg_0</source_block_id>
+    <sink_block_id>data_slot_mux</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>frame_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>tag2msg_0</source_block_id>
+    <sink_block_id>ephyl_msg_mux_0</sink_block_id>
+    <source_key>slot_msg</source_key>
+    <sink_key>frame_n</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>digital_diff_decoder_bb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>ephyl_tag_2_msg_char_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>ephyl_tag_2_msg_char_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>tag2msg</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_2_1</source_block_id>
+    <sink_block_id>tag2msg_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+</flow_graph>

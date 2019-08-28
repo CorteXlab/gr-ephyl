@@ -25,5 +25,6 @@ install(FILES
     ephyl_sn_scheduler.xml
     ephyl_tag_2_msg.xml
     ephyl_bs_scheduler.xml
-    ephyl_tag_2_msg_char.xml DESTINATION share/gnuradio/grc/blocks
+    ephyl_tag_2_msg_char.xml
+    ephyl_msg_mux.xml DESTINATION share/gnuradio/grc/blocks
 )

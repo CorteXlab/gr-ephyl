@@ -35,7 +35,8 @@ GR_PYTHON_INSTALL(
     sn_scheduler.py
     tag_2_msg.py
     bs_scheduler.py
-    tag_2_msg_char.py DESTINATION ${GR_PYTHON_DIR}/ephyl
+    tag_2_msg_char.py
+    msg_mux.py DESTINATION ${GR_PYTHON_DIR}/ephyl
 )
 
 ########################################################################
@@ -53,3 +54,4 @@ GR_ADD_TEST(qa_sn_scheduler ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_
 GR_ADD_TEST(qa_tag_2_msg ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_tag_2_msg.py)
 GR_ADD_TEST(qa_bs_scheduler ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_bs_scheduler.py)
 GR_ADD_TEST(qa_tag_2_msg_char ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_tag_2_msg_char.py)
+GR_ADD_TEST(qa_msg_mux ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_msg_mux.py)
