@@ -11,7 +11,7 @@
 
 - Ubuntu 16, Debian 8.10 or higher
 - GNU Radio v3.7.10.1 or higher
-- Matlab Runtime 2014a (MCR v8.3). _Unless you don't need TurboFSK blocks, in this case have a look at the branch "no_turbofsk" _
+- Matlab Runtime 2014a (MCR v8.3). Unless you don't need TurboFSK blocks, in this case have a look at the branch "no_turbofsk"
 - Some basic knowledge of GNU Radio
 
 
@@ -31,8 +31,8 @@ sudo ldconfig
 ```
 
 - Then you have to generate the 2 hierarchical blocks corresponding to the 2 classes of nodes of the design:
--- Under '''examples/''', open '''hier_sensor.grc''' and '''hier_bs.grc''', and generate their respective python files.
--- Reload blocks 
+  - Go to _examples/_, open *hier_sensor.grc* and *hier_bs.grc* and generate their respective python files.
+  - Reload GRC blocks 
 
 
 ## How to use
@@ -40,7 +40,7 @@ sudo ldconfig
 # Design
 
 As mentioned before, there is two main classes/types of nodes:
-- Base Station (BS) emulator block _(hier_bs.grc)_
+- Base Station (BS) emulator _(hier_bs.grc)_
 - IoT Sensor emulator, which is a network user in fact _(hier_sensor.grc)_
 
 
