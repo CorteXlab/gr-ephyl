@@ -24,10 +24,7 @@ include(GrPlatform) #define LIB_SUFFIX
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
-
 list(APPEND ephyl_sources
-    turbofsk_tx_impl.cc
-    turbofsk_rx_impl.cc
     init_turbofsk.cc
 )
 

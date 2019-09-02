@@ -16,11 +16,8 @@
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-
 install(FILES
     ephyl_turbofsk_tx.xml
-    ephyl_turbofsk_tx.xml
-    ephyl_turbofsk_rx.xml
     ephyl_data_and_access_control.xml
     ephyl_sn_scheduler.xml
     ephyl_tag_2_msg.xml
