@@ -24,9 +24,9 @@ include(GrPlatform) #define LIB_SUFFIX
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
-list(APPEND ephyl_sources
-    init_turbofsk.cc
-)
+#list(APPEND ephyl_sources
+#    init_turbofsk.cc
+#)
 
 set(ephyl_sources "${ephyl_sources}" PARENT_SCOPE)
 if(NOT ephyl_sources)

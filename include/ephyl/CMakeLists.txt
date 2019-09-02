@@ -22,6 +22,6 @@
 ########################################################################
 install(FILES
     api.h
-    turbofsk_tx.h
+#    turbofsk_tx.h
     DESTINATION include/ephyl
 )
