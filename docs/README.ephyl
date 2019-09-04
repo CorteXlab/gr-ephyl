@@ -20,8 +20,8 @@
 - First run this:
 
 ```
-git clone git://github.com/BastilleResearch/gr-lora.git
-cd gr-lora
+git clone git://github.com/CorteXlab/gr-ephyl.git
+cd gr-ephyl
 mkdir build
 cd build
 cmake ../
@@ -47,4 +47,3 @@ As mentioned before, there is two main classes/types of nodes:
 # Documentation
 
 - In progress
-
