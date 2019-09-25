@@ -17,7 +17,8 @@
 
 ## Installation
 
-- First run this:
+- Be sure to install resources where GNU Radio can find them (a.k.a <INSTALL_DIR>)
+- Then run this:
 
 ```
 git clone git://github.com/CorteXlab/gr-ephyl.git
@@ -27,10 +28,9 @@ git clone git://github.com/CorteXlab/gr-ephyl.git
 cd gr-ephyl
 mkdir build
 cd build
-cmake ../
+cmake -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ..
 make
-sudo make install
-sudo ldconfig
+make install
 ```
 
 - Then you have to generate the 2 hierarchical blocks corresponding to the 2 classes of nodes of the design:
