@@ -142,6 +142,7 @@ class data_and_access_control(gr.sync_block):
             active_slots = []
             used_slots = []
             new_slots = []
+            remaining = []
             self.error = 0
             tx = TX
 
@@ -181,29 +182,34 @@ class data_and_access_control(gr.sync_block):
                         tx[j] = '\t'.join(tx[j])
 
             if not (any(active_slots) and any(used_slots))  :
-                active_slots = [0]            
+                active_slots = used_slots = [0]            
             ############################################################################################
+            used_slots = list(dict.fromkeys(used_slots))    # Remove duplicates
             remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
             remaining.sort()
 
             ############################################################################################
             # With Othmane Control Policy 
             if self.control == 'basic' :
-                if v.count('p') >= 1 :
+                if v.count('p') > 0 :
                     new_slots = rx[h][1]
                     self.error = 0
                 else :
-                    # new_slots = np.random.choice(remaining, 2).tolist()
-                    tmp = map(int,used_slots)
-                    for i in range(len(tmp)):
-                        tmp[i] += 1 
-                        if tmp[i] not in self.bs_slots :
-                            tmp[i] = 0
-                    new_slots = map(str,tmp)
+                    if remaining :
+                        new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
+                    else :
+                        new_slots = np.random.choice(self.bs_slots, 2).tolist()
+
+                    # tmp = map(int,used_slots)
+                    # for i in range(len(tmp)):
+                    #     tmp[i] += 1 
+                    #     if tmp[i] not in self.bs_slots :
+                    #         tmp[i] = 0
+                    # new_slots = map(str,tmp)
                     self.error = 1
             #################################################################
             # With UCB
-            if self.control == 'UCB' :
+            elif self.control == 'UCB' :
                 pass
 
 
@@ -228,10 +234,14 @@ class data_and_access_control(gr.sync_block):
                         self.error = 1
                 else :
                     self.error = 1
-                new_slots = used_slots
-                # new_slots = np.random.choice(self.bs_slots, 2).tolist()
+                # new_slots = used_slots
+                new_slots = np.random.choice(self.bs_slots, 2).tolist()
                 
             ############################################################################################
+            print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
+            print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
+            print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
+            print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
 
             used_slots = list(set(used_slots))
             used_slots.sort()
@@ -275,7 +285,7 @@ class data_and_access_control(gr.sync_block):
                                 # Generate new payload 
                                 self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
                                 
-                                print "[SN "+self.ID+"] Score Of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
+                                print "[SN "+self.ID+"] Score of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
                         ###########################################################################################
                         # No activity in DL
                         else:
@@ -291,6 +301,7 @@ class data_and_access_control(gr.sync_block):
                             # If not, randomize
                             else :
                                 self.lines = self.gen_rand_pld(self.tmp_data,True,2) 
+                            print "[SN "+self.ID+"] Score of unknown Frame" + " : " + "\n"
 
                         ############################################################################################
                         self.RX_frame = [] 
