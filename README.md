@@ -21,6 +21,9 @@
 
 ```
 git clone git://github.com/CorteXlab/gr-ephyl.git
+# If you want to install from specific branch
+# git clone -b <branch> git://github.com/CorteXlab/gr-ephyl.git
+
 cd gr-ephyl
 mkdir build
 cd build
