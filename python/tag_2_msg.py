@@ -33,24 +33,43 @@ class tag_2_msg(gr.sync_block):
         gr.sync_block.__init__(
             self,
             name='Tag detection to Message',   # will show up in GRC
-            in_sig=[np.float32],
+            in_sig=[np.uint8],
             out_sig=[]
         )
         self.wanted_tag = wanted_tag
         self.message_port_register_out(pmt.to_pmt("tag_msg"))
+        self.delay = 0
 
     def work(self, input_items, output_items):
 
         num_input_items = len(input_items[0])
-        tag_detected = False
         nread = self.nitems_read(0)
         tags = self.get_tags_in_range(0, nread, nread+num_input_items)
 
+        # if 1 in input_items[0]:
+        # for i in input_items[0]:
+        #     if i == 1 :
+        #         msg = [self.wanted_tag,1,list(input_items[0]).index(i)]
+        #         trig_msg = pmt.cons(pmt.make_dict(), pmt.to_pmt(msg))
+        #         self.message_port_pub(pmt.to_pmt("tag_msg"), trig_msg)
+        #         break
+        # return num_input_items
+
         for tag in tags:
             msg = [pmt.to_python(tag.key),pmt.to_python(tag.value),tag.offset]
-            msg_tup = msg
-            if msg_tup[0] == self.wanted_tag :
-                tag_detected = True
+
+            if msg[0] == "rx_time" :
+                # print "HERE"
+                # print msg[2]
+                # print nread
+                # print tags.index(tag)
+                # print "=============================="
+                self.delay = abs(msg[2] - (nread+tags.index(tag)))
+
+            if msg[0] == self.wanted_tag and any(input_items[0]):
+                if self.delay :
+                    msg[2] += self.delay
+                self.delay = 0
                 trig_msg = pmt.cons(pmt.make_dict(), pmt.to_pmt(msg))
                 self.message_port_pub(pmt.to_pmt("tag_msg"), trig_msg)
                 break

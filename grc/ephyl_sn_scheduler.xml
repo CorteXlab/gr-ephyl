@@ -4,7 +4,7 @@
   <key>ephyl_sn_scheduler</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.sn_scheduler($num_slots, $bch_time, $Sync_time, $guard_time, $Slot_time, $Proc_time, $wanted_tag,$length_tag_key, $samp_rate)</make>
+  <make>ephyl.sn_scheduler($num_slots, $bch_time, $guard_time, $Slot_time, $Proc_time, $wanted_tag,$length_tag_key, $samp_rate)</make>
  
   <param>
     <name>Number of Slots</name>
@@ -20,12 +20,12 @@
     <type>int</type>
   </param>
   
-  <param>
+<!--   <param>
     <name>Sync duration</name>
     <key>Sync_time</key>
     <value>5</value>
     <type>int</type>
-  </param>
+  </param> -->
   
   <param>
     <name>Guard time duration</name>

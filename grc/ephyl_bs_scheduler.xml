@@ -4,8 +4,7 @@
   <key>ephyl_bs_scheduler</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.bs_scheduler($num_slots, $bch_time, $Sync_time, $guard_time, $Slot_time, $Proc_time, $Beacon_Sequence, $samp_rate)</make>
-
+  <make>ephyl.bs_scheduler($num_slots, $bch_time, $guard_time, $Slot_time, $Proc_time, $samp_rate, $UHD)</make>
 
   <param>
     <name>Number of Slots</name>
@@ -17,13 +16,6 @@
   <param>
     <name>BCH duration</name>
     <key>bch_time</key>
-    <value>5</value>
-    <type>int</type>
-  </param>
-  
-  <param>
-    <name>Sync duration</name>
-    <key>Sync_time</key>
     <value>5</value>
     <type>int</type>
   </param>
@@ -49,20 +41,27 @@
     <type>int</type>
   </param>
   
-  <param>
-    <name>Beacon Sequence</name>
-    <key>Beacon_Sequence</key>
-    <value>[0]</value>
-    <type>raw</type>
-  </param>
-
    <param>
     <name>Sample rate</name>
     <key>samp_rate</key>
     <value>1000000</value>
     <type>int</type>
-  </param>
+  </param>  
 
+   <param>
+    <name>Over the Air</name>
+    <key>UHD</key>
+    <value>False</value>
+    <type>bool</type>
+    <option>
+      <name>Enable</name>
+      <key>True</key>
+    </option>
+    <option>
+      <name>Disable</name>
+      <key>False</key>
+    </option>
+  </param>    
 
   <sink>
     <name>in</name>
@@ -75,7 +74,7 @@
   </source>
   <source>
     <name>bcn</name>
-    <type>complex</type>
+    <type>message</type>
   </source>
 
 

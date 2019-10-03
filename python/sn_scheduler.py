@@ -31,7 +31,7 @@ SLOT_READ=0
 IDLE=1
 PKT_GEN=2
 LISTEN=3
-SYNC=4
+BCH=4
 EMIT=5
 GUARD =6
 PROC = 7
@@ -42,10 +42,8 @@ class sn_scheduler(gr.basic_block):
     EPHYL Sensor Scheduler
     """
     def __init__(self,num_slots=5,
-        bch_time=20, Sync_time=50, guard_time=100, Slot_time=50, Proc_time = 50, 
-        wanted_tag="corr_start",
-        length_tag_key="packet_len2",
-        samp_rate = 32000):
+        bch_time=20, guard_time=100, Slot_time=50, Proc_time = 50, 
+        wanted_tag="corr_start",length_tag_key="packet_len2",samp_rate = 32000):
         gr.basic_block.__init__(self,
             name="Sensor Scheduler",
             in_sig=[],
@@ -61,8 +59,8 @@ class sn_scheduler(gr.basic_block):
         ## PS : LISTEN has a constant pseudo infinite duration to avoid timing/buffer overflow
         ## Processing time (PROC state) for sensor only serves to reset variables, that's why it lasts Proc_time/2 
         self.STATES = [range(8) \
-            ,['SLOT_READ','IDLE','PKT_GEN','LISTEN','SYNC','EMIT','GUARD','PROC'] \
-            ,[.01,.01,0.01,float("inf"),Sync_time+bch_time,Slot_time,guard_time,Proc_time/2]]
+            ,['SLOT_READ','IDLE','PKT_GEN','LISTEN','BCH','EMIT','GUARD','PROC'] \
+            ,[0,0,0,float("inf"),bch_time,Slot_time,guard_time,Proc_time/4]]
 
         self.wanted_tag = wanted_tag
         self.message_port_register_in(pmt.intern("in"))
@@ -88,22 +86,19 @@ class sn_scheduler(gr.basic_block):
         self.state = SLOT_READ
         self.state_dbg = self.state_tag = -1
         self.trig = ''
-        self.repetition = 0
 
         self.signal_len = 0
         self.busy = False
-        self.found = False
 
         self.slot_msg = np.array([])
 
         self.slots = []
 
+        self.i = 0
+
         self.lock = threading.Lock()
         self.frame_cnt = 0
-
-        self.corr_amp = []
-
-        self.i = self.delta = 0
+        self.frame_len = self.to_samples(self.STATES[2][BCH]+self.STATES[2][PROC]+self.num_slots*(self.STATES[2][EMIT]+self.STATES[2][GUARD]))
 
     def to_time(self,n_samp) :
         return n_samp/float(self.samp_rate)
@@ -124,7 +119,6 @@ class sn_scheduler(gr.basic_block):
         with self.lock : 
             if self.state == SLOT_READ :
                 if pmt.to_python(slot_pmt) == "STOP" :
-                    # self.next_state()
                     self.state = IDLE
                     self.slot_cnt = 0
                     print "[SN "+self.Id+"] SENSOR SLOTS ARE :" + str(self.slots)
@@ -155,60 +149,62 @@ class sn_scheduler(gr.basic_block):
         with self.lock : 
             if self.state == PKT_GEN :
 
-                self.signal_len = 2*8*((len(self.slot_msg[self.slot_cnt]))+12)    # log2(M)x 8bits x (payload_len + header_len)
-
+                self.signal_len = ((len(self.slot_msg[self.slot_cnt]))+12)    # log2(M)x 8bits x (payload_len + header_len)
                 self.msg_out = np.append(self.msg_out,pmt.to_python(pmt.cdr(msg_pmt)))   # Collect message data, convert to Python format:
                 self.pdu_cnt += 1
                 if self.pdu_cnt == self.signal_len:   # Signal reconstructed 
                     self.pdu_cnt=0
-                    # self.msg_out = np.append(self.msg_out,200*[0])
                     self.msg_full = np.array(self.msg_full.tolist() + [self.msg_out.tolist()])    # Store the N signals in N-dim array, analyze carefully before modifying
                     self.msg_out = np.array([])
                     self.state = IDLE    # Return to IDLE and check for remaining messages
                     self.slot_cnt +=1
 
-
     def handle_trig(self, trig_pmt):
         with self.lock : 
             if self.state == LISTEN :
-                self.trig = pmt.to_python(pmt.cdr(trig_pmt))    # Collect trig message data, convert to Python format
-                if self.trig[0] == self.wanted_tag:# and self.trig[1] > 40 : 
-                    self.delta = self.nitems_written(0)-self.trig[2]
-                    # print self.delta
-                    self.state = SYNC
-                    
-                    self.found = True
+                self.delay = 0
+                d = pmt.to_python(pmt.cdr(trig_pmt))    # Collect trig message data, convert to Python format
+                l = [chr(e) for e in d]
+                self.trig = ''.join(l[:8])
+                if self.trig == self.wanted_tag:
+                    self.state = BCH
                     self.slot_cnt = 0
                     self.msg_out = self.msg_full[self.slot_cnt]     # Init first msg to be sent
-                    self.i = 0
-                    return 0
-                self.trig = 0
-                    
+                    try:
+                        offset = int(''.join(l[8:]))
+                    except:
+                        print "Offset non valid"
+                        offset = 0
+
+                    # self.delay = self.nitems_written(0)-offset
+                    # if self.delay>0:
+                    #     self.samp_cnt = self.delay
+                    # else:
+                    #     self.samp_cnt= 200000 
+                    # print self.delay
+                    self.samp_cnt= 200000 
+                    return 0                    
                     
     def run_state(self,output) :
-        if self.found :
-
-            self.samp_cnt = self.delta-100       
-            self.found = False
-            # self.state = SYNC
-            # self.samp_cnt = 0
 
         self.samp_cnt += len(output)    # Sample count related to current state
         state_samp = self.to_samples(self.STATES[2][self.state])      
         diff = state_samp - self.samp_cnt       # Act as a timer
 
-
-            # if self.state == LISTEN :
-            #     return 0
-            # else :
-            #     self
+        if self.state in (EMIT,GUARD,BCH,PROC):
+            self.i += len(output)
         ###############################################################################    
         ## If the cuurent state cannot run completely, 
         ## i.e the sample count exceeds the number of samples required for the current state
         if diff < 0 :  
 
-              
+            if self.state in (EMIT,GUARD,BCH,PROC):
+                self.i -= len(output)
+
             output = np.delete(output,slice(len(output)+diff,len(output)))    # Since diff is negative we use +diff
+            
+            if self.state in (EMIT,GUARD,BCH,PROC):
+                self.i += len(output)
 
             if self.state == EMIT : 
                 if self.slot_cnt in self.slots :
@@ -226,7 +222,6 @@ class sn_scheduler(gr.basic_block):
                         if range(self.num_slots)[self.slot_cnt] in self.slots :   # If slot will be used, generate a packet
                             self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('DATA'))    # Request File source to send msg
                             self.state = PKT_GEN
-                            # self.next_state()       # Go to PKT_GEN
                         else :      # If slot won't be used, append empty signal
                             self.msg_full = np.array(self.msg_full.tolist() + [[]])    # Store Null signal
                             self.slot_cnt += 1
@@ -240,22 +235,20 @@ class sn_scheduler(gr.basic_block):
                     self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ARRAY'))
 
                 elif self.state == LISTEN :
-                    output[:] = [complex(.5,.5)]*len(output)
+                    output[:] = [0]*len(output)
 
-                elif self.state == SYNC :
+                elif self.state == BCH :
                     self.slot_cnt = 0
                     self.state = EMIT
-                    output[:] = [complex(1,1)]*len(output)
+                    output[:] = [0]*len(output)
                 
                 elif self.state == GUARD :
-                    self.repetition = 0
                     self.slot_cnt += 1
                     if self.slot_cnt < self.num_slots :
                         if self.slot_cnt in self.slots :
                             self.msg_out = self.msg_full[self.slot_cnt]     # Update signal slot index
                         else :
                             self.msg_out = []
-                        # self.state -= 2      # Return to EMIT
                         self.state = EMIT
                     else :
                         self.slot_cnt = 0
@@ -271,6 +264,10 @@ class sn_scheduler(gr.basic_block):
                     self.slot_cnt = 0
                     self.slots = []   
                     self.delay_t = 0
+                    
+                    # print self.i
+                    # print self.frame_len
+                    # print 
                     self.i=0
 
                 elif self.state not in self.STATES[0] :
@@ -279,16 +276,12 @@ class sn_scheduler(gr.basic_block):
                 
                 output[:] = [0]*len(output)
 
+            self.samp_cnt = 0
 
-            # if self.state not in (SLOT_READ,IDLE,PKT_GEN,LISTEN) :
-            #     self.next_state()
-
-            self.samp_cnt = 0 
         ###############################################################################
         # If current state can run one more time
         else :      
             self.samp_cnt -= len(output)
-
             if self.state==EMIT :
                 if self.slot_cnt in self.slots :
                     if len(self.msg_out) == 0 :
@@ -301,30 +294,19 @@ class sn_scheduler(gr.basic_block):
                 else :
                     output[:] = [0]*len(output)
 
-            elif self.state == LISTEN :
-                output[:] = [complex(.5,.5)]*len(output)
-
-            elif self.state == SYNC :
-                # self.i = self.samp_cnt + len(output)
-                output[:] = [complex(10,10)]*len(output)
-
-
             else :
                 output[:] = [0]*len(output)
 
             self.samp_cnt += len(output)
         ###############################################################################
 
-         # Add tags for each state
-        if self.state_tag != self.state :
-
-            # print self.STATES[1][self.state]
+        # Add tags for each state
+        if self.state_tag != self.state :            
             self.state_tag = self.state
             offset = self.nitems_written(0)+len(output)
             key = pmt.intern(self.STATES[1][self.state])
             value = pmt.to_pmt(self.slot_cnt)
             self.add_item_tag(0,offset, key, value)
-
 
         return len(output)
 
