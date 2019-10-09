@@ -176,13 +176,13 @@ class sn_scheduler(gr.basic_block):
                         print "Offset non valid"
                         offset = 0
 
-                    # self.delay = self.nitems_written(0)-offset
-                    # if self.delay>0:
-                    #     self.samp_cnt = self.delay
-                    # else:
-                    #     self.samp_cnt= 200000 
-                    # print self.delay
-                    self.samp_cnt= 200000 
+                    self.delay = self.nitems_written(0)-offset
+                    if self.delay>0:
+                        self.samp_cnt = self.delay
+                    else:
+                        self.samp_cnt= 200000 
+                    print self.delay
+                    # self.samp_cnt= 200000 
                     return 0                    
                     
     def run_state(self,output) :
