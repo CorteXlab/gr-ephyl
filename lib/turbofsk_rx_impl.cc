@@ -37,19 +37,20 @@ namespace gr {
   namespace ephyl {
     
     turbofsk_rx::sptr
-    turbofsk_rx::make()
+    turbofsk_rx::make(float Noise)
     {
       return gnuradio::get_initial_sptr
-        (new turbofsk_rx_impl());
+        (new turbofsk_rx_impl(Noise));
     }
 
     /*
      * The private constructor
      */
-    turbofsk_rx_impl::turbofsk_rx_impl()
+    turbofsk_rx_impl::turbofsk_rx_impl(float Noise)
       : gr::block("TurboFSK RX",
               gr::io_signature::make(1, 1, sizeof(float)),
-              gr::io_signature::make(1, 1, sizeof(unsigned char)))
+              gr::io_signature::make2(2, 2, sizeof(unsigned char),sizeof(float))),
+        d_Noise(Noise)
     {
       get_turbofsk();
 
@@ -59,9 +60,11 @@ namespace gr {
       /*  Signal_len = (64*32)+(1+(NbBits+16)/8)*4*137+(1+int((1+(NbBits+16)/8)*4/5))*137 */
       Signal_len = 14652;      
       cnt = 0;
+      r = 0, s = 0, t = 0;
 
       /* Create the input data */
-      rx_in = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);    // Take input twice, to 
+      rx_in = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
+      // rx_in = mxCreateDoubleMatrix(1,Signal_len,mxREAL);    // Take input twice, to 
       d = mxGetPr(rx_in);
       d_size = mxGetN(rx_in);
 
@@ -69,6 +72,11 @@ namespace gr {
       double *bits = mxGetPr(mxNbBits);
       *bits = NbBits ;
 
+      mxNoiseVar = mxCreateDoubleMatrix(1,1,mxREAL);
+      double *NoiseVar = mxGetPr(mxNoiseVar);
+      *NoiseVar = d_Noise ;
+
+      tmp = NULL;
 
       set_min_output_buffer(0,NbBits);
     }
@@ -82,6 +90,9 @@ namespace gr {
       mxDestroyArray(outRxBits);
       mxDestroyArray(outcrcCheck);
       mxDestroyArray(mxNbBits);
+      mxDestroyArray(indexPayload);
+      mxDestroyArray(mxNoiseVar);
+
       release_turbofsk();
     }
 
@@ -100,9 +111,10 @@ namespace gr {
 
       const float *in = (const float *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
+      float *out1 = (float *) output_items[1];
 
       // printf("\nNINPUT: %d\n",ninput_items[0]);
-      printf("\navant fill buffer cnt: %d\n",cnt);
+      // printf("\navant fill buffer cnt: %d\n",cnt);
 
       int index_input;
       for (index_input=0;
@@ -111,17 +123,17 @@ namespace gr {
         d[cnt] = double(in[index_input]);
       }
       printf("\naprès fill buffer cnt: %d\n",cnt);
-      printf("\non consomme %d\n", index_input);
+      // printf("\non consomme %d\n", index_input);
+
       consume_each(index_input);
 
-      int r = 0;
       if (cnt==d_size) {
+        double *realdata,*realcrc,*realindex;
         printf("\non appelle mlfMainRx\n");
 
           /* Call the Rx library function */
-        mlfMainRx(2, &outRxBits, &outcrcCheck, rx_in, mxNbBits);
+        mlfMainRx(3, &outRxBits, &outcrcCheck, &indexPayload, rx_in, mxNbBits, mxNoiseVar);
         if (outRxBits != NULL){
-          double *realdata,*realcrc;
           realdata = mxGetPr(outRxBits);
           r = mxGetN(outRxBits);
           printf("\nRX Bits:\n");
@@ -133,19 +145,37 @@ namespace gr {
             printf("RX packet not detected.");
           }
           else {
-            realcrc = mxGetPr(outcrcCheck);
-            // printf("\nCRC Check Len: %d\n",int(mxGetM(outcrcCheck)));
+            s = mxGetN(indexPayload);
+            
+            if(s!=0){
+              // printf("\nOUT CRC DBG: %p\n",outcrcCheck);
+              // printf("\nLEN CRC DBG: %d\n",int(mxGetN(outcrcCheck)));
+              // printf("\nOUT INDEX DBG: %p\n",indexPayload);
+              // printf("\nLEN INDEX DBG: %d\n",int(mxGetN(indexPayload)));
+              realcrc = mxGetPr(outcrcCheck);
+              realindex = mxGetPr(indexPayload);
+              t = int(*realindex);
 
-            if (*realcrc==0.0){
-              printf("\nCRC not OK\n");
-            }
-            else if (*realcrc==1.0) {
-              printf("\nCRC OK\n");
-            }
-            else printf("No packet detected.\n");
+              printf("\nIndex: %d\n",t);
+              // printf("\nNINPUT: %d\n",ninput_items[0]);
 
-            for(int i=0;i < r; i++) {
-              out[i] = realdata[i];
+              if (*realcrc==0.0){
+                printf("\nCRC not OK\n");
+              }
+              else if (*realcrc==1.0) {
+                printf("\nCRC OK\n");
+              }
+              else printf("No packet detected.\n");
+
+              for(int i=0;i < r; i++) {
+                out[i] = realdata[i];
+              }
+            }
+            else{
+              for(int i=0;i < r; i++) {
+                out[i] = 0;
+              }              
+              printf("\nNINPUT: %d\n",ninput_items[0]);
             }
           }
         }
@@ -153,13 +183,49 @@ namespace gr {
           printf("Error, output NULL pointer.\n");
           throw new std::exception();
         } 
+
+        // for (int i = 0; i < Signal_len-t ; i++) {
+        //   d[i] = d[i+t];
+        // }
+        // cnt = 0;
         for (int i = 0; i < Signal_len ; i++) {
           d[i] = d[i+Signal_len];
         }
         cnt = Signal_len;
       }
 
+      /// DEBUG ///
+      for (int i = 0; i < ninput_items[0] ; i++) {
+        out1[i] = in[i];
+      }
+      produce(1,ninput_items[0]);
+      /////////////
+
       return r;
+    }
+
+
+
+    void
+    turbofsk_rx_impl::setup_rpc()
+    {
+#ifdef GR_CTRLPORT
+      add_rpc_variable(
+        rpcbasic_sptr(new rpcbasic_register_get<turbofsk_rx, float>(
+    alias(), "coefficient",
+    &turbofsk_rx::Noise,
+    pmt::mp(-1024.0f), pmt::mp(1024.0f), pmt::mp(0.0f),
+    "", "Coefficient", RPC_PRIVLVL_MIN,
+          DISPTIME | DISPOPTSTRIP)));
+
+      add_rpc_variable(
+        rpcbasic_sptr(new rpcbasic_register_set<turbofsk_rx, float>(
+    alias(), "coefficient",
+    &turbofsk_rx::set_Noise,
+    pmt::mp(-1024.0f), pmt::mp(1024.0f), pmt::mp(0.0f),
+    "", "Coefficient",
+    RPC_PRIVLVL_MIN, DISPNULL)));
+#endif /* GR_CTRLPORT */
     }
 
   } /* namespace ephyl */

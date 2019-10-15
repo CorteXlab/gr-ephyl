@@ -4,12 +4,16 @@
   <key>ephyl_turbofsk_rx</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.turbofsk_rx()</make>
-  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
-       Sub-nodes:
-       * name
-       * key (makes the value accessible as $keyname, e.g. in the make node)
-       * type -->
+  <make>ephyl.turbofsk_rx($Noise)</make>
+  <callback>set_Noise($Noise)</callback>
+
+
+  <param>
+    <name>Noise Level</name>
+    <key>Noise</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -30,4 +34,10 @@
     <name>out</name>
     <type>byte</type>
   </source>
+
+  <source>
+    <name>out1</name>
+    <type>float</type>
+  </source>
+
 </block>

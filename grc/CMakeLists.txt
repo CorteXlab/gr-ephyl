@@ -17,6 +17,18 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
+########################################################################
+file(GLOB xml_files "*.xml")
+
+# Force out the controlport GRC blocks if we've disabled it.
+if(NOT ENABLE_GR_CTRLPORT)
+  list(REMOVE_ITEM xml_files
+    ${CMAKE_CURRENT_SOURCE_DIR}/ctrlport_probe_c.xml
+    ${CMAKE_CURRENT_SOURCE_DIR}/ctrlport_probe2_c.xml
+    )
+endif(NOT ENABLE_GR_CTRLPORT)
+
+
 install(FILES
     ephyl_turbofsk_tx.xml
     ephyl_turbofsk_tx.xml

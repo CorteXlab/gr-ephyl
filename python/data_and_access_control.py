@@ -91,7 +91,11 @@ class data_and_access_control(gr.sync_block):
         self.enc_ID = self.ID
 
         self.tmp_data = self.rand_data(14)      # Created to keep the same data bits
-        self.lines = self.gen_rand_pld(self.tmp_data,True,2)        
+        self.lines = self.gen_rand_pld(self.tmp_data,True,2)
+
+        result = self.compare_pld(self.lines,self.lines)
+        # Generate new payload 
+        self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
 
     def rand_slots(self,len) :
         res = [random.choice(self.bs_slots) for _ in xrange(len)]
@@ -103,15 +107,15 @@ class data_and_access_control(gr.sync_block):
         res =  ''.join(random.choice(letters) for i in xrange(len))
         return res 
 
-    def encrypt(self,mystr) :
-        secret_key = '0123456789ABCDEF' # create new & store somewhere safe
-        cipher = AES.new(secret_key,AES.MODE_ECB) 
-        try :
-            msg_text = mystr.rjust(16)
-            encoded = base64.b64encode(cipher.encrypt(msg_text))
-            return encoded
-        except :
-            print "Encryption Error, input must be multiple of 16"
+    # def encrypt(self,mystr) :
+    #     secret_key = '0123456789ABCDEF' # create new & store somewhere safe
+    #     cipher = AES.new(secret_key,AES.MODE_ECB) 
+    #     try :
+    #         msg_text = mystr.rjust(16)
+    #         encoded = base64.b64encode(cipher.encrypt(msg_text))
+    #         return encoded
+    #     except :
+    #         print "Encryption Error, input must be multiple of 16"
 
 
     # Generate random payload
@@ -160,6 +164,7 @@ class data_and_access_control(gr.sync_block):
             except :
                 rx = np.array([rx])
             ############################################################################################
+            # print rx
             for f in range(len(rx)) :
                 if len(rx[f])>3 and rx[f][1].isdigit() :
 
@@ -188,28 +193,39 @@ class data_and_access_control(gr.sync_block):
             remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
             remaining.sort()
 
-            ############################################################################################
-            # With Othmane Control Policy 
-            if self.control == 'basic' :
+            #################################################################
+            # Use all slots
+            if self.control == 'all' :
+                new_slots = self.bs_slots   
+            #################################################################
+            elif self.control == 'random' :
+                new_slots = np.random.choice(self.bs_slots, 2).tolist()
+            #################################################################
+            # Increment each frame
+            elif self.control == 'increment' :
+                new_slots = [int(used_slots[0])]
+                if new_slots[0]+1 not in self.bs_slots :
+                    new_slots = [0]
+                else:
+                    new_slots = [int(used_slots[0]) + 1]
+
+            #################################################################                
+            elif self.control == 'basic' :
+                '''
+                With Othmane basic Control Policy:
+                If success, keep one of the good usedslots
+                If failure, find remaining unused slots, if none choose 2 random 
+                '''
                 if v.count('p') > 0 :
                     new_slots = rx[h][1]
-                    self.error = 0
                 else :
                     if remaining :
                         new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
                     else :
-                        new_slots = np.random.choice(self.bs_slots, 2).tolist()
-
-                    # tmp = map(int,used_slots)
-                    # for i in range(len(tmp)):
-                    #     tmp[i] += 1 
-                    #     if tmp[i] not in self.bs_slots :
-                    #         tmp[i] = 0
-                    # new_slots = map(str,tmp)
-                    self.error = 1
-            #################################################################
+                        new_slots = np.random.choice(self.bs_slots, 2).tolist()               
+            #################################################################   
             # With UCB
-            elif self.control == 'UCB' :
+            elif self.control == 'ucb' :
                 pass
 
 
@@ -221,27 +237,26 @@ class data_and_access_control(gr.sync_block):
 
 
 
-
-
-            #################################################################            
+            #################################################################
             # With No Control Policy, keep old slots
             else :
-                # self.control == 'NONE'
-                if v.count('p') > 0 :
-                    if v.count('s') > 0 :
-                        self.error = 0
-                    else :
-                        self.error = 1
-                else :
-                    self.error = 1
-                # new_slots = used_slots
-                new_slots = np.random.choice(self.bs_slots, 2).tolist()
+                self.control == 'NONE'
+                new_slots = used_slots
                 
             ############################################################################################
-            print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
-            print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
-            print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
-            print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
+            # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
+            # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
+            # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
+            # print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
+
+            if v.count('p') > 0 :
+                # if v.count('s') > 0 :
+                self.error = 0
+                # else :
+                #     self.error = 1
+            else :
+                self.error = 1
+
 
             used_slots = list(set(used_slots))
             used_slots.sort()
@@ -285,24 +300,17 @@ class data_and_access_control(gr.sync_block):
                                 # Generate new payload 
                                 self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
                                 
-                                print "[SN "+self.ID+"] Score of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
+                                print "[SN "+self.ID+"] Score of Frame : " + str(result[0]) + "\n"
                         ###########################################################################################
                         # No activity in DL
                         else:
-                            self.error = 1
-                            if self.control :
-                            # In case of keeping same slots
-                                tx = self.lines
-                                used_slots = []
-                                for j in xrange(len(tx)):
-                                    tx[j] = re.split(r'\t+', tx[j])
-                                    used_slots = np.append(used_slots,tx[j][0])    
-                                self.lines = self.gen_rand_pld(self.tmp_data,False,2,used_slots)                             
-                            # If not, randomize
-                            else :
-                                self.lines = self.gen_rand_pld(self.tmp_data,True,2) 
+                            # print self.lines
+                            result = self.compare_pld(self.lines,self.lines)
+                            # print self.lines
+                            # Generate new payload 
+                            self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
                             print "[SN "+self.ID+"] Score of unknown Frame" + " : " + "\n"
-
+                            self.error = 1
                         ############################################################################################
                         self.RX_frame = [] 
                         self.error_list = np.append(self.error_list,self.error)
@@ -346,21 +354,22 @@ class data_and_access_control(gr.sync_block):
 
             self.watch += 1
             self.DL = pmt.to_python(msg_pmt)
-            result = [0]
-            l = [chr(c) for c in self.DL[1]]
-            tab_pos = [pos for pos, char in enumerate(l) if char == '\t']     # \t is the separator
-            l = ''.join(l)
-            self.RX = re.split(r'\t+', l)
+            # print self.DL[1]
+            # Look for a tab caracter in DL message, to avoid processing beacon message
+            if ord('\t') in self.DL[1] :
+                result = [0]
+                
+                l = [chr(c) for c in self.DL[1]]
+                tab_pos = [pos for pos, char in enumerate(l) if char == '\t']     # \t is the separator
+                l = ''.join(l)
+                self.RX = re.split(r'\t+', l)
 
-            # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
-            if '\x00' in self.RX[0] :   
-                self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
+                # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
+                if '\x00' in self.RX[0] :   
+                    self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
 
-            # If received frame is valid <> 4 fields separated with a \t
-            if len(self.RX)%4 == 0 :
-                self.RX_frame = np.append([self.RX_frame],[self.RX])
+                # If received frame is valid <> 4 fields separated with a \t
+                if len(self.RX)%4 == 0 :
+                    self.RX_frame = np.append([self.RX_frame],[self.RX])
 
             self.DL = '' 
-            
-            # print self.lines
-            # print self.RX

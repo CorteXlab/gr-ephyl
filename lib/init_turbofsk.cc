@@ -14,7 +14,7 @@ void get_turbofsk() {
       throw new std::exception();
     }
 
-    if (!libTurboFSK_v2Initialize()){
+    if (!libTurboFSK_v3Initialize()){
       fprintf(stderr,"Could not initialize the library.\n");
       init_mutex.unlock();
       throw new std::exception();
@@ -29,7 +29,7 @@ void release_turbofsk() {
   lib_turbofsk_init--;
   if (lib_turbofsk_init == 0) {
     //  Call the library termination routine 
-    libTurboFSK_v2Terminate();     
+    libTurboFSK_v3Terminate();     
 
     /* Note that you should call mclTerminate application at the end of your application */
     mclTerminateApplication();

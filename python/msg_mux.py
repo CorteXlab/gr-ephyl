@@ -26,8 +26,8 @@ import random
 import threading
 from gnuradio import gr, gr_unittest, blocks
 
-from Crypto.Cipher import AES
 import base64
+# from Crypto.Cipher import AES
 
 
 class msg_mux(gr.sync_block):
@@ -60,14 +60,14 @@ class msg_mux(gr.sync_block):
         self.data = []
 
 
-    def decrypt(self,mystr) :
-        secret_key = '0123456789ABCDEF' # create new & store somewhere safe
-        cipher = AES.new(secret_key,AES.MODE_ECB)
-        try :
-            decoded = cipher.decrypt(base64.b64decode(mystr))
-            return decoded.strip()  # Get rid of space padding
-        except :
-            return False
+    # def decrypt(self,mystr) :
+    #     secret_key = '0123456789ABCDEF' # create new & store somewhere safe
+    #     cipher = AES.new(secret_key,AES.MODE_ECB)
+    #     try :
+    #         decoded = cipher.decrypt(base64.b64decode(mystr))
+    #         return decoded.strip()  # Get rid of space padding
+    #     except :
+    #         return False
 
     def handle_frame(self, msg_pmt):
         with self.lock :

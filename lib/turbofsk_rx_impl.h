@@ -22,7 +22,7 @@
 #define INCLUDED_EPHYL_TURBOFSK_RX_IMPL_H
 
 #include <ephyl/turbofsk_rx.h>
-#include <libTurboFSK_v2.h>
+#include <libTurboFSK_v3.h>
 
 
 namespace gr {
@@ -30,20 +30,26 @@ namespace gr {
 
     class turbofsk_rx_impl : public turbofsk_rx
     {
+    float d_Noise;
      private:
-
       mxArray *rx_in;  /* Define input parameters  */
       mxArray *mxNbBits;
+      mxArray *mxNoiseVar;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
+      mxArray *indexPayload = NULL;
       int NbErr,Signal_len,NbBits,pow2_buffer,cnt;
-      double *d;
+      int r,s,t;
+      double *d,*tmp;
       size_t c_size,d_size;
     
      public:
-      turbofsk_rx_impl();
+      turbofsk_rx_impl(float Noise);
       ~turbofsk_rx_impl();
 
+      void setup_rpc();
+      float Noise() const { return d_Noise; }
+      void set_Noise(float Noise) { d_Noise = Noise; }
 
       // Where all the action really happens
       // void forecast (int noutput_items, gr_vector_int &ninput_items_required);

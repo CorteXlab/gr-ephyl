@@ -39,7 +39,7 @@ endif(NOT ephyl_sources)
 
 add_library(gnuradio-ephyl SHARED ${ephyl_sources})
 target_link_libraries(gnuradio-ephyl ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
-target_link_libraries(gnuradio-ephyl TurboFSK_v2)
+target_link_libraries(gnuradio-ephyl TurboFSK_v3)
 set_target_properties(gnuradio-ephyl PROPERTIES DEFINE_SYMBOL "gnuradio_ephyl_EXPORTS")
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

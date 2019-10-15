@@ -22,7 +22,7 @@
 #define INCLUDED_EPHYL_TURBOFSK_TX_IMPL_H
 
 #include <ephyl/turbofsk_tx.h>
-#include <libTurboFSK_v2.h>
+#include <libTurboFSK_v3.h>
 
 
 namespace gr {

@@ -37,16 +37,11 @@ namespace gr {
     {
      public:
       typedef boost::shared_ptr<turbofsk_rx> sptr;
+      static sptr make(float Noise);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of ephyl::turbofsk_rx.
-       *
-       * To avoid accidental use of raw pointers, ephyl::turbofsk_rx's
-       * constructor is in a private implementation
-       * class. ephyl::turbofsk_rx::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make();
+      virtual float Noise() const = 0;
+
+      virtual void set_Noise(float Noise) = 0;
     };
 
   } // namespace ephyl
