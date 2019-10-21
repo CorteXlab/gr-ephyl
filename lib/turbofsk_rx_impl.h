@@ -39,7 +39,7 @@ namespace gr {
       mxArray *outcrcCheck = NULL;
       mxArray *indexPayload = NULL;
       int NbErr,Signal_len,NbBits,pow2_buffer,cnt;
-      int r,s,t;
+      int r,s,t,pkt_cnt;
       double *d,*tmp;
       size_t c_size,d_size;
     

@@ -27,12 +27,9 @@
 #include <algorithm>
 #include <cmath>
 #include "init_turbofsk.h"
+#include <mutex>
 
-// using namespace std;
-// extern bool libturbofsk_init = true;
-
-//int lib_turbofsk_init = 0;
-//std::mutex init_mutex;
+// std::mutex init_mutex_txrx;
 
 namespace gr {
   namespace ephyl {
@@ -90,7 +87,6 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-
       const unsigned char *in = (const unsigned char *) input_items[0];
       float *out = (float *) output_items[0];
 
@@ -99,25 +95,24 @@ namespace gr {
         b[k] = double(in[k]);
         // printf("%1.0f",b[k]);
       }
+      consume_each (NbBits);
 
 /************************************************************************/
       mlfMainTx(1, &outTx, my_in);
 /************************************************************************/      
-
       a = mxGetPr(outTx);
-      a_size = mxGetM(outTx);  // We use mxGetM instead of mxGetN because mlfmainTx transposes input
-      // printf("\na_size : %d\n",a_size);
-
-
+      a_size = mxGetM(outTx);
+      // To assure stable output When Tx and Rx used in the same time:
       for(int i=0;i < a_size; i++) {
-        if (i< a_size)
-          out[i] = a[i];
-        else
-          out[i] = 0;
+        init_mutex_txrx.lock();
+        out[i] = a[i];
+        init_mutex_txrx.unlock();
       }
 
+      // a = (double*) mxRealloc(a, 0);
+      // mxSetPr(outTx, a);
+
       add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)a_size));
-      consume_each (a_size);
       return a_size;
 
     }

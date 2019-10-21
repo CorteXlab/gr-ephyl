@@ -85,6 +85,11 @@ class data_and_access_control(gr.sync_block):
         self.cnt_dbg = 0
 
         self.watch = 0
+        self.stat_per = [True]*len(bs_slots)
+        self.chsel =4*[0]
+        self.chsel[0] = 1      # First channel is selected at the beginning
+        self.time_ucb = 0
+
 
         # Encrypt ID
         # self.enc_ID = self.encrypt(self.ID)
@@ -120,152 +125,198 @@ class data_and_access_control(gr.sync_block):
 
     # Generate random payload
     def gen_rand_pld(self,data=False,rand_s=True,n=2,slots=[]) :    
-            res = []
-            slots = map(str, slots)
-            if not data :
-                data = self.rand_data(14)    
-            
-            if rand_s :  
-                slots = self.rand_slots(n)
-                for j in xrange(n):
-                    res.append(slots[j]+'\t'+data)
+        res = []
+        slots = map(str, slots)
+        if not data :
+            data = self.rand_data(14)    
+        
+        if rand_s :  
+            slots = self.rand_slots(n)
+            for j in xrange(n):
+                res.append(slots[j]+'\t'+data)
+        else :
+            if any(slots) :
+                for j in range(len(slots)):
+                    # Small note here, the payload is adapted if the slot number contains more than two characters
+                    res.append(slots[j]+'\t'+data[:len(data)-len(slots[j])+1])      
             else :
-                if any(slots) :
-                    for j in range(len(slots)):
-                        # Small note here, the payload is adapted if the slot number contains more than two characters
-                        res.append(slots[j]+'\t'+data[:len(data)-len(slots[j])+1])      
-                else :
-                    res = '0'+'\t'+data
-            return res 
-
+                res = '0'+'\t'+data
+        return res 
 
     # Compare Tx & Rx PLD
     def compare_pld(self,TX,rx) :    
-            v=''
-            h = -1
-            active_slots = []
-            used_slots = []
-            new_slots = []
-            remaining = []
-            self.error = 0
-            tx = TX
+        v=''
+        h = -1
+        active_slots = []
+        used_slots = []
+        new_slots = []
+        remaining = []
+        self.error = 0
+        tx = TX
 
-            # Verify that rx and tx frames are arrays, to avoid errors when sweeping
-            try :
-                TX[0][0]
-            except :
-                tx = [TX]
-            try :
-                rx[0][0]
-            except :
-                rx = [rx]
-            try :
-                np.shape(rx)[1]
-            except :
-                rx = np.array([rx])
-            ############################################################################################
-            # print rx
-            for f in range(len(rx)) :
-                if len(rx[f])>3 and rx[f][1].isdigit() :
+        # Verify that rx and tx frames are arrays, to avoid errors when sweeping
+        try :
+            TX[0][0]
+        except :
+            tx = [TX]
+        try :
+            rx[0][0]
+        except :
+            rx = [rx]
+        try :
+            np.shape(rx)[1]
+        except :
+            rx = np.array([rx])
+        ############################################################################################
+        # print rx
+        for f in range(len(rx)) :
+            if len(rx[f])>3 and rx[f][1].isdigit() :
 
-                    active_slots = np.append(active_slots,rx[f][1])
-                    for j in xrange(len(tx)):
-                        tx[j] = re.split(r'\t+', tx[j])
-                        used_slots = np.append(used_slots,tx[j][0])
-                        # Check for slot activity
-                        if rx[f][1] == tx[j][0]:     
-                            v += 's'
-                            # Check for matching id
-                            if rx[f][2] == self.ID:     
-                                v += 'i'
-                                # Check for matching payload
-                                if rx[f][3] == tx[j][1]:     
-                                    v += 'p'
-                                h = f 
+                active_slots = np.append(active_slots,rx[f][1])
+                for j in xrange(len(tx)):
+                    tx[j] = re.split(r'\t+', tx[j])
+                    used_slots = np.append(used_slots,tx[j][0])
+                    # Check for slot activity
+                    if rx[f][1] == tx[j][0]:     
+                        v += 's'
+                        # Check for matching id
+                        if rx[f][2] == self.ID:     
+                            v += 'i'
+                            # Check for matching payload
+                            if rx[f][3] == tx[j][1]:     
+                                v += 'p'
+                            h = f 
 
-                        rx[f][2] == self.ID
-                        tx[j] = '\t'.join(tx[j])
+                    rx[f][2] == self.ID
+                    tx[j] = '\t'.join(tx[j])
 
-            if not (any(active_slots) and any(used_slots))  :
-                active_slots = used_slots = [0]            
-            ############################################################################################
-            used_slots = list(dict.fromkeys(used_slots))    # Remove duplicates
-            remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
-            remaining.sort()
+        if not (any(active_slots) and any(used_slots))  :
+            active_slots = used_slots = [0]            
+        ############################################################################################
+        used_slots = list(dict.fromkeys(used_slots))    # Remove duplicates
+        remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
+        remaining.sort()
 
-            #################################################################
-            # Use all slots
-            if self.control == 'all' :
-                new_slots = self.bs_slots   
-            #################################################################
-            elif self.control == 'random' :
-                new_slots = np.random.choice(self.bs_slots, 2).tolist()
-            #################################################################
-            # Increment each frame
-            elif self.control == 'increment' :
-                new_slots = [int(used_slots[0])]
-                if new_slots[0]+1 not in self.bs_slots :
-                    new_slots = [0]
-                else:
-                    new_slots = [int(used_slots[0]) + 1]
+        #################################################################
+        # Use all slots
+        if self.control == 'all' :
+            new_slots = self.bs_slots   
+        #################################################################
+        elif self.control == 'random' :
+            new_slots = np.random.choice(self.bs_slots, 2).tolist()
+        #################################################################
+        # Increment each frame
+        elif self.control == 'increment' :
+            new_slots = [int(used_slots[0])]
+            if new_slots[0]+1 not in self.bs_slots :
+                new_slots = [0]
+            else:
+                new_slots = [int(used_slots[0]) + 1]
 
-            #################################################################                
-            elif self.control == 'basic' :
-                '''
-                With Othmane basic Control Policy:
-                If success, keep one of the good usedslots
-                If failure, find remaining unused slots, if none choose 2 random 
-                '''
-                if v.count('p') > 0 :
-                    new_slots = rx[h][1]
-                else :
-                    if remaining :
-                        new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
-                    else :
-                        new_slots = np.random.choice(self.bs_slots, 2).tolist()               
-            #################################################################   
-            # With UCB
-            elif self.control == 'ucb' :
-                pass
-
-
-
-
-
-
-
-
-
-
-            #################################################################
-            # With No Control Policy, keep old slots
-            else :
-                self.control == 'NONE'
-                new_slots = used_slots
-                
-            ############################################################################################
-            # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
-            # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
-            # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
-            # print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
-
+        #################################################################                
+        elif self.control == 'basic' :
+            '''
+            With basic Control Policy (Othmane):
+            If success, keep one of the good usedslots
+            If failure, find remaining unused slots, if none choose 2 random 
+            '''
             if v.count('p') > 0 :
-                # if v.count('s') > 0 :
-                self.error = 0
-                # else :
-                #     self.error = 1
+                new_slots = rx[h][1]
             else :
-                self.error = 1
+                if remaining :
+                    new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
+                else :
+                    new_slots = np.random.choice(self.bs_slots, 2).tolist()               
+        #################################################################
+        # With UCB
+        elif self.control == 'ucb' :
+            pass
+            '''
+            #  In this example, nch channels are emulated
+            #  then the number of times that this channel is selected is higher.
+
+            self.watch += 1
+            # Emulation of the channel occupancy  (it does not need to be implemented)
+            nch=len(self.bs_slots)  # number of channels  
+            ratio_global=nch*[0.0]
+
+            # If for example, bs_slots==[0,1,2,3,4] and active_slots__[1,2,4],
+            # result is stat_per = [False,True,True,False,True]
+            stat_per = [(self.bs_slots[i] in active_slots) for i in self.bs_slots]
+
+            for k in xrange(nch):
+                if (self.stat_per[k]==True):
+                    self.ratio_ch[k] += 1 
+                ratio_global[k]  = float(self.ratio_ch[k])/float(self.watch)
+
+            print "\n Ratio of channel occupancy for the 4 channels: ", ratio_global
+
+            # UCB learning: it is the function to be included   
+            new_indice=self.compute_ucb(nch,self.stat_per[self.indice],self.watch)
+
+            print " Number of times each channel is selected: ", self.chsel
+            '''
 
 
-            used_slots = list(set(used_slots))
-            used_slots.sort()
-            active_slots = list(set(active_slots))
-            active_slots.sort()
-            new_slots = list(set(new_slots))
-            new_slots.sort()
+        #################################################################
+        # With No Control Policy, keep old slots
+        else :
+            self.control == 'NONE'
+            new_slots = used_slots
+            
+        ############################################################################################
+        # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
+        # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
+        # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
+        # print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
 
-            return [v,new_slots,active_slots,self.error]
+        if v.count('p') > 0 :
+            # if v.count('s') > 0 :
+            self.error = 0
+            # else :
+            #     self.error = 1
+        else :
+            self.error = 1
+
+
+        used_slots = list(set(used_slots))
+        used_slots.sort()
+        active_slots = list(set(active_slots))
+        active_slots.sort()
+        new_slots = list(set(new_slots))
+        new_slots.sort()
+
+        return [v,new_slots,active_slots,self.error]
+
+
+    def compute_ucb(self, nch, rewards, time_ucb):
+        # Input variables: rward(packet detection per slot), 
+        # chsel (NumberTimesChannelSelected), 
+        # watch(GlobalTime)
+
+        xmean=nch*[0]
+        bias=nch*[0]
+        x=nch*[0]
+        alfa=0.8
+        maxval=-1.0
+
+        # Save variables
+        self.time_ucb=time_ucb  
+
+        if  (rewards==False) : 
+            self.rward[self.indice]+=1 
+        # For each channel 
+        for k in xrange(nch):
+            xmean[k]=float(self.rward[k])/float(1+self.chsel[k])
+            bias[k]=math.sqrt(  alfa*math.log(1+self.time_ucb)/float(1+self.chsel[k]) )
+            x[k]=xmean[k]+bias[k]
+            if x[k]>maxval:
+               maxval=x[k]
+               new_indice=k
+        self.chsel[new_indice]+= 1 
+        self.indice=new_indice
+
+        return  new_indice
 
 
     def handle_busy(self, msg_pmt):

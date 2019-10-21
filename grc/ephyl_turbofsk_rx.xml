@@ -34,10 +34,10 @@
     <name>out</name>
     <type>byte</type>
   </source>
-
+<!-- 
   <source>
     <name>out1</name>
     <type>float</type>
-  </source>
+  </source> -->
 
 </block>

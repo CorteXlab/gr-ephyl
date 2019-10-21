@@ -26,12 +26,12 @@
 #include "turbofsk_rx_impl.h"
 #include <algorithm>
 #include "init_turbofsk.h"
+#include <mutex>
 
 // using namespace std;
 // extern bool libturbofsk_init = true;
 
-// int lib_turbofsk_init_rx = 0;
-// std::mutex init_mutex_rx;
+// std::mutex init_mutex_txrx;
 
 namespace gr {
   namespace ephyl {
@@ -49,7 +49,7 @@ namespace gr {
     turbofsk_rx_impl::turbofsk_rx_impl(float Noise)
       : gr::block("TurboFSK RX",
               gr::io_signature::make(1, 1, sizeof(float)),
-              gr::io_signature::make2(2, 2, sizeof(unsigned char),sizeof(float))),
+              gr::io_signature::make(1, 1, sizeof(unsigned char))),
         d_Noise(Noise)
     {
       get_turbofsk();
@@ -77,6 +77,8 @@ namespace gr {
       *NoiseVar = d_Noise ;
 
       tmp = NULL;
+
+      pkt_cnt = 0;
 
       set_min_output_buffer(0,NbBits);
     }
@@ -111,7 +113,7 @@ namespace gr {
 
       const float *in = (const float *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
-      float *out1 = (float *) output_items[1];
+      //float *out1 = (float *) output_items[1];
 
       // printf("\nNINPUT: %d\n",ninput_items[0]);
       // printf("\navant fill buffer cnt: %d\n",cnt);
@@ -122,20 +124,28 @@ namespace gr {
            index_input++, cnt++) {
         d[cnt] = double(in[index_input]);
       }
+      consume_each(index_input);
+
       printf("\naprès fill buffer cnt: %d\n",cnt);
       // printf("\non consomme %d\n", index_input);
 
-      consume_each(index_input);
 
       if (cnt==d_size) {
         double *realdata,*realcrc,*realindex;
         printf("\non appelle mlfMainRx\n");
 
           /* Call the Rx library function */
+      /************************************************************************/
+        init_mutex_txrx.lock();
         mlfMainRx(3, &outRxBits, &outcrcCheck, &indexPayload, rx_in, mxNbBits, mxNoiseVar);
+        init_mutex_txrx.unlock();
+      /************************************************************************/
+
         if (outRxBits != NULL){
           realdata = mxGetPr(outRxBits);
           r = mxGetN(outRxBits);
+          printf("\nPacket: %d",pkt_cnt);
+          pkt_cnt++;
           printf("\nRX Bits:\n");
           for(int k=0;k<r;k++){
             printf("%1.0f",realdata[k]);
@@ -143,6 +153,10 @@ namespace gr {
 
           if(r==0){
             printf("RX packet not detected.");
+            s = mxGetN(indexPayload);
+            if(s!=0){
+              throw new std::exception();
+            }
           }
           else {
             s = mxGetN(indexPayload);
@@ -172,6 +186,7 @@ namespace gr {
               }
             }
             else{
+              // throw new std::exception();
               for(int i=0;i < r; i++) {
                 out[i] = 0;
               }              
@@ -195,10 +210,10 @@ namespace gr {
       }
 
       /// DEBUG ///
-      for (int i = 0; i < ninput_items[0] ; i++) {
-        out1[i] = in[i];
-      }
-      produce(1,ninput_items[0]);
+      // for (int i = 0; i < ninput_items[0] ; i++) {
+      //   out1[i] = in[i];
+      // }
+      // produce(1,ninput_items[0]);
       /////////////
 
       return r;
