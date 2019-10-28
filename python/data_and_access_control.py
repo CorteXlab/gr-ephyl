@@ -24,6 +24,8 @@ import pmt
 import time
 import random
 import threading
+import math
+
 from gnuradio import gr, gr_unittest, blocks
 
 import ntpath
@@ -86,9 +88,12 @@ class data_and_access_control(gr.sync_block):
 
         self.watch = 0
         self.stat_per = [True]*len(bs_slots)
-        self.chsel =4*[0]
+        self.ratio_ch =[0]*len(bs_slots)
+        self.rward =[0]*len(bs_slots)
+        self.chsel =[0]*len(bs_slots)
         self.chsel[0] = 1      # First channel is selected at the beginning
         self.time_ucb = 0
+        self.indice = 0
 
 
         # Encrypt ID
@@ -231,31 +236,36 @@ class data_and_access_control(gr.sync_block):
         # With UCB
         elif self.control == 'ucb' :
             pass
-            '''
+            # '''
             #  In this example, nch channels are emulated
             #  then the number of times that this channel is selected is higher.
+            active_slots = map(int, active_slots)
 
             self.watch += 1
             # Emulation of the channel occupancy  (it does not need to be implemented)
             nch=len(self.bs_slots)  # number of channels  
             ratio_global=nch*[0.0]
 
-            # If for example, bs_slots==[0,1,2,3,4] and active_slots__[1,2,4],
+            # If for example, bs_slots==[0,1,2,3,4] and active_slots==[1,2,4],
             # result is stat_per = [False,True,True,False,True]
             stat_per = [(self.bs_slots[i] in active_slots) for i in self.bs_slots]
+            print "[SN "+self.ID+"] STAT PER : ", stat_per
+            print "[SN "+self.ID+"] active_slots: ", active_slots
 
             for k in xrange(nch):
-                if (self.stat_per[k]==True):
+                if (stat_per[k]==True):
                     self.ratio_ch[k] += 1 
                 ratio_global[k]  = float(self.ratio_ch[k])/float(self.watch)
 
-            print "\n Ratio of channel occupancy for the 4 channels: ", ratio_global
+            print "[SN "+self.ID+"] Ratio of resource occupancy : ", ratio_global
 
             # UCB learning: it is the function to be included   
-            new_indice=self.compute_ucb(nch,self.stat_per[self.indice],self.watch)
+            new_indice = self.compute_ucb(nch,stat_per[self.indice],self.watch)
 
-            print " Number of times each channel is selected: ", self.chsel
-            '''
+            new_slots = [new_indice]
+
+            print "[SN "+self.ID+"] Number of times each resource is selected: ", self.chsel
+            # '''
 
 
         #################################################################
@@ -268,7 +278,7 @@ class data_and_access_control(gr.sync_block):
         # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
         # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
         # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
-        # print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
+        print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
 
         if v.count('p') > 0 :
             # if v.count('s') > 0 :
@@ -303,7 +313,7 @@ class data_and_access_control(gr.sync_block):
         # Save variables
         self.time_ucb=time_ucb  
 
-        if  (rewards==False) : 
+        if  (rewards==True) : 
             self.rward[self.indice]+=1 
         # For each channel 
         for k in xrange(nch):

@@ -22,7 +22,7 @@
 #define INCLUDED_EPHYL_TURBOFSK_RX_IMPL_H
 
 #include <ephyl/turbofsk_rx.h>
-#include <libTurboFSK_v3.h>
+#include <libTurboFSK_v4.h>
 
 
 namespace gr {
@@ -32,15 +32,17 @@ namespace gr {
     {
     float d_Noise;
      private:
-      mxArray *rx_in;  /* Define input parameters  */
+      mxArray *rx_in_I;  /* Define input parameters  */
+      mxArray *rx_in_Q;  /* Define input parameters  */
       mxArray *mxNbBits;
       mxArray *mxNoiseVar;
       mxArray *outRxBits = NULL;
       mxArray *outcrcCheck = NULL;
       mxArray *indexPayload = NULL;
-      int NbErr,Signal_len,NbBits,pow2_buffer,cnt;
+      int NbErr,Signal_len,NbBits,cnt;
       int r,s,t,pkt_cnt;
-      double *d,*tmp;
+      // float *d,*e;
+      double *d,*e;
       size_t c_size,d_size;
     
      public:

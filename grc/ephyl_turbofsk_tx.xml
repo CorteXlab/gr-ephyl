@@ -27,7 +27,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>out_i</name>
     <type>float</type>
   </source>
+  <source>
+    <name>out_q</name>
+    <type>float</type>
+  </source>  
 </block>

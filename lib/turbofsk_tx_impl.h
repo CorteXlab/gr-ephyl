@@ -22,7 +22,7 @@
 #define INCLUDED_EPHYL_TURBOFSK_TX_IMPL_H
 
 #include <ephyl/turbofsk_tx.h>
-#include <libTurboFSK_v3.h>
+#include <libTurboFSK_v4.h>
 
 
 namespace gr {
@@ -33,10 +33,13 @@ namespace gr {
      private:
 
       mxArray *my_in; /* Define input parameters */
-      mxArray *outTx = NULL;    /* and output parameters to be passed to the library functions */
-      int NbBits,Signal_len,pow2_buffer;
-      double *a,*b;
-      size_t a_size,b_size;
+      mxArray *outTx_I = NULL;    /* and output parameters to be passed to the library functions */
+      mxArray *outTx_Q = NULL;
+      int NbBits,Signal_len;
+      // double *a,*b,*c;
+      float *a,*c;
+      double *b;
+      size_t a_size,b_size,c_size;
     
      public:
       turbofsk_tx_impl();

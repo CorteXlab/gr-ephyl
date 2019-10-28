@@ -128,7 +128,6 @@ extern LIB_libTurboFSK_v3_C_API
 bool MW_CALL_CONV mlxMainTx(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[]);
 
 
-
 extern LIB_libTurboFSK_v3_C_API bool MW_CALL_CONV mlfMainRx(int nargout, mxArray** RxBits, mxArray** crcCheck, mxArray** indsynchro, mxArray* RxSamples, mxArray* NbBits, mxArray* noiseVar);
 
 extern LIB_libTurboFSK_v3_C_API bool MW_CALL_CONV mlfMainTx(int nargout, mxArray** TxIQ, mxArray* infoBits);

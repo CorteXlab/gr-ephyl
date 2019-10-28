@@ -47,7 +47,7 @@ namespace gr {
     turbofsk_tx_impl::turbofsk_tx_impl()
       : gr::block("TurboFSK TX",
               gr::io_signature::make(1, 1, sizeof(unsigned char)),
-              gr::io_signature::make(1, 1, sizeof(float)))
+              gr::io_signature::make2(2, 2, sizeof(float), sizeof(float)))
     {
       get_turbofsk();
       
@@ -58,6 +58,7 @@ namespace gr {
       Signal_len = 14652;
 
       set_min_output_buffer(0,Signal_len);
+      set_min_output_buffer(1,Signal_len);
 
       /* Create the input data */
       my_in = mxCreateDoubleMatrix(1,NbBits,mxREAL);
@@ -71,7 +72,8 @@ namespace gr {
     turbofsk_tx_impl::~turbofsk_tx_impl()
     {
       mxDestroyArray(my_in);
-      mxDestroyArray(outTx);
+      mxDestroyArray(outTx_I);
+      mxDestroyArray(outTx_Q);
       release_turbofsk();
     }
 
@@ -88,7 +90,8 @@ namespace gr {
                        gr_vector_void_star &output_items)
     {
       const unsigned char *in = (const unsigned char *) input_items[0];
-      float *out = (float *) output_items[0];
+      float *out_i = (float *) output_items[0];
+      float *out_q = (float *) output_items[1];
 
       // printf("\nTX Bits:\n");
       for(int k=0;k<b_size;k++){
@@ -98,21 +101,39 @@ namespace gr {
       consume_each (NbBits);
 
 /************************************************************************/
-      mlfMainTx(1, &outTx, my_in);
+      mlfMainTx(2, &outTx_I,&outTx_Q, my_in);
 /************************************************************************/      
-      a = mxGetPr(outTx);
-      a_size = mxGetM(outTx);
+
+      // mxMakeArrayComplex(outTx);
+
+      a = (float*)mxGetPr(outTx_I);
+      a_size = mxGetM(outTx_I);
+
+      c = (float*)mxGetPr(outTx_Q);
+      c_size = mxGetM(outTx_Q);
+
+      // printf("\nTAILLE: %d\n",mxGetElementSize(outTx));
+
       // To assure stable output When Tx and Rx used in the same time:
       for(int i=0;i < a_size; i++) {
         init_mutex_txrx.lock();
-        out[i] = a[i];
+        out_q[i] = c[i];
+        out_i[i] = a[i];
         init_mutex_txrx.unlock();
       }
 
+      // for(int i=0;i < c_size; i++) {
+      //   init_mutex_txrx.lock();
+      //   init_mutex_txrx.unlock();
+      // }
+
       // a = (double*) mxRealloc(a, 0);
-      // mxSetPr(outTx, a);
+      // mxSetPr(outTx_I, a);
+      // c = (double*) mxRealloc(c, 0);
+      // mxSetPr(outTx_Q, c);
 
       add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)a_size));
+      // add_item_tag(1, nitems_written(1), pmt::string_to_symbol("packet_len"), pmt::from_long((int)c_size));
       return a_size;
 
     }

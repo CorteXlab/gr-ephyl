@@ -181,7 +181,7 @@ class sn_scheduler(gr.basic_block):
                         self.samp_cnt = self.delay
                     else:
                         self.samp_cnt= 200000 
-                    print self.delay
+                    # print self.delay
                     # self.samp_cnt= 200000 
                     return 0                    
                     

@@ -48,7 +48,7 @@ namespace gr {
      */
     turbofsk_rx_impl::turbofsk_rx_impl(float Noise)
       : gr::block("TurboFSK RX",
-              gr::io_signature::make(1, 1, sizeof(float)),
+              gr::io_signature::make2(2, 2, sizeof(float), sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(unsigned char))),
         d_Noise(Noise)
     {
@@ -63,10 +63,16 @@ namespace gr {
       r = 0, s = 0, t = 0;
 
       /* Create the input data */
-      rx_in = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
-      // rx_in = mxCreateDoubleMatrix(1,Signal_len,mxREAL);    // Take input twice, to 
-      d = mxGetPr(rx_in);
-      d_size = mxGetN(rx_in);
+      rx_in_I = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
+      rx_in_Q = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
+
+      // d = (float*)mxGetPr(rx_in_I);
+      // d_size = mxGetN(rx_in_I);
+      // e = (float*)mxGetPr(rx_in_Q);
+      d = mxGetPr(rx_in_I);
+      d_size = mxGetN(rx_in_I);
+      e = mxGetPr(rx_in_Q);
+      
 
       mxNbBits = mxCreateDoubleMatrix(1,1,mxREAL);
       double *bits = mxGetPr(mxNbBits);
@@ -76,7 +82,7 @@ namespace gr {
       double *NoiseVar = mxGetPr(mxNoiseVar);
       *NoiseVar = d_Noise ;
 
-      tmp = NULL;
+      // tmp = NULL;
 
       pkt_cnt = 0;
 
@@ -88,7 +94,8 @@ namespace gr {
      */
     turbofsk_rx_impl::~turbofsk_rx_impl()
     {
-      mxDestroyArray(rx_in);
+      mxDestroyArray(rx_in_I);
+      mxDestroyArray(rx_in_Q);
       mxDestroyArray(outRxBits);
       mxDestroyArray(outcrcCheck);
       mxDestroyArray(mxNbBits);
@@ -98,11 +105,6 @@ namespace gr {
       release_turbofsk();
     }
 
-    // void
-    // turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
-    // {
-    //   ninput_items_required[0] = Signal_len;
-    // }
 
     int
     turbofsk_rx_impl::general_work (int noutput_items,
@@ -111,18 +113,20 @@ namespace gr {
                        gr_vector_void_star &output_items)
     {
 
-      const float *in = (const float *) input_items[0];
+      const float *in_I = (const float *) input_items[0];
+      const float *in_Q = (const float *) input_items[1];
       unsigned char *out = (unsigned char *) output_items[0];
-      //float *out1 = (float *) output_items[1];
 
-      // printf("\nNINPUT: %d\n",ninput_items[0]);
+      // printf("\nNINPUT 0: %d\n",ninput_items[0]);
+      // printf("\nNINPUT 1: %d\n",ninput_items[1]);
       // printf("\navant fill buffer cnt: %d\n",cnt);
 
       int index_input;
       for (index_input=0;
            index_input < ninput_items[0] && cnt < d_size;
            index_input++, cnt++) {
-        d[cnt] = double(in[index_input]);
+        d[cnt] = (double)in_I[index_input];
+        e[cnt] = (double)in_Q[index_input];
       }
       consume_each(index_input);
 
@@ -137,7 +141,7 @@ namespace gr {
           /* Call the Rx library function */
       /************************************************************************/
         init_mutex_txrx.lock();
-        mlfMainRx(3, &outRxBits, &outcrcCheck, &indexPayload, rx_in, mxNbBits, mxNoiseVar);
+        mlfMainRx(3, &outRxBits, &outcrcCheck, &indexPayload, rx_in_I, rx_in_Q, mxNbBits, mxNoiseVar);
         init_mutex_txrx.unlock();
       /************************************************************************/
 
@@ -205,16 +209,10 @@ namespace gr {
         // cnt = 0;
         for (int i = 0; i < Signal_len ; i++) {
           d[i] = d[i+Signal_len];
+          e[i] = d[i+Signal_len];
         }
         cnt = Signal_len;
       }
-
-      /// DEBUG ///
-      // for (int i = 0; i < ninput_items[0] ; i++) {
-      //   out1[i] = in[i];
-      // }
-      // produce(1,ninput_items[0]);
-      /////////////
 
       return r;
     }
