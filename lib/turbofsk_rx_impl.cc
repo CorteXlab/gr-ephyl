@@ -66,9 +66,6 @@ namespace gr {
       rx_in_I = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
       rx_in_Q = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
 
-      // d = (float*)mxGetPr(rx_in_I);
-      // d_size = mxGetN(rx_in_I);
-      // e = (float*)mxGetPr(rx_in_Q);
       d = mxGetPr(rx_in_I);
       d_size = mxGetN(rx_in_I);
       e = mxGetPr(rx_in_Q);
@@ -81,8 +78,6 @@ namespace gr {
       mxNoiseVar = mxCreateDoubleMatrix(1,1,mxREAL);
       double *NoiseVar = mxGetPr(mxNoiseVar);
       *NoiseVar = d_Noise ;
-
-      // tmp = NULL;
 
       pkt_cnt = 0;
 
@@ -105,6 +100,12 @@ namespace gr {
       release_turbofsk();
     }
 
+    void
+    turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
+    {
+      ninput_items_required[0] = Signal_len;
+    }
+
 
     int
     turbofsk_rx_impl::general_work (int noutput_items,
@@ -116,6 +117,9 @@ namespace gr {
       const float *in_I = (const float *) input_items[0];
       const float *in_Q = (const float *) input_items[1];
       unsigned char *out = (unsigned char *) output_items[0];
+
+      double *NoiseVar = mxGetPr(mxNoiseVar);
+      *NoiseVar = d_Noise ;
 
       // printf("\nNINPUT 0: %d\n",ninput_items[0]);
       // printf("\nNINPUT 1: %d\n",ninput_items[1]);
@@ -130,13 +134,12 @@ namespace gr {
       }
       consume_each(index_input);
 
-      printf("\naprès fill buffer cnt: %d\n",cnt);
+      // printf("\naprès fill buffer cnt: %d\n",cnt);
       // printf("\non consomme %d\n", index_input);
 
 
       if (cnt==d_size) {
         double *realdata,*realcrc,*realindex;
-        printf("\non appelle mlfMainRx\n");
 
           /* Call the Rx library function */
       /************************************************************************/
@@ -166,16 +169,10 @@ namespace gr {
             s = mxGetN(indexPayload);
             
             if(s!=0){
-              // printf("\nOUT CRC DBG: %p\n",outcrcCheck);
-              // printf("\nLEN CRC DBG: %d\n",int(mxGetN(outcrcCheck)));
-              // printf("\nOUT INDEX DBG: %p\n",indexPayload);
-              // printf("\nLEN INDEX DBG: %d\n",int(mxGetN(indexPayload)));
               realcrc = mxGetPr(outcrcCheck);
               realindex = mxGetPr(indexPayload);
               t = int(*realindex);
-
               printf("\nIndex: %d\n",t);
-              // printf("\nNINPUT: %d\n",ninput_items[0]);
 
               if (*realcrc==0.0){
                 printf("\nCRC not OK\n");
@@ -188,13 +185,12 @@ namespace gr {
               for(int i=0;i < r; i++) {
                 out[i] = realdata[i];
               }
+              add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)NbBits));
             }
             else{
-              // throw new std::exception();
               for(int i=0;i < r; i++) {
                 out[i] = 0;
               }              
-              printf("\nNINPUT: %d\n",ninput_items[0]);
             }
           }
         }
@@ -203,10 +199,6 @@ namespace gr {
           throw new std::exception();
         } 
 
-        // for (int i = 0; i < Signal_len-t ; i++) {
-        //   d[i] = d[i+t];
-        // }
-        // cnt = 0;
         for (int i = 0; i < Signal_len ; i++) {
           d[i] = d[i+Signal_len];
           e[i] = d[i+Signal_len];
@@ -216,7 +208,6 @@ namespace gr {
 
       return r;
     }
-
 
 
     void
