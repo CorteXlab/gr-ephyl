@@ -148,7 +148,7 @@ class sn_scheduler(gr.basic_block):
     def handle_msg(self, msg_pmt):
         with self.lock : 
             if self.state == PKT_GEN :
-
+      # /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
                 self.signal_len = ((len(self.slot_msg[self.slot_cnt]))+12)    # log2(M)x 8bits x (payload_len + header_len)
                 self.msg_out = np.append(self.msg_out,pmt.to_python(pmt.cdr(msg_pmt)))   # Collect message data, convert to Python format:
                 self.pdu_cnt += 1
@@ -181,7 +181,7 @@ class sn_scheduler(gr.basic_block):
                         self.samp_cnt = self.delay
                     else:
                         self.samp_cnt= 200000 
-                    print self.delay
+                    # print self.delay
                     # self.samp_cnt= 200000 
                     return 0                    
                     
