@@ -37,11 +37,13 @@ namespace gr {
     {
      public:
       typedef boost::shared_ptr<turbofsk_rx> sptr;
-      static sptr make(float Noise);
+      static sptr make(float Noise,float NbBits);
 
       virtual float Noise() const = 0;
+      virtual float NbBits() const = 0;
 
       virtual void set_Noise(float Noise) = 0;
+      virtual void set_NbBits(float NbBits) = 0;
     };
 
   } // namespace ephyl

@@ -87,23 +87,22 @@ class msg_mux(gr.sync_block):
     def handle_data(self, msg_pmt):
         with self.lock : 
             self.data = pmt.to_python(pmt.cdr(msg_pmt))
-            # self.data = np.delete(self.data,-1)     # Delete \n
             l = [chr(c) for c in self.data]
             l = ''.join(l)
             # ID = self.decrypt(l[:24])
             # # print ID
-            
             # # print "Successful decryption of ID : " + ID
             # l = ID + "\t" + l[24:]
+            
             l = list(l)
             self.data = [ord(c) for c in l]     # We replace the crypted part with the decrypted one
             ID = False
             # print self.data
-            if self.slot_n >= 0 :
+            if self.slot_n >= 0 and any(self.data):
                 res = np.append(self.slot_msg, self.data)
                 res = np.append(self.frame_msg, res)
                 res = res.tolist()
-                # print res
+                # print self.data
                 res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),res))
                 self.message_port_pub(pmt.to_pmt("final_msg"), res_pdu)
 

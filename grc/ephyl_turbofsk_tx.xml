@@ -4,18 +4,16 @@
   <key>ephyl_turbofsk_tx</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.turbofsk_tx()</make>
-  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
-       Sub-nodes:
-       * name
-       * key (makes the value accessible as $keyname, e.g. in the make node)
-       * type -->
+  <make>ephyl.turbofsk_tx($NbBits)</make>
 
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
+  <param>
+    <name>Data length</name>
+    <key>NbBits</key>
+    <value>128</value>
+    <type>float</type>
+  </param>
+
+
   <sink>
     <name>in</name>
     <type>byte</type>

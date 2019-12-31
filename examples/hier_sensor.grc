@@ -82,6 +82,33 @@
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1432, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>MTU</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1500</value>
+    </param>
+  </block>
+  <block>
     <key>variable_constellation</key>
     <param>
       <key>comment</key>
@@ -105,7 +132,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 92)</value>
+      <value>(760, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -133,6 +160,96 @@
     </param>
   </block>
   <block>
+    <key>variable_cc_encoder_def</key>
+    <param>
+      <key>padding</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>k</key>
+      <value>k</value>
+    </param>
+    <param>
+      <key>dim1</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>dim2</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>framebits</key>
+      <value>MTU*8</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1216, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>enc_cc</value>
+    </param>
+    <param>
+      <key>ndim</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>polys</key>
+      <value>polys</value>
+    </param>
+    <param>
+      <key>rate</key>
+      <value>rate</value>
+    </param>
+    <param>
+      <key>state_start</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>fec.CC_STREAMING</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1600, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>frame_size</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>12000</value>
+    </param>
+  </block>
+  <block>
     <key>variable</key>
     <param>
       <key>comment</key>
@@ -157,6 +274,114 @@
     <param>
       <key>value</key>
       <value>digital.header_format_default(digital.packet_utils.default_access_code, 0)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1528, 76)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>k</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>7</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1432, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>polys</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[79,109]</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1600, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>puncpat</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>11</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1528, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rate</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -199,7 +424,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>32</value>
+      <value>64</value>
     </param>
   </block>
   <block>
@@ -304,7 +529,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 4)</value>
+      <value>(896, 4)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -347,7 +572,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1376, 4)</value>
+      <value>(1056, 4)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -390,7 +615,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 4)</value>
+      <value>(744, 4)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -418,49 +643,6 @@
     </param>
   </block>
   <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(736, 4)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>T_sync</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Sync duration (ms)</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>100</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_complex_to_arg</key>
     <param>
       <key>alias</key>
@@ -480,7 +662,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 656)</value>
+      <value>(160, 832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -527,7 +709,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 636)</value>
+      <value>(336, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -578,7 +760,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 648)</value>
+      <value>(720, 808)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -587,6 +769,57 @@
     <param>
       <key>id</key>
       <value>blocks_float_to_complex_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>float(1)/32</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1232, 708)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -621,7 +854,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(496, 284)</value>
+      <value>(496, 444)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -668,7 +901,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(496, 196)</value>
+      <value>(496, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -719,6 +952,124 @@
     </param>
     <param>
       <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>endianness</key>
+      <value>gr.GR_MSB_FIRST</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(728, 436)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_repack_bits_bb_0</value>
+    </param>
+    <param>
+      <key>len_tag_key</key>
+      <value>packet_len</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>align_output</key>
+      <value>False</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_repack_bits_bb</key>
+    <param>
+      <key>k</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>l</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>endianness</key>
+      <value>gr.GR_MSB_FIRST</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1176, 436)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_repack_bits_bb_0_0</value>
+    </param>
+    <param>
+      <key>len_tag_key</key>
+      <value>packet_len</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>align_output</key>
+      <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_repack_bits_bb</key>
+    <param>
+      <key>k</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>l</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
       <value>1</value>
     </param>
     <param>
@@ -727,7 +1078,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1040, 364)</value>
+      <value>(1624, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -774,7 +1125,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(936, 656)</value>
+      <value>(936, 816)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -829,7 +1180,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 844)</value>
+      <value>(176, 1004)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -853,7 +1204,7 @@
     </param>
     <param>
       <key>packet_len</key>
-      <value>int(M*(1+cp_ratio))</value>
+      <value>int(M*(1+cp_ratio))*2*8</value>
     </param>
     <param>
       <key>type</key>
@@ -884,7 +1235,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 516)</value>
+      <value>(632, 708)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -935,7 +1286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 648)</value>
+      <value>(544, 800)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -986,7 +1337,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 700)</value>
+      <value>(336, 860)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1037,7 +1388,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 360)</value>
+      <value>(1400, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1096,7 +1447,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 852)</value>
+      <value>(408, 1012)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1143,7 +1494,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 716)</value>
+      <value>(728, 876)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1241,7 +1592,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 180)</value>
+      <value>(280, 516)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1253,7 +1604,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>Active slot control</value>
+      <value>Slot Access Policy</value>
     </param>
     <param>
       <key>short_id</key>
@@ -1261,11 +1612,11 @@
     </param>
     <param>
       <key>type</key>
-      <value></value>
+      <value>string</value>
     </param>
     <param>
       <key>value</key>
-      <value>True</value>
+      <value>all</value>
     </param>
   </block>
   <block>
@@ -1335,7 +1686,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 516)</value>
+      <value>(240, 700)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1390,7 +1741,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1232, 372)</value>
+      <value>(1816, 444)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1441,7 +1792,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1032, 496)</value>
+      <value>(1032, 688)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1492,7 +1843,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 276)</value>
+      <value>(1240, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1543,7 +1894,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(264, 256)</value>
+      <value>(264, 416)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1560,422 +1911,6 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>epy_block</key>
-    <param>
-      <key>bch_time</key>
-      <value>T_bch</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_io_cache</key>
-      <value>('Sensor Scheduler', 'blk', [('num_slots', '5'), ('bch_time', '20'), ('Sync_time', '50'), ('guard_time', '100'), ('Slot_time', '50'), ('Proc_time', '50'), ('wanted_tag', "'corr_start'"), ('length_tag_key', "'packet_len2'"), ('samp_rate', '32000')], [('trig', 'message', 1), ('slot', 'message', 1), ('in', 'message', 1)], [('0', 'complex', 1), ('busy', 'message', 1)], 'DOCUMENTATION', ['length_tag_key', 'num_slots', 'samp_rate', 'wanted_tag'])</value>
-    </param>
-    <param>
-      <key>_source_code</key>
-      <value>"""
-Embedded Python Blocks:
-
-Each time this file is saved, GRC will instantiate the first class it finds
-to get ports and parameters of your block. The arguments to __init__  will
-be the parameters. All of them are required  to have default values!
-"""
-
-import numpy as np
-import pmt
-import time
-import random
-import threading
-from gnuradio import gr, gr_unittest, blocks
-import string
-
-SLOT_READ=0
-IDLE=1
-PKT_GEN=2
-LISTEN=3
-SYNC=4
-EMIT=5
-GUARD =6
-PROC = 7
-
-
-class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
-    """DOCUMENTATION"""
-    def __init__(self,num_slots=5,
-        bch_time=20, Sync_time=50, guard_time=100, Slot_time=50, Proc_time = 50, 
-        wanted_tag="corr_start",
-        length_tag_key="packet_len2",
-        samp_rate = 32000):
-        """arguments to this function show up as parameters in GRC"""
-        gr.sync_block.__init__(
-            self,
-            name='Sensor Scheduler',   # will show up in GRC
-            in_sig=[],
-            out_sig=[np.complex64]
-        )
-
-        self.key = None
-        # self.Id = Id
-        self.Id = random.choice(string.ascii_letters) 
-        self.num_slots = num_slots
-        # self.bch_duration = bch_duration
-        # self.T_g = guard_time
-        # self.T_rf = Sync_time
-        # self.T_s = Slot_duration
-        
-        self.length_tag_key = length_tag_key
-        self.samp_rate = int(samp_rate/1000)
-
-
-        ## Here we set states data, 
-        ## PS : LISTEN has a constant duration of guard_time to avoid buffer overflow
-        ## You will find this offset in the BS scheduler block
-        ## Processing time (PROC state) for sensor only serves to reset variables, that's why it lasts Proc_time/2 
-        self.STATES = [range(8) \
-            ,['SLOT_READ','IDLE','PKT_GEN','LISTEN','SYNC','EMIT','GUARD','PROC'] \
-            ,[0,0,0,guard_time,Sync_time+bch_time,Slot_time,guard_time,Proc_time/2]]
-
-        self.wanted_tag = wanted_tag
-        self.message_port_register_in(pmt.intern("in"))
-        self.message_port_register_in(pmt.intern("trig"))
-        self.set_msg_handler(pmt.intern("in"), self.handle_msg)
-        self.set_msg_handler(pmt.intern("trig"), self.handle_trig)
-
-        self.message_port_register_in(pmt.intern("slot"))
-        self.set_msg_handler(pmt.intern("slot"), self.handle_slot)
-        
-        self.message_port_register_out(pmt.intern("busy"))
-
-        self.samp_cnt = 0
-        self.samp_cnt_abs = 0
-        self.ex = self.left = 0
-        self.delay = self.delay_t = 0
-
-        self.pdu_cnt = 0
-        self.slot_cnt = 0
-        
-        self.test = 0
-        self.msg_out = np.array([])
-        self.msg_full = np.array([])
-
-        self.state = SLOT_READ
-        self.state_dbg = ''
-        self.trig = ''
-        self.trig_dbg = ''
-        self.repetition = 0
-
-        self.signal_len = 0
-        self.busy = False
-        self.found = False
-
-        self.slot_msg = np.array([])
-
-        self.slots = []
-
-        self.lock = threading.Lock()
-        self.frame_cnt = 0
-
-    def to_time(self,n_samp) :
-        return n_samp/float(self.samp_rate)
-
-    def to_samples(self,duration) :
-        return int(duration*self.samp_rate)
-
-    def next_state(self) :
-        if self.state &lt; len(self.STATES[0])-1 :
-            self.state += 1
-        else :
-            self.state = 0
-
-    def handle_slot(self, slot_pmt):
-        with self.lock : 
-
-            if self.state == SLOT_READ :
-                if pmt.to_python(slot_pmt) == "STOP" :
-                    self.next_state()
-                    self.slot_cnt = 0
-                    print "[SN "+self.Id+"] SENSOR SLOTS ARE :" + str(self.slots)
-                    self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))
-                else :
-                    new_array = pmt.to_python(slot_pmt)
-
-                    # Extract ID coming from slot control block, and remove it from the message
-                    self.Id = new_array[0]
-                    new_array = new_array[1:]
-
-                    # Extract Slot
-                    tab_indices = [i for i, x in enumerate(new_array) if x == "\t"]
-                    tmp_slot = new_array[:tab_indices[0]]
-                    if tmp_slot.isdigit() :  # FOR DEBUG
-                        self.slots.append(int(tmp_slot))     # First character is the slot number to be used
-                    else :
-                        self.slots.append(int(np.random.choice(range(self.num_slots), 1)))
-                    
-                    if self.slot_cnt != self.slots[-1] :
-                        self.slot_msg = np.append(self.slot_msg,['']*(self.slots[-1]-self.slot_cnt))  # Fill unused slots with empty string
-                        self.slot_cnt = self.slots[-1]
-                    
-                    self.slot_msg = np.append(self.slot_msg,new_array)
-                    self.slot_cnt += 1
-
-    def handle_msg(self, msg_pmt):
-        with self.lock : 
-            if self.state == PKT_GEN :
-
-                self.signal_len = 2*8*((len(self.slot_msg[self.slot_cnt]))+12)    # log2(M)x 8bits x (payload_len + header_len)
-
-                self.msg_out = np.append(self.msg_out,pmt.to_python(pmt.cdr(msg_pmt)))   # Collect message data, convert to Python format:
-                self.pdu_cnt += 1
-                if self.pdu_cnt == self.signal_len:   # Signal reconstructed 
-                    self.pdu_cnt=0
-                    self.msg_full = np.array(self.msg_full.tolist() + [self.msg_out.tolist()])    # Store the N signals in N-dim array, analyze carefully before modifying
-                    self.msg_out = np.array([])
-                    self.state -= 1    # Return to IDLE and check for remaining messages
-                    self.slot_cnt +=1
-
-
-    def handle_trig(self, trig_pmt):
-        with self.lock : 
-            if self.state == LISTEN:
-                self.trig = pmt.to_python(pmt.cdr(trig_pmt))    # Collect trig message data, convert to Python format
-                if self.trig[0] == self.wanted_tag :
-                    self.found = True
-                    self.samp_cnt_abs = 0
-                    self.slot_cnt = 0
-                    self.msg_out = self.msg_full[self.slot_cnt]     # Init first msg to be sent
-                    
-                    self.delay_t = abs(self.trig[1]*1000)
-                    self.trig = 0
-                    
-    def run_state(self,output) :
-        
-        self.samp_cnt += len(output)    # Sample count related to current state
-        self.samp_cnt_abs += len(output)
-
-
-
-
-        if self.state == SYNC :
-            self.delay = self.to_samples(self.delay_t)
-            self.delay = 0
-        else :
-            self.delay = 0
-
-
-
-
-        
-        state_samp = self.to_samples(self.STATES[2][self.state]) + self.delay  # (Fixed) Total Number of samples required during current state 
-        
-        diff = state_samp - self.samp_cnt       # Act as a timer
-
-        ###############################################################################    
-        ## If the cuurent state cannot run completely, 
-        ## i.e the sample count exceeds the number of samples required for the current state
-        if diff &lt; 0 :  
-
-            self.samp_cnt = 0                        
-            self.samp_cnt_abs += diff  
-   
-            output = np.delete(output,slice(len(output)+diff,len(output)))    # Since diff is negative we use +diff
-
-            if self.state == EMIT and self.slot_cnt in self.slots :
-                if len(output) &gt; len(self.msg_out) :    # In case output buffer is bigger than payload
-                    output[:] = np.append(self.msg_out[:len(output)] , [0]*(abs(len(output)-len(self.msg_out))))  # Fill what's left with Sensor Data (if left)
-                else :
-                    output[:] = self.msg_out[:len(output)]
-
-                # print "[SN "+self.Id+"] Slot "+str(self.slot_cnt)+ " REPETITIONS : " + str(self.repetition)
-                # self.repetition = 0
-                # self.msg_out = self.msg_full[self.slot_cnt]
-            else :    
-                if self.state == GUARD :
-                    self.repetition = 0
-                    self.slot_cnt += 1
-                    if self.slot_cnt &lt; self.num_slots :
-                        if self.slot_cnt in self.slots :
-                            self.msg_out = self.msg_full[self.slot_cnt]     # Update signal slot index
-                        else :
-                            self.msg_out = []
-                        self.state -= 2      # Return to EMIT
-                    else :
-                        # print "[SN "+self.Id+"] TOTAL SLOTS + GRD TIME : " + str(self.to_time(self.samp_cnt_abs))
-                        self.slot_cnt = 0
-                        self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET_FRAME')) # Just before the start of PCH
-
-
-                elif self.state == SYNC :
-                    self.slot_cnt = 0
-                    # print "SN : " + str(self.nitems_written(0)+len(output))
-
-
-                elif self.state == PROC :
-                    # Reset some variables
-                    self.samp_cnt_abs = 0
-                    self.msg_full = np.array([])
-                    self.msg_out = np.array([])
-                    self.slot_msg = np.array([])
-                    self.slot_cnt = 0
-                    self.slots = []   
-                    
-                elif self.state == SLOT_READ :
-                    self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ARRAY'))
-                
-                elif self.state == IDLE :
-                    self.msg_out = np.array([])
-                    if self.slot_cnt &lt; self.num_slots :
-                        if range(self.num_slots)[self.slot_cnt] in self.slots :   # If slot will be used, generate a packet
-                            self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('DATA'))    # Request File source to send msg
-                            self.next_state()       # Go to PKT_GEN
-
-                        else :      # If slot won't be used, append empty signal
-                            self.msg_full = np.array(self.msg_full.tolist() + [[]])    # Store Null signal
-                            self.slot_cnt += 1
-                    else :
-                        self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))     # Reset reading in 'File source' block
-                        self.state = LISTEN         # if all BS slots covered, Jump to LISTEN
-
-                # elif self.state in (PKT_GEN,LISTEN) :
-                #     output[:] = [0]*len(output)
-                #     output = [0]*100
-
-
-                elif self.state not in self.STATES[0] :
-                    print("STATE ERROR")
-                    exit(1)
-                
-                output[:] = [0]*len(output)
-
-            self.test += len(output)
-            # print "State"
-            # print self.STATES[1][self.state]
-            # print "Length"
-            # print state_samp
-            # print "Cumulated Output Length"
-            # print self.test
-            # print "Diff"
-            # print state_samp - self.test            
-            self.test = 0
-
-            if self.state not in (SLOT_READ,IDLE,PKT_GEN,LISTEN) :
-                self.next_state()
-            
-            # else :
-            #     output = [0]*50
-
-
-        ###############################################################################
-        # If current state can run one more time
-        else :      
-            self.samp_cnt -= len(output)
-            self.samp_cnt_abs -= len(output)
-            
-
-            if self.state==EMIT :
-        
-                if self.slot_cnt in self.slots :
-                    # print self.nitems_written(0)
-                    if len(self.msg_out) == 0 :
-                    # INCLUDE REPETITION in SLOT
-                        # self.msg_out = self.msg_full[self.slot_cnt]
-                        # self.repetition += 1
-                    # EXCLUDE REPETITION in SLOT = send zeros
-                        # self.msg_out = [0]*len(self.msg_full[self.slot_cnt])    # Some zero padding for CRC check debug
-                        # self.msg_out = [0]*len(output)    # Some zero padding for CRC check debug
-                        output[:] = [0]*len(output)
-                    else :    
-                        max_output = min(len(output), len(self.msg_out))
-                        output = output[:max_output]
-                        output[:] = self.msg_out[:max_output]
-                        self.msg_out = self.msg_out[max_output:]
-                else :
-                    output[:] = [0]*len(output)
-            else :
-                output[:] = [0]*len(output)
-
-            self.samp_cnt += len(output)
-            self.samp_cnt_abs += len(output)
-
-            self.test += len(output)
-
-        ###############################################################################
-        if self.state == LISTEN and self.found :
-            # print "SN : " + str(self.nitems_written(0)+len(output))
-            self.next_state() 
-            self.found = False
-
-        return len(output)
-
-    def work(self,input_items,output_items):
-        with self.lock :
-
-            # # State Print (DEBUG)
-            # if self.state_dbg != self.state :
-            #     self.state_dbg = self.state
-            #     print "[SN "+self.Id+"] STATE " + self.STATES[1][self.state] + " START : " + str(self.to_time(self.samp_cnt_abs))
-            #     if (self.state == EMIT) and (self.slot_cnt in self.slots) :
-            #         print "[SN "+self.Id+"] EMIT @ SLOT : " + str(self.slot_cnt)
-            
-            retval = self.run_state(output_items[0])
-            return retval
-</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(688, 876)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>guard_time</key>
-      <value>T_g</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>ephyl_sn_sched</value>
-    </param>
-    <param>
-      <key>length_tag_key</key>
-      <value>'packet_len2'</value>
-    </param>
-    <param>
-      <key>num_slots</key>
-      <value>len(bs_slots)</value>
-    </param>
-    <param>
-      <key>Proc_time</key>
-      <value>T_p</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>Slot_time</key>
-      <value>T_s</value>
-    </param>
-    <param>
-      <key>Sync_time</key>
-      <value>T_sync</value>
-    </param>
-    <param>
-      <key>wanted_tag</key>
-      <value>'corr_start'</value>
     </param>
   </block>
   <block>
@@ -2002,7 +1937,7 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(680, 852)</value>
+      <value>(680, 1012)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2033,6 +1968,10 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
       <value>len(bs_slots)</value>
     </param>
     <param>
+      <key>phy_option</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>Proc_time</key>
       <value>T_p</value>
     </param>
@@ -2045,16 +1984,12 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
       <value>T_s</value>
     </param>
     <param>
-      <key>Sync_time</key>
-      <value>T_sync</value>
-    </param>
-    <param>
       <key>wanted_tag</key>
       <value>'corr_est'</value>
     </param>
   </block>
   <block>
-    <key>ephyl_tag_2_msg</key>
+    <key>fec_extended_tagged_encoder</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -2069,11 +2004,15 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
+    </param>
+    <param>
+      <key>encoder_list</key>
+      <value>enc_cc</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 1020)</value>
+      <value>(920, 424)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2081,7 +2020,15 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     </param>
     <param>
       <key>id</key>
-      <value>ephyl_tag_2_msg_0</value>
+      <value>fec_extended_tagged_encoder_0</value>
+    </param>
+    <param>
+      <key>lentagname</key>
+      <value>packet_len</value>
+    </param>
+    <param>
+      <key>mtu</key>
+      <value>MTU</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -2092,8 +2039,8 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
       <value>0</value>
     </param>
     <param>
-      <key>wanted_tag</key>
-      <value>"corr_est"</value>
+      <key>puncpat</key>
+      <value>'11'</value>
     </param>
   </block>
   <block>
@@ -2124,7 +2071,7 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 488)</value>
+      <value>(808, 680)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2157,895 +2104,6 @@ class blk(gr.sync_block):  # others are basic_block, decim_block, interp_block
     <param>
       <key>window</key>
       <value></value>
-    </param>
-  </block>
-  <block>
-    <key>epy_block</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_io_cache</key>
-      <value>('Data &amp; Slot Control', 'blk', [('bs_slots', '[1]'), ('Control', 'True')], [('DL', 'message', 1), ('busy', 'message', 1)], [('PER', 'message', 1), ('Data', 'message', 1), ('Array', 'message', 1)], 'Embedded Python Block example', ['bs_slots'])</value>
-    </param>
-    <param>
-      <key>bs_slots</key>
-      <value>bs_slots</value>
-    </param>
-    <param>
-      <key>_source_code</key>
-      <value>"""
-Embedded Python Blocks:
-
-Each time this file is saved, GRC will instantiate the first class it finds
-to get ports and parameters of your block. The arguments to __init__  will
-be the parameters. All of them are required  to have default values!
-"""
-
-import numpy as np
-import pmt
-import time
-import random
-import threading
-from gnuradio import gr, gr_unittest, blocks
-
-import ntpath
-from Crypto.Cipher import AES
-import base64
-
-import string
-import re
-
-
-class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-    """Embedded Python Block example"""
-
-    def __init__(self, bs_slots = [1],Control=True):  # only default arguments here
-        """arguments to this function show up as parameters in GRC"""
-        gr.sync_block.__init__(
-            self,
-            name='Data &amp; Slot Control',   # will show up in GRC
-            in_sig=[],
-            out_sig=[]
-        )
-        
-        self.message_port_register_out(pmt.to_pmt("Array"))
-        self.message_port_register_out(pmt.to_pmt("Data"))
-        self.message_port_register_out(pmt.to_pmt("PER"))
-
-
-        self.message_port_register_in(pmt.intern("busy"))
-        self.set_msg_handler(pmt.intern("busy"), self.handle_busy)
-        self.message_port_register_in(pmt.intern("DL"))
-        self.set_msg_handler(pmt.intern("DL"), self.handle_DL)        
-
-        self.lock = threading.Lock()
-        self.slot_n = -1
-        self.data = []
-        self.busy = True
-        self.lines = []    
-        self.i = 0
-        self.DL = ''
-
-        self.frame = '0'
-        self.control = Control
-
-        self.ID = random.choice(string.ascii_letters)
-
-        self.bs_slots = bs_slots
-        self.sn_slots = []
-
-        self.RX = ''
-        self.RX_frame = []
-
-        self.dl_en = False
-
-        self.PER = 64*[0]
-
-        self.error_list = []
-        self.cnt = 0
-        self.error = 0
-        self.cnt_dbg = 0
-
-        self.watch = 0
-
-        # Encrypt ID
-        # self.enc_ID = self.encrypt(self.ID)
-        self.enc_ID = self.ID
-
-        self.tmp_data = self.rand_data(16)      # Created to keep the same data bits
-        self.lines = self.gen_rand_pld(self.tmp_data,True,2)        
-
-    def rand_slots(self,len) :
-        res = [random.choice(self.bs_slots) for _ in xrange(len)]
-        return map(str, res)
-
-    def rand_data(self,len) :
-        res = ''
-        letters = string.ascii_lowercase
-        res =  ''.join(random.choice(letters) for i in xrange(len))
-        return res 
-
-    def encrypt(self,mystr) :
-        secret_key = '0123456789ABCDEF' # create new &amp; store somewhere safe
-        cipher = AES.new(secret_key,AES.MODE_ECB) 
-        try :
-            msg_text = mystr.rjust(16)
-            encoded = base64.b64encode(cipher.encrypt(msg_text))
-            return encoded
-        except :
-            print "Encryption Error, input must be multiple of 16"
-
-
-    # Generate random payload
-    def gen_rand_pld(self,data=False,rand_s=True,n=2,slots=[]) :    
-        # with self.lock :        
-            res = []
-            slots = map(str, slots)
-            if not data :
-                data = self.rand_data(16)    
-            
-            if rand_s :  
-                slots = self.rand_slots(n)
-                for j in xrange(n):
-                    res.append(slots[j]+'\t'+data)
-            else :
-                if any(slots) :
-                    for j in range(len(slots)):
-                        # Small note here, 
-                        # The payload is adapted if the slot number contains more than two digits
-                        res.append(slots[j]+'\t'+data[:len(data)-len(slots[j])+1])      
-                else :
-                    res = '0'+'\t'+data
-
-
-            # print "#################################"
-            # print res
-            # print data
-            # print slots
-            # print "#################################" 
-            
-            return res 
-
-
-    # Compare Tx &amp; Rx PLD
-    def compare_pld(self,TX,rx) :    
-        # with self.lock :        
-            v=''
-            h = -1
-            active_slots = []
-            used_slots = []
-            new_slots = []
-            self.error = 0
-            tx = TX
-            # rx = rx.tolist()
-            # tx = np.array(TX)
-
-            # Verify that rx and tx frames are arrays, to avoid errors when sweeping
-            try :
-                TX[0][0]
-            except :
-                tx = [TX]
-
-            try :
-                rx[0][0]
-            except :
-                rx = [rx]
-
-            # try :
-            #     np.shape(tx)[1]
-            # except :
-            #     tx = np.array([tx]) 
-            #     tx = tx.tolist()
-
-            try :
-                np.shape(rx)[1]
-            except :
-                rx = np.array([rx])
-                # rx = rx.tolist()                
-
-            # print tx
-            # print rx
-            # print type(tx)
-
-            ############################################################################################
-            for f in range(len(rx)) :
-                if len(rx[f])&gt;3 and rx[f][1].isdigit() :
-
-                    active_slots = np.append(active_slots,rx[f][1])
-                    for j in xrange(len(tx)):
-                        tx[j] = re.split(r'\t+', tx[j])
-                        used_slots = np.append(used_slots,tx[j][0])
-                        # Check for slot activity
-                        if rx[f][1] == tx[j][0]:     
-                            v += 's'
-                            # Check for matching id
-                            if rx[f][2] == self.ID:     
-                                v += 'i'
-                                # Check for matching payload
-                                if rx[f][3] == tx[j][1]:     
-                                    v += 'p'
-                                h = f 
-                        # print tx[j]
-                        # print rx[f][2] 
-                        # print self.ID
-                        rx[f][2] == self.ID
-
-                        tx[j] = '\t'.join(tx[j])
-
-            if not (any(active_slots) and any(used_slots))  :
-                active_slots = [0]            
-            ############################################################################################
-            remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
-            remaining.sort()
-
-            # With Control Policy 
-            if self.control :
-                if v.count('i') &gt; 1 or v.count('p') &gt; 1 :
-                    new_slots = rx[h][1]
-                    # new_slots = used_slots
-                    self.error = 0
-
-                elif v.count('i') == 1 or v.count('p') == 1 :
-                    # if h == -1 :
-                    #     new_slots = rx[1]
-                    # else :
-                    #     new_slots = rx[h][1]
-                    new_slots = rx[h][1]
-                    # new_slots = used_slots
-                    self.error = 0    
-
-                elif v.count('s') &gt; 0 and (v.count('i') &gt; 0 or v.count('p') &gt; 0):
-                    new_slots = np.random.choice(remaining, 2).tolist()
-                    self.error = 0
-
-                elif v.count('s') == 0 :
-                    new_slots = used_slots
-                #     self.error = 1
-
-                else :
-                    # new_slots = np.random.choice(remaining, 2).tolist()
-                    tmp = map(int,used_slots)
-                    for i in range(len(tmp)):
-                        tmp[i] += 1 
-                        if tmp[i] not in self.bs_slots :
-                            tmp[i] = 0
-                    new_slots = map(str,tmp)
-                    self.error = 1
-            #################################################################
-            # With No Control Policy, simply increment slots each frame
-            else :
-                # if v.count('i') == 2 or v.count('p') == 2 :
-                #     self.error = 0
-                if v.count('i') &gt; 0 or v.count('p') &gt; 0 :
-                    if v.count('s') &gt; 0 :
-                        self.error = 0
-                    else :
-                        self.error = 1
-                else :
-                    self.error = 1
-                # new_slots = used_slots
-                
-                new_slots = np.random.choice(self.bs_slots, 2).tolist()
-            ############################################################################################
-
-
-            # print "Score "
-            # print v
-            # print "used_slots " 
-            # print used_slots
-            # print "active_slots "
-            # print active_slots
-            # print "new_slots "
-            # print new_slots            
-            # # print "ERROR "
-            # # print self.error
-            # print "#################################" 
-
-            used_slots = list(set(used_slots))
-            used_slots.sort()
-            active_slots = list(set(active_slots))
-            active_slots.sort()
-            new_slots = list(set(new_slots))
-            new_slots.sort()
-
-
-
-            return [v,new_slots,active_slots,self.error]
-
-
-        
-    def handle_busy(self, msg_pmt):
-        with self.lock :        
-
-            self.busy = pmt.to_python(msg_pmt)
-
-            if self.busy != True :
-                if self.i &lt; len(self.lines) :
-                    if self.busy == 'RESET' :
-                        self.i = 0
-                        if self.control :
-                            print "[SN "+self.ID+"] CONTROLLED\n"
-
-                        # self.dl_en = True 
-
-                    elif self.busy == 'RESET_FRAME' :
-                        # Activity in DL :
-                        if any(self.RX_frame) :
-                            ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
-                            # Check if valid + if multiple or single received frame
-                            if len(self.RX_frame) &gt; 4 and len(self.RX_frame)%4 == 0 :
-                                self.RX_frame = np.reshape(self.RX_frame, (-1, 4))      # Sort received frames by rows
-
-
-                                # delete overlapping frames = delete array m on axis 0 (array,index,axis)
-                                tmp = self.RX_frame
-                                for m in range(len(self.RX_frame)) :
-                                    if self.RX_frame[m][0] != self.RX[0]:
-                                        tmp = np.delete(self.RX_frame, m, 0)    # delete overlapping frames = delete array m on axis 0 (array,index,axis)  
-                                self.RX_frame = tmp
-
-                                result = self.compare_pld(self.lines,self.RX_frame)
-
-                                # Generate new payload (or not, depending on the result)
-                                self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
-                                
-                                # print "[SN "+self.ID+"] Score Of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
-                        
-                        # No activity in DL --&gt; Increment slots
-                        else:
-                            if self.control :
-                            # If control, increment slots
-                                # tx = self.lines
-                                # used_slots = []
-                                # for j in xrange(len(tx)):
-                                #     tx[j] = re.split(r'\t+', tx[j])
-                                #     used_slots = np.append(used_slots,tx[j][0])                               
-                                # tmp = map(int,used_slots)
-                                # for i in range(len(tmp)):
-                                #     tmp[i] += 1 
-                                #     if tmp[i] not in self.bs_slots :
-                                #         tmp[i] = 0
-                                # new_slots = map(str,tmp)                                
-                                # self.lines = self.gen_rand_pld(self.tmp_data,False,2,new_slots) 
-
-                            # In case of keeping same slots
-                                tx = self.lines
-                                used_slots = []
-                                for j in xrange(len(tx)):
-                                    tx[j] = re.split(r'\t+', tx[j])
-                                    used_slots = np.append(used_slots,tx[j][0])    
-                                self.lines = self.gen_rand_pld(self.tmp_data,False,2,used_slots)                             
-                            # If not, randomize
-                            else :
-                                self.lines = self.gen_rand_pld(self.tmp_data,True,2) 
-
-                        self.RX_frame = [] 
-                        self.error_list = np.append(self.error_list,self.error)
-                        print "PER counter = " + str(self.cnt)
-
-                        # Compute self.PER
-                        if self.cnt%6==0 and self.cnt !=0 :
-                            # Shift PER to the right
-                            self.PER = [0] + self.PER[:-1]
-                            self.PER[0] = (self.PER[4] + self.PER[3] + self.PER[2] + self.PER[1] + sum(self.error_list)/float(self.cnt))/5
-                            # self.PER[0] = sum(self.error_list)/float(self.cnt)
-                            per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
-                            self.cnt=0
-                            self.error_list = []
-                            self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-
-                        self.cnt += 1   # Frame counter mod N (where N is averaging size)
-                        ############################################################################################
-
-
-                    else :
-                        if self.busy == 'ARRAY' :
-
-                            # Add ID for scheduler, removed also later by the scheduler
-                            tmp = self.ID + self.lines[self.i]
-                            self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt(tmp))   # Send 1st char of each line (aka slots)
-                        elif self.busy == 'DATA' :
-                            # Data is (node_id + line_i)
-                            data = self.enc_ID + '\t' + self.lines[self.i][2:]     # Remove the first char and tabulation
-                            OUT = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(data),[ord(c) for c in data]))    # Data = encrypted node_id + line_i
-                            self.message_port_pub(pmt.to_pmt("Data"), OUT) 
-                        self.i += 1
-                else :
-                    self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))
-                    self.i = 0 
-
-            self.busy = True
-
-
-    # Here we process all DL data broadcasted by the BS
-    def handle_DL(self, msg_pmt):
-        with self.lock :        
-
-            self.watch += 1
-            self.DL = pmt.to_python(msg_pmt)
-            result = [0]
-            l = [chr(c) for c in self.DL[1]]
-            # print l
-            tab_pos = [pos for pos, char in enumerate(l) if char == '\t']     # \t is the separator
-            l = ''.join(l)
-            self.RX = re.split(r'\t+', l)
-
-            # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
-            if '\x00' in self.RX[0] :   
-                self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
-
-            if len(self.RX)%4 == 0 :
-                self.RX_frame = np.append([self.RX_frame],[self.RX])
-
-            self.DL = '' 
-            # print self.lines
-            # print self.RX
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# """
-# Embedded Python Blocks:
-
-# Each time this file is saved, GRC will instantiate the first class it finds
-# to get ports and parameters of your block. The arguments to __init__  will
-# be the parameters. All of them are required  to have default values!
-# """
-
-# import numpy as np
-# import pmt
-# import time
-# import random
-# import threading
-# from gnuradio import gr, gr_unittest, blocks
-
-# import ntpath
-# from Crypto.Cipher import AES
-# import base64
-
-# import string
-# import re
-
-
-# class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-#     """Embedded Python Block example"""
-
-#     def __init__(self, Sensor_id=random.choice(string.ascii_letters),bs_slots = [1],Control=True):  # only default arguments here
-#         """arguments to this function show up as parameters in GRC"""
-#         gr.sync_block.__init__(
-#             self,
-#             name='Data &amp; Slot Control',   # will show up in GRC
-#             in_sig=[],
-#             out_sig=[]
-#         )
-        
-#         self.message_port_register_out(pmt.to_pmt("Array"))
-#         self.message_port_register_out(pmt.to_pmt("Data"))
-#         self.message_port_register_out(pmt.to_pmt("PER"))
-
-
-#         self.message_port_register_in(pmt.intern("busy"))
-#         self.set_msg_handler(pmt.intern("busy"), self.handle_busy)
-#         self.message_port_register_in(pmt.intern("DL"))
-#         self.set_msg_handler(pmt.intern("DL"), self.handle_DL)        
-
-#         self.lock = threading.Lock()
-#         self.slot_n = -1
-#         self.data = []
-#         self.busy = True
-#         self.lines = []    
-#         self.i = 0
-#         self.DL = ''
-
-#         self.frame = '0'
-#         self.control = Control
-
-#         self.ID = random.choice(string.ascii_letters)
-
-#         self.bs_slots = bs_slots
-#         self.sn_slots = []
-
-#         self.RX = ''
-#         self.RX_frame = []
-
-#         self.dl_en = False
-
-#         self.PER = 0
-
-#         # Encrypt ID
-#         # self.enc_ID = self.encrypt(self.ID)
-#         self.enc_ID = self.ID
-
-#         self.tmp_data = self.rand_data(16)      # Created to keep the same data bits
-#         self.lines = self.gen_rand_pld(self.tmp_data,True,2)        
-
-#     def rand_slots(self,len) :
-#         res = [random.choice(self.bs_slots) for _ in xrange(len)]
-#         # print res  
-#         return map(str, res)
-
-#     def rand_data(self,len) :
-#         res = ''
-#         letters = string.ascii_lowercase
-#         res =  ''.join(random.choice(letters) for i in xrange(len))
-#         return res 
-
-#     def encrypt(self,mystr) :
-#         secret_key = '0123456789ABCDEF' # create new &amp; store somewhere safe
-#         cipher = AES.new(secret_key,AES.MODE_ECB) 
-#         try :
-#             msg_text = mystr.rjust(16)
-#             encoded = base64.b64encode(cipher.encrypt(msg_text))
-#             return encoded
-#         except :
-#             print "Encryption Error, input must be multiple of 16"
-
-
-#     # Generate random payload
-#     def gen_rand_pld(self,data=False,rand_s=True,n=2,slots=[]) :    
-#         # with self.lock :        
-#             res = []
-#             slots = map(str, slots)
-#             if not data :
-#                 data = self.rand_data(16)    
-            
-#             if rand_s :  
-#                 slots = self.rand_slots(n)
-#                 for j in xrange(n):
-#                     res.append(slots[j]+'\t'+data)
-#             else :
-#                 if any(slots) :
-#                     for j in range(len(slots)):
-#                         res.append(slots[j]+'\t'+data)
-                        
-#                 else :
-#                     res = '0'+'\t'+data
-#             # print "#################################"
-#             # print res
-#             # print data
-#             # print slots
-#             # print "#################################" 
-
-#             return res 
-
-
-#     # Compare Tx &amp; Rx PLD
-#     def compare_pld(self,TX,rx) :    
-#         # with self.lock :        
-#             v=''
-#             h = -1
-#             tx = TX
-#             active_slots = []
-#             used_slots = []
-#             error = 1
-#             # print "+++++++++++++++++++++++++++++++++"
-#             # print tx
-#             # print rx
-#             # print "+++++++++++++++++++++++++++++++++" 
-
-
-#             # If RX_frame is multidimentional
-#             if isinstance(rx[0], (np.ndarray,list)) :    
-#                 for f in range(len(rx)) :
-#                     active_slots = np.append(active_slots,rx[f][1])
-#                     for j in xrange(len(tx)):
-#                         tx[j] = re.split(r'\t+', tx[j])
-#                         used_slots = np.append(used_slots,tx[j][0])
-
-#                         # Check for slot activity
-#                         if rx[f][1] == tx[j][0]:     
-#                             v += 's'
-#                             # Check for matching id
-#                             if rx[f][2] == self.ID:     
-#                                 v += 'i'
-#                                 # Check for matching payload
-#                                 if rx[f][3] == tx[j][1]:     
-#                                     v += 'p'
-#                                 h = f 
-#                         tx[j] = '\t'.join(tx[j])
-
-#             # If RX_frame is a 1D array
-#             else :
-#                 active_slots = np.append(active_slots,rx[1])
-#                 for j in xrange(len(tx)):
-#                     tx[j] = re.split(r'\t+', tx[j])
-#                     used_slots = np.append(used_slots,tx[j][0])
-
-#                     # Check for slot activity
-#                     if rx[1] == tx[j][0]:     
-#                         v += 's'
-#                         # Check for matching id
-#                         if rx[2] == self.ID:     
-#                             v += 'i'
-#                             # Check for matching payload
-#                             if rx[3] == tx[j][1]:     
-#                                 v += 'p'
-
-#             remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
-#             remaining.sort()
-
-#             # With Control Policy 
-
-#             if self.control == True :
-#                 if v.count('i') == 2 or v.count('p') == 2 :
-#                     new_slots = rx[h][1]
-#                     error = 0
-
-#                 elif v.count('i') == 1 or v.count('p') == 1 :
-#                     if h == -1 :
-#                         new_slots = rx[1]
-#                     else :
-#                         new_slots = rx[h][1]
-#                     error = 0    
-
-#                 elif v.count('s') == 0 :
-#                     new_slots = used_slots
-#                     error = 1
-
-#                 else :
-#                     new_slots = np.random.choice(remaining, 2).tolist()
-#                     error = 1
-
-#             # With No Control Policy 
-#             else :
-#                 new_slots = np.random.choice(remaining, 2).tolist()
-#                 if v.count('i') == 2 or v.count('p') == 2 :
-#                     error = 0
-#                 elif v.count('i') == 1 or v.count('p') == 1 :
-#                     error = 0    
-#                 elif v.count('s') == 0 :
-#                     error = 1
-#                 else :
-#                     error = 1
-
-
-#             used_slots = list(set(used_slots))
-#             used_slots.sort()
-#             active_slots = list(set(active_slots))
-#             active_slots.sort()
-#             new_slots = list(set(new_slots))
-#             new_slots.sort()
-
-
-
-
-
-#             return [v,new_slots,active_slots,error]
-
-
-
-
-#             # Another silly bug which, in my opinion, due to the asynchronous nature of the state machines
-#             # What happens is that "new_slot" 
-#             # Nevermind
-
-#             # print "#################################"
-#             # # print used_slots
-#             # # print active_slots
-#             # # print remaining
-#             # print new_slots
-#             # print "#################################" 
-
-
-
-
-        
-#     def handle_busy(self, msg_pmt):
-#         with self.lock :        
-
-#             self.busy = pmt.to_python(msg_pmt)
-
-#             if self.busy != True :
-#                 if self.i &lt; len(self.lines) :
-#                     if self.busy == 'RESET' :
-#                         self.i = 0
-
-#                     elif self.busy == 'RESET_FRAME' :
-#                         # if self.dl_en == True :  
-
-#                         # Check if RX_frame is non empty
-#                         if len(self.RX_frame)&gt;0 : 
-
-#                             if len(self.RX_frame) &gt; 4 and len(self.RX_frame)%4 == 0 :
-#                                 # for r in len(self.RX_frame)/4 :
-#                                 self.RX_frame = np.reshape(self.RX_frame, (-1, 4))
-#                                 tmp = self.RX_frame
-#                                 for m in range(len(self.RX_frame)) :
-#                                     if self.RX_frame[m][0] != self.RX[0]:
-#                                         tmp = np.delete(self.RX_frame, m, 0)    # delete array m on axis 0 (array,index,axis)  
-#                                 self.RX_frame = tmp
-
-                            
-
-                            
-#                             # print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-#                             # print self.RX_frame
-#                             # print self.RX
-#                             # print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-                            
-#                             result = self.compare_pld(self.lines,self.RX_frame)
-
-#                             if float(self.RX[0])!=0 :
-#                                 # Compute PER
-#                                 self.PER = (self.PER+result[3])/float(self.RX[0])
-#                                 # Broadcast PER Message/Signal
-#                                 per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(8,8*[self.PER]))    
-#                                 self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-#                                 # print self.PER
-
-#                             # Generate new payload (or not, depending on the result)
-#                             self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
-                            
-#                             # print "[SN "+self.ID+"] Score Of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
-
-#                             self.RX_frame = [] 
-
-#                         # else :
-
-#                     else :
-#                         if self.busy == 'ARRAY' :
-#                             self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt(self.lines[self.i]))   # Send 1st char of each line (aka slots)
-#                         elif self.busy == 'DATA' :
-#                             # Data = encrypted node_id + line_i
-#                             data = self.enc_ID + '\t' + self.lines[self.i][2:]     # Remove the first char and tabulation
-#                             # print data
-#                             OUT = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(data),[ord(c) for c in data]))    # Data = encrypted node_id + line_i
-#                             self.message_port_pub(pmt.to_pmt("Data"), OUT) 
-#                         self.i += 1
-#                 else :
-#                     self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))
-#                     self.i = 0 
-
-#             self.busy = True
-
-
-#     # Here we process all DL data broadcasted by the BS
-#     def handle_DL(self, msg_pmt):
-#         with self.lock :        
-
-#             self.DL = pmt.to_python(msg_pmt)
-
-#             result = [0]
-#             l = [chr(c) for c in self.DL[1]]
-#             tab_pos = [pos for pos, char in enumerate(l) if char == '\t']     # \t is the separator
-#             l = ''.join(l)
-#             self.RX = re.split(r'\t+', l)
-
-#             # Correct a silly bug where a '0' is converted to '\x00', not the optimal solution
-#             if '\x00' in self.RX[0] :   
-#                 self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
-
-            
-#             self.RX_frame = np.append([self.RX_frame],[self.RX])
-#             # print self.RX_frame
-#             # if self.dl_en == True :  
-#             #     # Check if RX_frame is non empty
-#             #     if len(self.RX_frame)&gt;0 : 
-
-#             #         if len(self.RX_frame) &gt; 4 and len(self.RX_frame)%4 == 0 :
-#             #             # for r in len(self.RX_frame)/4 :
-#             #             self.RX_frame = np.reshape(self.RX_frame, (-1, 4))
-#             #             for m in range(len(self.RX_frame)) :
-#             #                 if self.RX_frame[m][0] != self.RX[0]:
-#             #                     tmp = np.delete(self.RX_frame, m, 0)    # delete array m on axis 0 (array,index,axis)  
-#             #             self.RX_frame = tmp
-
-                    
-
-                    
-#             #         # print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-#             #         # print self.RX_frame
-#             #         # print self.RX
-#             #         # print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-                    
-#             #         result = self.compare_pld(self.lines,self.RX_frame)
-
-#             #         # Compute PER
-#             #         self.PER = (self.PER+result[3])/float(self.RX[0])
-#             #         # Broadcast PER Message/Signal
-#             #         per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(8,8*[self.PER]))    
-#             #         self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-#             #         print self.PER
-
-#             #         # Generate new payload (or not, depending on the result)
-#             #         self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
-                    
-#             #         # print "[SN "+self.ID+"] Score Of Frame " + self.RX[0] + " : " + str(result[0]) + "\n"
-
-#             #         self.RX_frame = [] 
-
-            
-#             #     self.dl_en = False
-
-
-
-
-#      </value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>Control:
-False : Random access
-True : Simple control access
-  --&gt; If success; keep slot; else; increment slot</value>
-    </param>
-    <param>
-      <key>Control</key>
-      <value>control</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(280, 280)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>file_source_slot_ctrl</value>
     </param>
   </block>
   <block>
@@ -3091,7 +2149,7 @@ True : Simple control access
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 196)</value>
+      <value>(728, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3134,7 +2192,7 @@ True : Simple control access
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(992, 892)</value>
+      <value>(1072, 1052)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3177,7 +2235,7 @@ True : Simple control access
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 268)</value>
+      <value>(48, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3220,7 +2278,7 @@ True : Simple control access
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 1020)</value>
+      <value>(48, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3232,7 +2290,7 @@ True : Simple control access
     </param>
     <param>
       <key>label</key>
-      <value>BCH</value>
+      <value>BCN</value>
     </param>
     <param>
       <key>num_streams</key>
@@ -3244,7 +2302,7 @@ True : Simple control access
     </param>
     <param>
       <key>type</key>
-      <value>float</value>
+      <value>message</value>
     </param>
     <param>
       <key>vlen</key>
@@ -3295,90 +2353,6 @@ True : Simple control access
     </param>
   </block>
   <block>
-    <key>epy_block</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_io_cache</key>
-      <value>('Tag detection to Message', 'blk', [('wanted_tag', "'corr_start'")], [('0', 'complex', 1)], [('bcn_trig', 'message', 1)], 'Embedded Python Block example', ['wanted_tag'])</value>
-    </param>
-    <param>
-      <key>_source_code</key>
-      <value>"""
-Embedded Python Blocks:
-
-Each time this file is saved, GRC will instantiate the first class it finds
-to get ports and parameters of your block. The arguments to __init__  will
-be the parameters. All of them are required  to have default values!
-"""
-
-import numpy as np
-import pmt
-import time
-import random
-from gnuradio import gr, gr_unittest, blocks
-
-
-class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-    """Embedded Python Block example"""
-
-    def __init__(self,wanted_tag="corr_start"):  # only default arguments here
-        """arguments to this function show up as parameters in GRC"""
-        gr.sync_block.__init__(
-            self,
-            name='Tag detection to Message',   # will show up in GRC
-            in_sig=[np.complex64],
-            out_sig=[]
-        )
-        self.wanted_tag = wanted_tag
-        self.message_port_register_out(pmt.to_pmt("bcn_trig"))        
-
-    def work(self, input_items, output_items):
-
-        num_input_items = len(input_items[0])
-        tag_detected = False
-        nread = self.nitems_read(0)
-        tags = self.get_tags_in_range(0, nread, nread+num_input_items)
-
-        for tag in tags:
-            msg = pmt.cons(tag.key,tag.value)
-            msg_tup = pmt.to_python(msg)
-            if msg_tup[0] == self.wanted_tag :
-                tag_detected = True
-                trig_msg = pmt.cons(pmt.make_dict(), pmt.cons(pmt.intern(msg_tup[0]),pmt.to_pmt(msg_tup[1])))
-                self.message_port_pub(pmt.to_pmt("bcn_trig"), trig_msg)
-                break
-
-        return num_input_items</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(320, 972)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>tag2msg_sn</value>
-    </param>
-    <param>
-      <key>wanted_tag</key>
-      <value>'corr_start'</value>
-    </param>
-  </block>
-  <block>
     <key>virtual_sink</key>
     <param>
       <key>comment</key>
@@ -3390,7 +2364,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1424, 372)</value>
+      <value>(2040, 428)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3417,7 +2391,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1240, 516)</value>
+      <value>(1392, 708)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3444,7 +2418,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(968, 948)</value>
+      <value>(1040, 1108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3471,7 +2445,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 340)</value>
+      <value>(528, 500)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3487,6 +2461,60 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
   </block>
   <block>
+    <key>virtual_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(264, 220)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_sink_0_1_0_0_0_0</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>DL</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(264, 268)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_sink_0_1_0_0_0_0_0</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>BCN</value>
+    </param>
+  </block>
+  <block>
     <key>virtual_source</key>
     <param>
       <key>comment</key>
@@ -3498,7 +2526,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 300)</value>
+      <value>(40, 460)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3525,7 +2553,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 524)</value>
+      <value>(16, 708)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3552,7 +2580,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 852)</value>
+      <value>(16, 1012)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3579,7 +2607,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 908)</value>
+      <value>(456, 1068)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3595,11 +2623,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
   </block>
   <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
+    <key>virtual_source</key>
     <param>
       <key>comment</key>
       <value></value>
@@ -3610,7 +2634,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1200, 4)</value>
+      <value>(40, 412)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3618,23 +2642,38 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>id</key>
-      <value>zc</value>
+      <value>virtual_source_1_2_0_4</value>
     </param>
     <param>
-      <key>label</key>
-      <value>Correlation sequence (Zadoff-Chu)</value>
+      <key>stream_id</key>
+      <value>DL</value>
     </param>
+  </block>
+  <block>
+    <key>virtual_source</key>
     <param>
-      <key>short_id</key>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
-      <key>type</key>
-      <value></value>
+      <key>_enabled</key>
+      <value>1</value>
     </param>
     <param>
-      <key>value</key>
-      <value>[complex(1,0),complex(-0.959492973614497,-0.281732556841430),complex(-0.654860733945284,-0.755749574354259),complex(-0.142314838273288,0.989821441880932),-complex(-0.959492973614497,0.281732556841430),-complex(0.415415013001886,0.909631995354519),complex(-0.959492973614501,0.281732556841419),complex(-0.142314838273291,0.989821441880932),complex(-0.654860733945281,-0.755749574354262),-complex(-0.959492973614493,-0.281732556841446),complex(1,-9.82193361864236e-16)]</value>
+      <key>_coordinate</key>
+      <value>(456, 1124)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_source_1_2_0_4_0</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>BCN</value>
     </param>
   </block>
   <connection>
@@ -3662,20 +2701,38 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_pdu_to_tagged_stream_0</source_block_id>
-    <sink_block_id>blocks_tagged_stream_mux_0</sink_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>1</sink_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_pdu_to_tagged_stream_0</source_block_id>
-    <sink_block_id>digital_protocol_formatter_bb_0</sink_block_id>
+    <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_pdu_to_tagged_stream_0_0</source_block_id>
     <sink_block_id>pad_sink_0_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_repack_bits_bb_0</source_block_id>
+    <sink_block_id>fec_extended_tagged_encoder_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_repack_bits_bb_0_0</source_block_id>
+    <sink_block_id>blocks_tagged_stream_mux_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_repack_bits_bb_0_0</source_block_id>
+    <sink_block_id>digital_protocol_formatter_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -3729,12 +2786,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
   </connection>
   <connection>
     <source_block_id>blocks_tagged_stream_to_pdu_0_0_0</source_block_id>
-    <sink_block_id>ephyl_sn_sched</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_tagged_stream_to_pdu_0_0_0</source_block_id>
     <sink_block_id>ephyl_sn_scheduler_0_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>in</sink_key>
@@ -3759,7 +2810,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
   </connection>
   <connection>
     <source_block_id>digital_ofdm_cyclic_prefixer_0</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -3788,18 +2839,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>pdus</sink_key>
   </connection>
   <connection>
-    <source_block_id>ephyl_sn_sched</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
-    <source_key>busy</source_key>
-    <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>ephyl_sn_sched</source_block_id>
-    <sink_block_id>pad_sink_0_0_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>ephyl_sn_scheduler_0_0</source_block_id>
     <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
     <source_key>busy</source_key>
@@ -3812,10 +2851,10 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>ephyl_tag_2_msg_0</source_block_id>
-    <sink_block_id>ephyl_sn_scheduler_0_0</sink_block_id>
-    <source_key>tag_msg</source_key>
-    <sink_key>trig</sink_key>
+    <source_block_id>fec_extended_tagged_encoder_0</source_block_id>
+    <sink_block_id>blocks_repack_bits_bb_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>fft_vxx_0_0_0</source_block_id>
@@ -3824,68 +2863,20 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>file_source_slot_ctrl</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0_0_0</sink_block_id>
-    <source_key>Array</source_key>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0_0_0</sink_block_id>
+    <source_key>out</source_key>
     <sink_key>in</sink_key>
   </connection>
   <connection>
-    <source_block_id>file_source_slot_ctrl</source_block_id>
-    <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
-    <source_key>Data</source_key>
-    <sink_key>pdus</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>file_source_slot_ctrl</source_block_id>
-    <sink_block_id>blocks_pdu_to_tagged_stream_0_0</sink_block_id>
-    <source_key>PER</source_key>
-    <sink_key>pdus</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>ephyl_data_and_access_control_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>file_source_slot_ctrl</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>DL</sink_key>
-  </connection>
-  <connection>
     <source_block_id>pad_source_0_0</source_block_id>
-    <sink_block_id>ephyl_tag_2_msg_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pad_source_0_0</source_block_id>
-    <sink_block_id>tag2msg_sn</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>tag2msg_sn</source_block_id>
-    <sink_block_id>ephyl_sn_sched</sink_block_id>
-    <source_key>bcn_trig</source_key>
-    <sink_key>trig</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>tag2msg_sn</source_block_id>
-    <sink_block_id>ephyl_sn_scheduler_0_0</sink_block_id>
-    <source_key>bcn_trig</source_key>
-    <sink_key>trig</sink_key>
+    <sink_block_id>virtual_sink_0_1_0_0_0_0_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>virtual_source_1_2_0</source_block_id>
     <sink_block_id>ephyl_data_and_access_control_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>busy</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>virtual_source_1_2_0</source_block_id>
-    <sink_block_id>file_source_slot_ctrl</sink_block_id>
     <source_key>out</source_key>
     <sink_key>busy</sink_key>
   </connection>
@@ -3903,14 +2894,20 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
   </connection>
   <connection>
     <source_block_id>virtual_source_1_2_0_2</source_block_id>
-    <sink_block_id>ephyl_sn_sched</sink_block_id>
+    <sink_block_id>ephyl_sn_scheduler_0_0</sink_block_id>
     <source_key>out</source_key>
     <sink_key>slot</sink_key>
   </connection>
   <connection>
-    <source_block_id>virtual_source_1_2_0_2</source_block_id>
+    <source_block_id>virtual_source_1_2_0_4</source_block_id>
+    <sink_block_id>ephyl_data_and_access_control_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>DL</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_1_2_0_4_0</source_block_id>
     <sink_block_id>ephyl_sn_scheduler_0_0</sink_block_id>
     <source_key>out</source_key>
-    <sink_key>slot</sink_key>
+    <sink_key>trig</sink_key>
   </connection>
 </flow_graph>

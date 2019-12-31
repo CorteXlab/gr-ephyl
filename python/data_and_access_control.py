@@ -29,7 +29,7 @@ import math
 from gnuradio import gr, gr_unittest, blocks
 
 import ntpath
-from Crypto.Cipher import AES
+#from Crypto.Cipher import AES
 import base64
 
 import string
@@ -181,6 +181,8 @@ class data_and_access_control(gr.sync_block):
                 for j in xrange(len(tx)):
                     tx[j] = re.split(r'\t+', tx[j])
                     used_slots = np.append(used_slots,tx[j][0])
+                    # print rx[f][3]
+                    # print tx
                     # Check for slot activity
                     if rx[f][1] == tx[j][0]:     
                         v += 's'
@@ -188,8 +190,8 @@ class data_and_access_control(gr.sync_block):
                         if rx[f][2] == self.ID:     
                             v += 'i'
                             # Check for matching payload
-                            if rx[f][3] == tx[j][1]:     
-                                v += 'p'
+                            if rx[f][3][:-1] == tx[j][1][:-1]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
+                                v += 'p'                          # Probably a software bug. Unsolved yet
                             h = f 
 
                     rx[f][2] == self.ID

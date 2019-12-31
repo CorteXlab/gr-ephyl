@@ -37,34 +37,35 @@ namespace gr {
   namespace ephyl {
     
     turbofsk_rx::sptr
-    turbofsk_rx::make(float Noise)
+    turbofsk_rx::make(float Noise, float NbBits)
     {
       return gnuradio::get_initial_sptr
-        (new turbofsk_rx_impl(Noise));
+        (new turbofsk_rx_impl(Noise,NbBits));
     }
 
     /*
      * The private constructor
      */
-    turbofsk_rx_impl::turbofsk_rx_impl(float Noise)
+    turbofsk_rx_impl::turbofsk_rx_impl(float Noise, float NbBits)
       : gr::block("TurboFSK RX",
               gr::io_signature::make2(2, 2, sizeof(float), sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(unsigned char))),
-        d_Noise(Noise)
+        d_Noise(Noise),
+        d_NbBits(NbBits)
     {
       get_turbofsk();
 
       // in EPHYL framework, the packet size is:
       // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
-      NbBits = 128; 
-      /*  Signal_len = (64*32)+(1+(NbBits+16)/8)*4*137+(1+int((1+(NbBits+16)/8)*4/5))*137 */
-      Signal_len = 14652;      
+      // d_NbBits = 128; 
+      // Signal_len = 14652;  for d_NbBits=128
+      Signal_len = (64*32)+(1+(d_NbBits+16)/8)*4*137+(1+int((1+(d_NbBits+16)/8)*4/5))*137;
       cnt = 0;
       r = 0, s = 0, t = 0;
 
       /* Create the input data */
-      rx_in_I = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
-      rx_in_Q = mxCreateDoubleMatrix(1,2*Signal_len,mxREAL);
+      rx_in_I = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);
+      rx_in_Q = mxCreateDoubleMatrix(1,Signal_len*2,mxREAL);
 
       d = mxGetPr(rx_in_I);
       d_size = mxGetN(rx_in_I);
@@ -73,7 +74,7 @@ namespace gr {
 
       mxNbBits = mxCreateDoubleMatrix(1,1,mxREAL);
       double *bits = mxGetPr(mxNbBits);
-      *bits = NbBits ;
+      *bits = d_NbBits ;
 
       mxNoiseVar = mxCreateDoubleMatrix(1,1,mxREAL);
       double *NoiseVar = mxGetPr(mxNoiseVar);
@@ -81,7 +82,7 @@ namespace gr {
 
       pkt_cnt = 0;
 
-      set_min_output_buffer(0,NbBits);
+      set_min_output_buffer(0,d_NbBits);
     }
 
     /*
@@ -104,6 +105,7 @@ namespace gr {
     turbofsk_rx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       ninput_items_required[0] = Signal_len;
+      // ninput_items_required[0] = 16383;
     }
 
 
@@ -147,16 +149,10 @@ namespace gr {
         mlfMainRx(3, &outRxBits, &outcrcCheck, &indexPayload, rx_in_I, rx_in_Q, mxNbBits, mxNoiseVar);
         init_mutex_txrx.unlock();
       /************************************************************************/
-
+        r = 0 ;
         if (outRxBits != NULL){
           realdata = mxGetPr(outRxBits);
           r = mxGetN(outRxBits);
-          printf("\nPacket: %d",pkt_cnt);
-          pkt_cnt++;
-          printf("\nRX Bits:\n");
-          for(int k=0;k<r;k++){
-            printf("%1.0f",realdata[k]);
-          }
 
           if(r==0){
             printf("RX packet not detected.");
@@ -167,31 +163,58 @@ namespace gr {
           }
           else {
             s = mxGetN(indexPayload);
-            
             if(s!=0){
+              /////////////////////////////////
+              // printf("\nSSS: %d",s);
+              // printf("\nPacket: %d",pkt_cnt);
+              // printf("\nRX Bits:\n");
+              // for(int k=0;k<r;k++){
+              //   printf("%1.0f",realdata[k]);
+              // }
+              pkt_cnt++;
+              /////////////////////////////////
               realcrc = mxGetPr(outcrcCheck);
               realindex = mxGetPr(indexPayload);
-              t = int(*realindex);
+              t = int(*realindex)-2046;
               printf("\nIndex: %d\n",t);
-
-              if (*realcrc==0.0){
-                printf("\nCRC not OK\n");
-              }
-              else if (*realcrc==1.0) {
-                printf("\nCRC OK\n");
-              }
-              else printf("No packet detected.\n");
-
-              for(int i=0;i < r; i++) {
-                out[i] = realdata[i];
-              }
-              add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)NbBits));
+              /////////////////////////////////
+              // if (t==0){
+                if (*realcrc==0.0){
+                  printf("\nCRC not OK\n");
+                  for(int i=0;i < r; i++) {
+                    out[i] = realdata[i];
+                  }
+                }
+                else if (*realcrc==1.0) {
+                  printf("\nCRC OK\n");
+                  for(int i=0;i < r; i++) {
+                    out[i] = realdata[i];
+                  }                
+                }
+                else {
+                  printf("No packet detected.\n");
+                  r=0;
+                }
+              // }
+              // else{
+              //   r=0;
+              // }
+              // for(int i=0;i < r; i++) {
+              //   out[i] = realdata[i];
+              // }
+              /////////////////////////////////
             }
-            else{
-              for(int i=0;i < r; i++) {
-                out[i] = 0;
-              }              
-            }
+            // else{
+            //   r = 0;
+              // for(int i=0;i < r; i++) {
+              //   out[i] = 0;
+              //   printf("HOLA.\n");
+              // }              
+            // }
+          if(r==0)
+            add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long(0));
+          else
+            add_item_tag(0, nitems_written(0), pmt::string_to_symbol("packet_len"), pmt::from_long((int)d_NbBits));
           }
         }
         else {
@@ -204,6 +227,23 @@ namespace gr {
           e[i] = d[i+Signal_len];
         }
         cnt = Signal_len;
+
+        // if (t>=0){
+        //   for (int i = 0; i < t ; i++) {
+        //     d[i] = d[i+Signal_len-t];
+        //     e[i] = d[i+Signal_len-t];
+        //   }
+        //   cnt = Signal_len-t-1 ;
+        // }
+        // // else if(t<0){
+        // //   cnt = Signal_len-t+1 ;
+        // // }
+
+        // else{
+        //   cnt=0;  
+        //   printf("HERE HERE \n");          
+        // }
+
       }
 
       return r;

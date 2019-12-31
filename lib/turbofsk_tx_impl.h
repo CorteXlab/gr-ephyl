@@ -30,21 +30,23 @@ namespace gr {
 
     class turbofsk_tx_impl : public turbofsk_tx
     {
+    float d_NbBits;      
      private:
-
       mxArray *my_in; /* Define input parameters */
       mxArray *outTx_I = NULL;    /* and output parameters to be passed to the library functions */
       mxArray *outTx_Q = NULL;
-      int NbBits,Signal_len;
+      int Signal_len;
       // double *a,*b,*c;
       float *a,*c;
       double *b;
       size_t a_size,b_size,c_size;
     
      public:
-      turbofsk_tx_impl();
+      turbofsk_tx_impl(float NbBits);
       ~turbofsk_tx_impl();
 
+      float NbBits() const { return d_NbBits; }
+      void set_NbBits(float NbBits) { d_NbBits = NbBits; }
 
       // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);

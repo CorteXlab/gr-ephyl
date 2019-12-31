@@ -4,14 +4,22 @@
   <key>ephyl_turbofsk_rx</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.turbofsk_rx($Noise)</make>
+  <make>ephyl.turbofsk_rx($Noise,$NbBits)</make>
   <callback>set_Noise($Noise)</callback>
+  <!-- <callback>set_NbBits($NbBits)</callback> -->
 
 
   <param>
     <name>Noise Level</name>
     <key>Noise</key>
     <value>0</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Data length</name>
+    <key>NbBits</key>
+    <value>128</value>
     <type>float</type>
   </param>
 

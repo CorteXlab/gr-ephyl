@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>demo_loop</value>
+      <value>demo_loop_turbofsk</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>bs_slots[:-4]</value>
+      <value>bs_slots[:-3]</value>
     </param>
   </block>
   <block>
@@ -825,7 +825,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1168, 696)</value>
+      <value>(1320, 840)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -857,7 +857,7 @@
     </param>
   </block>
   <block>
-    <key>blocks_complex_to_mag</key>
+    <key>blocks_complex_to_real</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -872,54 +872,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1384, 128)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_complex_to_mag_1</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
       <value>1</value>
     </param>
-  </block>
-  <block>
-    <key>blocks_complex_to_mag</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
     <param>
       <key>_coordinate</key>
-      <value>(1392, 232)</value>
+      <value>(1376, 128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -927,7 +884,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_complex_to_mag_1_0</value>
+      <value>blocks_complex_to_real_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -958,11 +915,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1376, 80)</value>
+      <value>(1320, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -970,7 +927,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_complex_to_real_0</value>
+      <value>blocks_complex_to_real_0_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1001,11 +958,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 888)</value>
+      <value>(888, 1304)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1087,7 +1044,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 416)</value>
+      <value>(1000, 480)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1096,6 +1053,53 @@
     <param>
       <key>id</key>
       <value>blocks_null_sink_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_null_sink</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bus_conns</key>
+      <value>[[0,],]</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(952, 728)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_null_sink_1_0</value>
     </param>
     <param>
       <key>type</key>
@@ -1130,7 +1134,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 1456)</value>
+      <value>(960, 1464)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1244,11 +1248,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1512, 708)</value>
+      <value>(1632, 884)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1323,7 +1327,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>range(8)</value>
+      <value>range(6)</value>
     </param>
   </block>
   <block>
@@ -1358,7 +1362,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1288, 672)</value>
+      <value>(1416, 848)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1605,7 +1609,7 @@
     </param>
   </block>
   <block>
-    <key>hier_bs</key>
+    <key>hier_bs_turbofsk</key>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>
@@ -1628,11 +1632,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 1452)</value>
+      <value>(504, 1468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1644,11 +1648,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hier_bs_0</value>
-    </param>
-    <param>
-      <key>M</key>
-      <value>M</value>
+      <value>hier_bs_turbofsk_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1659,8 +1659,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>N</key>
-      <value>N</value>
+      <key>n</key>
+      <value>35</value>
     </param>
     <param>
       <key>UHD</key>
@@ -1678,13 +1678,76 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
+  </block>
+  <block>
+    <key>hier_sensor_turbofsk</key>
     <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
+      <key>T_bch</key>
+      <value>T_bch</value>
+    </param>
+    <param>
+      <key>bs_slots</key>
+      <value>bs_slots</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(616, 768)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>T_g</key>
+      <value>T_g</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>hier_sensor_turbofsk_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>T_p</key>
+      <value>T_p</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>control</key>
+      <value>control1</value>
+    </param>
+    <param>
+      <key>T_s</key>
+      <value>T_s</value>
     </param>
   </block>
   <block>
-    <key>hier_sensor</key>
+    <key>hier_sensor_turbofsk</key>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>
@@ -1707,11 +1770,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 416)</value>
+      <value>(616, 624)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1723,11 +1786,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hier_sensor_0</value>
-    </param>
-    <param>
-      <key>M</key>
-      <value>M</value>
+      <value>hier_sensor_turbofsk_0_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1736,10 +1795,6 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>1</value>
     </param>
     <param>
       <key>T_p</key>
@@ -1757,13 +1812,9 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
-    <key>hier_sensor</key>
+    <key>hier_sensor_turbofsk</key>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>
@@ -1786,11 +1837,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 792)</value>
+      <value>(608, 904)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1802,11 +1853,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hier_sensor_0_0</value>
-    </param>
-    <param>
-      <key>M</key>
-      <value>M</value>
+      <value>hier_sensor_turbofsk_0_1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1815,10 +1862,6 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>1</value>
     </param>
     <param>
       <key>T_p</key>
@@ -1836,13 +1879,9 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
-    <key>hier_sensor</key>
+    <key>hier_sensor_turbofsk</key>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>
@@ -1865,11 +1904,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 992)</value>
+      <value>(608, 1048)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1881,11 +1920,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hier_sensor_0_1</value>
-    </param>
-    <param>
-      <key>M</key>
-      <value>M</value>
+      <value>hier_sensor_turbofsk_0_1_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1894,10 +1929,6 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>1</value>
     </param>
     <param>
       <key>T_p</key>
@@ -1909,94 +1940,11 @@
     </param>
     <param>
       <key>control</key>
-      <value>control3</value>
+      <value>control2</value>
     </param>
     <param>
       <key>T_s</key>
       <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
-  </block>
-  <block>
-    <key>hier_sensor</key>
-    <param>
-      <key>T_bch</key>
-      <value>T_bch</value>
-    </param>
-    <param>
-      <key>bs_slots</key>
-      <value>bs_slots</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(656, 600)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>T_g</key>
-      <value>T_g</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>hier_sensor_0_2</value>
-    </param>
-    <param>
-      <key>M</key>
-      <value>M</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>T_p</key>
-      <value>T_p</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>control</key>
-      <value>control1</value>
-    </param>
-    <param>
-      <key>T_s</key>
-      <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
     </param>
   </block>
   <block>
@@ -2701,11 +2649,11 @@
     </param>
     <param>
       <key>size</key>
-      <value>int(frame_len*samp_rate)/int(2*M*(1+cp_ratio))</value>
+      <value>int(frame_len*samp_rate)</value>
     </param>
     <param>
       <key>srate</key>
-      <value>samp_rate/int(2*M*(1+cp_ratio))</value>
+      <value>samp_rate/80</value>
     </param>
     <param>
       <key>tr_chan</key>
@@ -3131,7 +3079,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1696, 708)</value>
+      <value>(1792, 884)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3158,7 +3106,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 1620)</value>
+      <value>(840, 1588)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3185,7 +3133,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 452)</value>
+      <value>(1000, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3212,34 +3160,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 1012)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>virtual_sink_0_1_0_0_0</value>
-    </param>
-    <param>
-      <key>stream_id</key>
-      <value>PER 4</value>
-    </param>
-  </block>
-  <block>
-    <key>virtual_sink</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(896, 820)</value>
+      <value>(928, 908)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3266,7 +3187,34 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 628)</value>
+      <value>(912, 1076)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_sink_0_1_0_0_1_0</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>PER 4</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(944, 780)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3477,20 +3425,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_complex_to_mag_1</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_complex_to_mag_1_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_complex_to_real_0</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_complex_to_real_0_0</source_block_id>
+    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -3502,55 +3444,49 @@
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_1</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_1</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_1_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
+    <sink_block_id>hier_sensor_turbofsk_0_1_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
   </connection>
@@ -3567,86 +3503,92 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_bs_0</source_block_id>
+    <source_block_id>hier_bs_turbofsk_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>BCH</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_bs_turbofsk_0</source_block_id>
     <sink_block_id>blocks_socket_pdu_0</sink_block_id>
     <source_key>BCH</source_key>
     <sink_key>pdus</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_bs_0</source_block_id>
+    <source_block_id>hier_bs_turbofsk_0</source_block_id>
     <sink_block_id>virtual_sink_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_bs_0</source_block_id>
+    <source_block_id>hier_bs_turbofsk_0</source_block_id>
     <sink_block_id>blocks_socket_pdu_0</sink_block_id>
     <source_key>DL</source_key>
     <sink_key>pdus</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_sensor_0</source_block_id>
-    <sink_block_id>blocks_null_sink_1</sink_block_id>
+    <source_block_id>hier_sensor_turbofsk_0</source_block_id>
+    <sink_block_id>blocks_null_sink_1_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_sensor_0</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_0</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0_0_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_0</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>2</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_1</source_block_id>
-    <sink_block_id>virtual_sink_0_1_0_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_1</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>3</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_2</source_block_id>
+    <source_block_id>hier_sensor_turbofsk_0</source_block_id>
     <sink_block_id>virtual_sink_0_1_0_0_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_sensor_0_2</source_block_id>
+    <source_block_id>hier_sensor_turbofsk_0</source_block_id>
     <sink_block_id>blocks_add_xx_0</sink_block_id>
     <source_key>1</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>virtual_source_0</source_block_id>
-    <sink_block_id>blocks_complex_to_mag_1_0</sink_block_id>
+    <source_block_id>hier_sensor_turbofsk_0_0</source_block_id>
+    <sink_block_id>blocks_null_sink_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>virtual_source_0_0</source_block_id>
-    <sink_block_id>blocks_complex_to_mag_1</sink_block_id>
+    <source_block_id>hier_sensor_turbofsk_0_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_sensor_turbofsk_0_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_sensor_turbofsk_0_1</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_sensor_turbofsk_0_1</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>2</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_sensor_turbofsk_0_1_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0_1_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_sensor_turbofsk_0_1_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>1</source_key>
+    <sink_key>3</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_0</source_block_id>
+    <sink_block_id>blocks_complex_to_real_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -3682,7 +3624,7 @@
   </connection>
   <connection>
     <source_block_id>virtual_source_0_1</source_block_id>
-    <sink_block_id>hier_bs_0</sink_block_id>
+    <sink_block_id>hier_bs_turbofsk_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

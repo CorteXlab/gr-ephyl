@@ -41,8 +41,8 @@ class sn_scheduler(gr.basic_block):
     """
     EPHYL Sensor Scheduler
     """
-    def __init__(self,num_slots=5,
-        bch_time=20, guard_time=100, Slot_time=50, Proc_time = 50, 
+    def __init__(self, phy_option=0,
+        num_slots=5, bch_time=20, guard_time=100, Slot_time=50, Proc_time = 50, 
         wanted_tag="corr_start",length_tag_key="packet_len2",samp_rate = 32000):
         gr.basic_block.__init__(self,
             name="Sensor Scheduler",
@@ -51,6 +51,7 @@ class sn_scheduler(gr.basic_block):
 
         self.key = None
         self.Id = random.choice(string.ascii_letters) 
+        self.phy_option = phy_option
         self.num_slots = num_slots
         self.length_tag_key = length_tag_key
         self.samp_rate = int(samp_rate/1000)
@@ -60,7 +61,7 @@ class sn_scheduler(gr.basic_block):
         ## Processing time (PROC state) for sensor only serves to reset variables, that's why it lasts Proc_time/2 
         self.STATES = [range(8) \
             ,['SLOT_READ','IDLE','PKT_GEN','LISTEN','BCH','EMIT','GUARD','PROC'] \
-            ,[0,0,0,float("inf"),bch_time,Slot_time,guard_time,Proc_time/4]]
+            ,[0,0,0,float("inf"),bch_time,Slot_time,guard_time,Proc_time/2]]
 
         self.wanted_tag = wanted_tag
         self.message_port_register_in(pmt.intern("in"))
@@ -148,10 +149,16 @@ class sn_scheduler(gr.basic_block):
     def handle_msg(self, msg_pmt):
         with self.lock : 
             if self.state == PKT_GEN :
-      # /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
-                self.signal_len = ((len(self.slot_msg[self.slot_cnt]))+12)    # log2(M)x 8bits x (payload_len + header_len)
+      
+                if self.phy_option==0 :     # SC-FDMA PHY option
+                    self.signal_len = 2*len(self.slot_msg[self.slot_cnt])+12
+                elif self.phy_option==1 :   # TurboFSK PHY option
+                    # /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
+                    self.signal_len = 4  # TO BE UPDATED
+
                 self.msg_out = np.append(self.msg_out,pmt.to_python(pmt.cdr(msg_pmt)))   # Collect message data, convert to Python format:
                 self.pdu_cnt += 1
+                # print "A"
                 if self.pdu_cnt == self.signal_len:   # Signal reconstructed 
                     self.pdu_cnt=0
                     self.msg_full = np.array(self.msg_full.tolist() + [self.msg_out.tolist()])    # Store the N signals in N-dim array, analyze carefully before modifying

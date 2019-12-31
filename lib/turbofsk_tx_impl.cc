@@ -35,33 +35,34 @@ namespace gr {
   namespace ephyl {
     
     turbofsk_tx::sptr
-    turbofsk_tx::make()
+    turbofsk_tx::make(float NbBits)
     {
       return gnuradio::get_initial_sptr
-        (new turbofsk_tx_impl());
+        (new turbofsk_tx_impl(NbBits));
     }
 
     /*
      * The private constructor
      */
-    turbofsk_tx_impl::turbofsk_tx_impl()
+    turbofsk_tx_impl::turbofsk_tx_impl(float NbBits)
       : gr::block("TurboFSK TX",
               gr::io_signature::make(1, 1, sizeof(unsigned char)),
-              gr::io_signature::make2(2, 2, sizeof(float), sizeof(float)))
+              gr::io_signature::make2(2, 2, sizeof(float), sizeof(float))),
+      d_NbBits(NbBits)
     {
       get_turbofsk();
       
       // in EPHYL framework, the packet size is:
       // 14 payload chars + tab + slot_n char = 16 chars = 128 bits 
-      NbBits = 128; 
+      // NbBits = 128; 
       /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
-      Signal_len = 14652;
+      Signal_len = (64*32)+(1+(d_NbBits+16)/8)*4*137+(1+int((1+(d_NbBits+16)/8)*4/5))*137;
 
       set_min_output_buffer(0,Signal_len);
       set_min_output_buffer(1,Signal_len);
 
       /* Create the input data */
-      my_in = mxCreateDoubleMatrix(1,NbBits,mxREAL);
+      my_in = mxCreateDoubleMatrix(1,d_NbBits,mxREAL);
       b = mxGetPr(my_in);
       b_size = mxGetN(my_in);      
     }
@@ -80,7 +81,7 @@ namespace gr {
     void
     turbofsk_tx_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = NbBits;
+      ninput_items_required[0] = d_NbBits;
     }
 
     int
@@ -98,7 +99,7 @@ namespace gr {
         b[k] = double(in[k]);
         // printf("%1.0f",b[k]);
       }
-      consume_each (NbBits);
+      consume_each (d_NbBits);
 
 /************************************************************************/
       mlfMainTx(2, &outTx_I,&outTx_Q, my_in);
