@@ -10,32 +10,73 @@
 ## Requirements
 
 - Ubuntu 16, Debian 8.10 or higher
-- GNU Radio v3.7.10.1 or higher
-- Matlab Runtime 2014a (MCR v8.3). Unless you don't need TurboFSK blocks, in this case have a look at the branch "no_turbofsk"
+- [CorteXlab Toolchain 3.7](https://github.com/CorteXlab/cxlb-build-toolchain) already installed with at least these packages:
+ - UHD
+ - UHD Firmware
+ - GNU Radio v3.7
+- Matlab Runtime 2014a (Default installation, no custom directories). Unless you do not need TurboFSK blocks, in this case have a look at the branch "no_turbofsk"
 - Some basic knowledge of GNU Radio
 
 
 ## Installation
 
-- Be sure to install resources where GNU Radio can find them (a.k.a <INSTALL_DIR>)
-- Then run this:
+- Be sure to install resources via the [Toolchain](https://github.com/CorteXlab/cxlb-build-toolchain).
+- Be sure to know your install directory used in the toolchain, and put it in an environment variable, in order to use later:
+  - For example if you installed the toolchain using this command:
+```
+./cxlb-build-toolchain /A/B/compiled_stuff  /D/installed_stuff
+```
+ - You shoiuld run this:
+```
+echo 'export INSTALL_DIR=/D/installed_stuff' >> ~/.bashrc
+```
+- If you haven't done it yet, set some environment variables to configure MCR. These are MCR install directories when it is installed by default. If you happen to have a custom MCR installation, make sure you are putting the correct paths:
+
+```
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64' >> ~/.bashrc 
+
+echo 'export XAPPLRESDIR=$XAPPLRESDIR:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/X11/app-defaults' >> ~/.bashrc 
+
+echo 'export MCR_PATH=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/extern/include' >> ~/.bashrc
+
+echo 'export CPATH=$CPATH:$MCR_PATH' >> ~/.bashrc
+
+```
+- Source your .bashrc or close and reopen your current shell to confirm changes.
+- Run the following to clone this repository:
 
 ```
 git clone git://github.com/CorteXlab/gr-ephyl.git
-# If you want to install from specific branch
-# git clone -b <branch> git://github.com/CorteXlab/gr-ephyl.git
-
 cd gr-ephyl
+```
+- Now we have to make some modifications to `CMakeLists.txt` in order to include MCR and TurboFSK libraries when compiling:
+ - Open `CMakeLists.txt` and look for the 3 lines containing `/home/othmane/` *(They should be in lines 171, 172 and 179)*:
+```
+/home/othmane/opt/cx/opt/MATLAB_Compiler_Runtime/v83/extern/include
+/home/othmane/opt/cx/include
+...
+/home/othmane/opt/cx/lib
+```
+ - Replace these lines with the following:
+```
+${MCR_PATH}
+${INSTALL_DIR}/include
+...
+${INSTALL_DIR}/include
+```
+
+- Everything is set for our GNU Radio module to be compiled properly. Run the follwoing:
+```
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
 make
 make install
 ```
 
-- Then you have to generate the 2 hierarchical blocks corresponding to the 2 classes of nodes of the design:
-  - Go to _examples/_, open *hier_sensor.grc* and *hier_bs.grc* and generate their respective python files.
-  - Reload GRC blocks 
+- Then you have to generate the hierarchical blocks corresponding to the classes of nodes of the design:
+  - Go to `examples/`, open all flowgraphs startins with `hier_*.grc` and generate their respective python files.
+  - Reload GRC blocks
 
 
 ## How to use
@@ -50,4 +91,5 @@ As mentioned before, there is two main classes/types of nodes:
 # Documentation
 
 - In progress
+
 
