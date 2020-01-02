@@ -11,9 +11,7 @@ WORKDIR /root/cxlb_toolchain_build
 RUN wget https://fr.mathworks.com/supportfiles/downloads/R2014a/deployment_files/R2014a/installers/glnxa64/MCR_R2014a_glnxa64_installer.zip
 RUN unzip MCR_R2014a_glnxa64_installer.zip -d MCR_build
 RUN rm MCR_R2014a_glnxa64_installer.zip
-RUN ls -l
 WORKDIR MCR_build/
-RUN ls -l
 RUN sh install -mode silent -agreeToLicense yes
 RUN mv /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64/libcurl.so.4 /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64/libcurl.so.4_mcr
 RUN mv /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64/libstdc++.so.6 /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64/libstdc++.so.6_mcr
@@ -37,7 +35,7 @@ RUN make
 RUN make install
 RUN cp ../apps/hier_* /root/.grc_gnuradio/
 WORKDIR /root
-RUN /bin/bash -c "source cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf"
+RUN /bin/bash -c "source cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf "
 # CMD [ "source", "cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf" ]
 
 ## THIS DOESNT WORK (??)
