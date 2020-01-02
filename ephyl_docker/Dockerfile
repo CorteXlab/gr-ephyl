@@ -37,7 +37,8 @@ RUN make
 RUN make install
 RUN cp ../apps/hier_* /root/.grc_gnuradio/
 WORKDIR /root
-CMD [ "source", "cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf" ]
+RUN /bin/bash -c "source cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf"
+# CMD [ "source", "cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf" ]
 
 ## THIS DOESNT WORK (??)
 # cp include/libTurboFSK_v4.h /cortexlab/toolchains/current/include/
