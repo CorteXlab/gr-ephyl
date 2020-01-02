@@ -28,7 +28,7 @@
 ```
  - You shoiuld run this:
 ```
-echo 'export INSTALL_DIR=/D/installed_stuff' >> ~/.bashrc
+echo 'export INSTALL_PATH=/D/installed_stuff' >> ~/.bashrc
 ```
 - If you haven't done it yet, set some environment variables to configure MCR. These are MCR install directories when it is installed by default. If you happen to have a custom MCR installation, make sure you are putting the correct paths:
 
@@ -60,32 +60,36 @@ cd gr-ephyl
  - Replace these lines with the following:
 ```
 ${MCR_PATH}
-${INSTALL_DIR}/include
+${INSTALL_PATH}/include
 ...
-${INSTALL_DIR}/include
+${INSTALL_PATH}/lib
 ```
 
 - Everything is set for our GNU Radio module to be compiled properly. Run the follwoing:
 ```
+cp include/libTurboFSK_v4.h ${INSTALL_PATH}/include/
+cp lib/libTurboFSK_v4.so ${INSTALL_PATH}/lib/
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH} ..
 make
 make install
 ```
 
-- Then you have to generate the hierarchical blocks corresponding to the classes of nodes of the design:
-  - Go to `examples/`, open all flowgraphs startins with `hier_*.grc` and generate their respective python files.
-  - Reload GRC blocks
+- Now generate the hierarchical blocks corresponding to the classes of nodes of the design:
+  - Go to `examples/`, open all flowgraphs startins with `hier_*.grc` and generate their respective python files. Or copy-paste them from `apps/` to `$HOME/.grc_gnuradio`.
+  - Reload blocks
 
 
 ## How to use
+
+Have a look at `examples/`, there are flowgraphs of loopbacks, disassembled hierarchical blocks and UHD compatible examples.
 
 # Design
 
 As mentioned before, there is two main classes/types of nodes:
 - Base Station (BS) emulator _(hier_bs.grc)_
-- IoT Sensor emulator, which is a network user in fact _(hier_sensor.grc)_
+- IoT Sensor emulator, which is a network user in fact _(hier_sensor*.grc)_
 
 
 # Documentation
