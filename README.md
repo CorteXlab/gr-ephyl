@@ -20,6 +20,21 @@
 
 ## Installation
 
+### Docker Image
+
+Have a look at the [DockerHub repository](https://hub.docker.com/r/timina/cxlb-ephyl " DockerHub repo"). Or simply run the following:
+```
+docker pull timina/cxlb-ephyl:latest
+docker run -dti --net=host timina/cxlb-ephyl
+```
+Then connect to the container via ssh:
+```
+ssh -Xp 2222 root@localhost
+```
+The main advantage of using our docker image is avoiding all installing/upgrading/downgrading steps in order to use the module. Furthermore, the docker image provides a full compatibility with the [CorteXlab](http://www.cortexlab.fr/ "CorteXlab") testbed. 
+
+### Local machine installation
+
 - Be sure to install resources via the [Toolchain](https://github.com/CorteXlab/cxlb-build-toolchain).
 - Be sure to know your install directory used in the toolchain, and put it in an environment variable, in order to use later:
   - For example if you installed the toolchain using this command:
