@@ -25,6 +25,7 @@ import time
 import random
 import threading
 from gnuradio import gr, gr_unittest, blocks
+import re
 
 import base64
 # from Crypto.Cipher import AES
@@ -54,10 +55,10 @@ class msg_mux(gr.sync_block):
 
         self.lock = threading.Lock()
 
-        self.slot_n = -1
-        self.frame_n = 0
         self.frame_msg = 0
-        self.data = []
+        self.frame_n = 0
+        self.slot_n = ''
+        self.data = ''
 
 
     # def decrypt(self,mystr) :
@@ -71,53 +72,30 @@ class msg_mux(gr.sync_block):
 
     def handle_frame(self, msg_pmt):
         with self.lock :
-
-            self.frame_n = pmt.to_python(pmt.cdr(msg_pmt))
-            self.frame_msg = np.uint8([ord(c) for c in (str(self.frame_n[1]+1))+"\t"])
-            # print self.frame_msg
-    
+            self.frame_n = str(pmt.to_python(pmt.cdr(msg_pmt))[1])
 
     def handle_slot(self, msg_pmt):
         with self.lock :
+            self.slot_n = str(pmt.to_python(pmt.cdr(msg_pmt))[1])
 
-            self.slot_n = pmt.to_python(pmt.cdr(msg_pmt))
-            self.slot_msg = np.uint8([ord(c) for c in (str(self.slot_n[1])+"\t")])
-            # print self.slot_n[1]
 
     def handle_data(self, msg_pmt):
         with self.lock : 
             self.data = pmt.to_python(pmt.cdr(msg_pmt))
             l = [chr(c) for c in self.data]
             l = ''.join(l)
-            # ID = self.decrypt(l[:24])
-            # # print ID
-            # # print "Successful decryption of ID : " + ID
-            # l = ID + "\t" + l[24:]
-            
-            l = list(l)
-            self.data = [ord(c) for c in l]     # We replace the crypted part with the decrypted one
-            ID = False
-            # print self.data
-            if self.slot_n >= 0 and any(self.data):
-                res = np.append(self.slot_msg, self.data)
-                res = np.append(self.frame_msg, res)
-                res = res.tolist()
-                # print self.data
-                res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),res))
+            l = re.split(r'\t+', l)
+            l = [self.frame_n,self.slot_n] + l
+            l = map(str,l)
+            l = '\t'.join(l)
+            # print "HERE"
+            # print l
+
+            if any(self.slot_n) and any(self.data) :
+                # res = [self.frame_n,self.slot_n,self.data]
+                res = l
+                # print "HEEEEEEEEEEEEEE"
+                # print res
+                res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),[ord(c) for c in res]))
                 self.message_port_pub(pmt.to_pmt("final_msg"), res_pdu)
-
-
-            # if any([ID]) :      # Check if Crypted ID is valid
-            #     # print "Successful decryption of ID : " + ID
-            #     l = ID + "\t" + l[24:]
-            #     l = list(l)
-            #     self.data = [ord(c) for c in l]     # We replace the crypted part with the decrypted one
-            #     ID = False
-            #     if self.slot_n >= 0 :
-            #         res = np.append(self.slot_msg, self.data)
-            #         res = np.append(self.frame_msg, res)
-            #         res = res.tolist()
-            #         # print res
-            #         res_pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(res),res))
-            #         self.message_port_pub(pmt.to_pmt("final_msg"), res_pdu)                    
-
+                # self.slot_n = self.data = ''

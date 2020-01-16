@@ -26,6 +26,7 @@ import random
 import threading
 from gnuradio import gr, gr_unittest, blocks
 import string
+import re
 
 SLOT_READ=0
 IDLE=1
@@ -88,6 +89,8 @@ class sn_scheduler(gr.basic_block):
         self.state_dbg = self.state_tag = -1
         self.trig = ''
 
+        self.active = -1
+
         self.signal_len = 0
         self.busy = False
 
@@ -124,26 +127,37 @@ class sn_scheduler(gr.basic_block):
                     self.slot_cnt = 0
                     print "[SN "+self.Id+"] SENSOR SLOTS ARE :" + str(self.slots)
                     self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))
+                elif pmt.to_python(slot_pmt) == "ACTIVE" :
+                    self.active = True
+                elif pmt.to_python(slot_pmt) == "INACTIVE" :
+                    self.active = False
                 else :
                     new_array = pmt.to_python(slot_pmt)
-
+                    # print "NEW ARRAY"
+                    # print new_array
                     # Extract ID coming from slot control block, and remove it from the message
-                    self.Id = new_array[0]
-                    new_array = new_array[1:]
+                    self.Id = new_array[2]
 
                     # Extract Slot
-                    tab_indices = [i for i, x in enumerate(new_array) if x == "\t"]
-                    tmp_slot = new_array[:tab_indices[0]]
+                    tmp_slot = new_array[1]
+
+                    # self.slots.append(int(tmp_slot)) 
                     if tmp_slot.isdigit() :  # FOR DEBUG
                         self.slots.append(int(tmp_slot))     # First character is the slot number to be used
                     else :
                         self.slots.append(int(np.random.choice(range(self.num_slots), 1)))
                     
                     if self.slot_cnt != self.slots[-1] :
+                        # self.slot_msg = np.append(self.slot_msg,['']*(self.slots[-1]-self.slot_cnt))  # Fill unused slots with empty string
                         self.slot_msg = np.append(self.slot_msg,['']*(self.slots[-1]-self.slot_cnt))  # Fill unused slots with empty string
                         self.slot_cnt = self.slots[-1]
-                    
-                    self.slot_msg = np.append(self.slot_msg,new_array)
+
+                    self.slot_msg = ['\t'.join(new_array[2:])]
+                    # print "SLOT MSG"
+                    # print self.slot_msg
+                    # print len(self.slot_msg[self.slot_cnt])
+
+                    # self.slot_msg = np.append(self.slot_msg,new_array)
                     self.slot_cnt += 1
 
     def handle_msg(self, msg_pmt):
@@ -151,7 +165,10 @@ class sn_scheduler(gr.basic_block):
             if self.state == PKT_GEN :
       
                 if self.phy_option==0 :     # SC-FDMA PHY option
-                    self.signal_len = 2*len(self.slot_msg[self.slot_cnt])+12
+                    # print "SLOT MSG"
+                    # print len(self.slot_msg)
+                    self.signal_len = 2*len(self.slot_msg[0])+12
+                    # self.signal_len = 2*len(self.slot_msg[self.slot_cnt])+12
                 elif self.phy_option==1 :   # TurboFSK PHY option
                     # /*  OUT = (64*32)+(1+(IN+16)/8)*4*137+(1+int((1+(IN+16)/8)*4/5))*137 */
                     self.signal_len = 4  # TO BE UPDATED
@@ -160,6 +177,7 @@ class sn_scheduler(gr.basic_block):
                 self.pdu_cnt += 1
                 # print "A"
                 if self.pdu_cnt == self.signal_len:   # Signal reconstructed 
+                    # print "AAAAAAAAAAAAAAAaaaa"
                     self.pdu_cnt=0
                     self.msg_full = np.array(self.msg_full.tolist() + [self.msg_out.tolist()])    # Store the N signals in N-dim array, analyze carefully before modifying
                     self.msg_out = np.array([])
@@ -172,26 +190,31 @@ class sn_scheduler(gr.basic_block):
                 self.delay = 0
                 d = pmt.to_python(pmt.cdr(trig_pmt))    # Collect trig message data, convert to Python format
                 l = [chr(e) for e in d]
-                self.trig = ''.join(l[:8])
-                if self.trig == self.wanted_tag:
-                    self.state = BCH
-                    self.slot_cnt = 0
-                    self.msg_out = self.msg_full[self.slot_cnt]     # Init first msg to be sent
-                    try:
-                        offset = int(''.join(l[8:]))
-                    except:
-                        print "Offset non valid"
-                        offset = 0
+                l = ''.join(l)
+                l = re.split(r'\t+', l)     # l now contains wanted_tag, frame number, and offset
+                try :
+                    self.frame_cnt = int(l[1])
+                    if l[0] == self.wanted_tag:
+                        self.state = BCH
+                        self.slot_cnt = 0
+                        self.msg_out = self.msg_full[self.slot_cnt]     # Init first msg to be sent
+                        # print "HEEEEEEEEEEEEEEEEEeee"
 
-                    self.delay = self.nitems_written(0)-offset
-                    if self.delay>0:
-                        self.samp_cnt = self.delay
-                    else:
-                        self.samp_cnt= 200000 
-                    # print self.delay
-                    # self.samp_cnt= 200000 
-                    return 0                    
-                    
+                        try:
+                            offset = int(l[2])
+                        except:
+                            print "Offset non valid"
+                            offset = 0
+
+                        self.delay = self.nitems_written(0)-offset
+                        if self.delay>0:
+                            self.samp_cnt = self.delay
+                        else:
+                            self.samp_cnt= 200000 
+                        return 0
+                except:
+                    pass
+
     def run_state(self,output) :
 
         self.samp_cnt += len(output)    # Sample count related to current state
@@ -222,6 +245,7 @@ class sn_scheduler(gr.basic_block):
                 else :
                     output[:] = [0]*len(output)
                 self.state = GUARD
+
             else :    
                 if self.state == IDLE :
                     self.msg_out = np.array([])
@@ -232,14 +256,19 @@ class sn_scheduler(gr.basic_block):
                         else :      # If slot won't be used, append empty signal
                             self.msg_full = np.array(self.msg_full.tolist() + [[]])    # Store Null signal
                             self.slot_cnt += 1
-                        # print "1"
                     else :
                         self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))     # Reset reading in 'File source' block
                         self.state = LISTEN         # if all BS slots covered, Jump to LISTEN
-                        # print "2"
 
                 elif self.state == SLOT_READ :
-                    self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ARRAY'))
+                    if self.active == -1:
+                        self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ACTIVE?'))
+                        self.slot_cnt = 0
+                    elif self.active == True:
+                        self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ARRAY'))
+                    else:
+                        self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET_FRAME'))
+
 
                 elif self.state == LISTEN :
                     output[:] = [0]*len(output)
@@ -264,6 +293,11 @@ class sn_scheduler(gr.basic_block):
 
                 elif self.state == PROC :
                     # End of frame --> Reset some variables
+
+                    # print "Slots"
+                    # print self.slots
+                    # print "COUNT"
+                    # print self.slot_cnt
                     self.state = SLOT_READ
                     self.msg_full = np.array([])
                     self.msg_out = np.array([])
@@ -271,6 +305,7 @@ class sn_scheduler(gr.basic_block):
                     self.slot_cnt = 0
                     self.slots = []   
                     self.delay_t = 0
+                    self.active = -1
                     
                     # print self.i
                     # print self.frame_len

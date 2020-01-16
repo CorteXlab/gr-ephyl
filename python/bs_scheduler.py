@@ -40,7 +40,7 @@ class bs_scheduler(gr.sync_block):
     """
     def __init__(self, num_slots=5,bch_time=20,
         guard_time=100, Slot_time=50, Proc_time = 50,
-        sample_rate=200000, UHD = True):
+        sample_rate=200000, UHD = True,exit_frame=0):
         gr.sync_block.__init__(self,
             name="BS Scheduler",
             in_sig=[np.complex64],
@@ -54,6 +54,7 @@ class bs_scheduler(gr.sync_block):
         self.num_slots = num_slots
         self.samp_rate = int(sample_rate/1000)
         self.UHD = UHD
+        self.exit_frame = exit_frame
 
         ##################################################
         # Variables
@@ -123,8 +124,11 @@ class bs_scheduler(gr.sync_block):
                     self.slot_cnt = -1
 
             elif self.state == PROC : 
-                self.next_state()   # In order to jump the idle state
-                
+                if self.exit_frame == 0 or self.frame_cnt <= self.exit_frame:
+                    self.next_state()   # In order to jump the idle state
+                else :
+                    return -1
+
             elif self.state not in self.STATES[0] :
                 print("STATE ERROR")
                 exit(1)
@@ -139,13 +143,14 @@ class bs_scheduler(gr.sync_block):
             if self.state == PROC :
                 key = pmt.intern("FRAME")
                 value = pmt.to_pmt(self.frame_cnt)
-                print "[BS] ================= FRAME " + str(self.frame_cnt) + " FINISH ================="
                 self.frame_cnt += 1
                 self.bcn_sent = False
             else :
                 key = pmt.intern(self.STATES[1][self.state])
                 value = pmt.to_pmt(self.slot_cnt)
             self.add_item_tag(0,offset, key, value)
+            if self.state == PROC :
+                print "[BS] ================= FRAME " + str(self.frame_cnt-1) + " FINISH ================="
 
         ###############################################################################
         ## If the cuurent state can still run completely one more time
@@ -159,14 +164,15 @@ class bs_scheduler(gr.sync_block):
                 if not(self.bcn_sent) :
                     offset = 0
                     if self.UHD :
-                        if self.num_slots < 4:
-                            offset = self.nitems_read(0)-10000*self.num_slots
-                        elif self.num_slots >= 4 and self.num_slots < 8:
-                            offset = self.nitems_read(0)-5000*self.num_slots
-                        elif self.num_slots >= 8 and self.num_slots < 16:
-                            offset = self.nitems_read(0)-2000*self.num_slots
-                        elif self.num_slots >= 16:
-                            offset = self.nitems_read(0)-500*self.num_slots                            
+                        # offset = self.nitems_read(0)
+                        # if self.num_slots < 4:
+                        offset = self.nitems_read(0)-60000*self.num_slots
+                    #     elif self.num_slots >= 4 and self.num_slots < 8:
+                    #         offset = self.nitems_read(0)-5000*self.num_slots
+                    #     elif self.num_slots >= 8 and self.num_slots < 16:
+                    #         offset = self.nitems_read(0)-2000*self.num_slots
+                    #     elif self.num_slots >= 16:
+                    #         offset = self.nitems_read(0)-500*self.num_slots                            
                     else:
                         offset = self.nitems_read(0)+1000
 
@@ -176,7 +182,7 @@ class bs_scheduler(gr.sync_block):
                     To recover the offset value in the sensor scheduler, 
                     we will simply convert what's after the 8 first elements
                     '''
-                    msg = 'corr_est' + str(offset)
+                    msg = 'corr_est' + '\t' + str(self.frame_cnt) + '\t' + str(offset)
                     d = [ord(e) for e in msg]
 
                     trig_msg = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(d),d))

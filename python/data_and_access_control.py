@@ -39,7 +39,7 @@ class data_and_access_control(gr.sync_block):
     """
     docstring for block data_and_access_control
     """
-    def __init__(self, bs_slots,Control):  # only default arguments here
+    def __init__(self, bs_slots,Control = "random", activation_rate = 1.0):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -59,6 +59,7 @@ class data_and_access_control(gr.sync_block):
         self.set_msg_handler(pmt.intern("DL"), self.handle_DL)        
 
         self.lock = threading.Lock()
+
         self.slot_n = -1
         self.data = []
         self.busy = True
@@ -66,25 +67,27 @@ class data_and_access_control(gr.sync_block):
         self.i = 0
         self.DL = ''
 
-        self.frame = '0'
         self.control = Control
 
         self.ID = random.choice(string.ascii_letters)
 
         self.bs_slots = bs_slots
-        self.sn_slots = []
+        self.activation_rate = activation_rate
+        self.active = -1
 
-        self.RX = ''
-        self.RX_frame = []
+        self.detection = 0
+        self.detection_rate = 64*[0]
+        self.detection_list = []
 
-        self.dl_en = False
 
         self.PER = 64*[0]
-
         self.error_list = []
-        self.cnt = 0
         self.error = 0
-        self.cnt_dbg = 0
+        self.cnt = 0
+        self.frame_cnt = 0
+        
+        self.RX = ''
+        self.RX_frame = []
 
         self.watch = 0
         self.stat_per = [True]*len(bs_slots)
@@ -96,16 +99,17 @@ class data_and_access_control(gr.sync_block):
         self.indice = 0
 
 
-        # Encrypt ID
+        ## Encrypt ID
         # self.enc_ID = self.encrypt(self.ID)
         self.enc_ID = self.ID
 
         self.tmp_data = self.rand_data(14)      # Created to keep the same data bits
-        self.lines = self.gen_rand_pld(self.tmp_data,True,2)
-
-        result = self.compare_pld(self.lines,self.lines)
-        # Generate new payload 
-        self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
+        ## Generate first payload with: 
+        ## Frame nb + ID + 1 Slot + False (i.e. slot 0) + 14 random bytes 
+        self.lines = self.gen_rand_pld(self.ID,1,self.rand_slots(1),self.tmp_data)
+        result = self.compare_pld(self.lines,4*[''])
+        self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
+        self.error = 0
 
     def rand_slots(self,len) :
         res = [random.choice(self.bs_slots) for _ in xrange(len)]
@@ -129,29 +133,23 @@ class data_and_access_control(gr.sync_block):
 
 
     # Generate random payload
-    def gen_rand_pld(self,data=False,rand_s=True,n=2,slots=[]) :    
+    def gen_rand_pld(self,ID,n=1,slots=[0],data=False) :    
         res = []
-        slots = map(str, slots)
+        if not any(slots) :
+            slots = [0]
         if not data :
-            data = self.rand_data(14)    
-        
-        if rand_s :  
-            slots = self.rand_slots(n)
-            for j in xrange(n):
-                res.append(slots[j]+'\t'+data)
-        else :
-            if any(slots) :
-                for j in range(len(slots)):
-                    # Small note here, the payload is adapted if the slot number contains more than two characters
-                    res.append(slots[j]+'\t'+data[:len(data)-len(slots[j])+1])      
-            else :
-                res = '0'+'\t'+data
+            data = self.rand_data(14)
+        slots = map(str, slots)
+        for j in range(len(slots)):
+            ## Small note here, the payload is adapted if the
+            ## slot number contains more than two characters
+            res += [[str(self.frame_cnt),slots[j], ID, data[:len(data)-len(slots[j])+1]]]
         return res 
 
     # Compare Tx & Rx PLD
     def compare_pld(self,TX,rx) :    
         v=''
-        h = -1
+        h = 0
         active_slots = []
         used_slots = []
         new_slots = []
@@ -160,72 +158,72 @@ class data_and_access_control(gr.sync_block):
         tx = TX
 
         # Verify that rx and tx frames are arrays, to avoid errors when sweeping
-        try :
-            TX[0][0]
-        except :
+        if len(np.shape(TX)) < 2 :
             tx = [TX]
-        try :
-            rx[0][0]
-        except :
+        if len(np.shape(rx)) < 2 :
             rx = [rx]
-        try :
-            np.shape(rx)[1]
-        except :
-            rx = np.array([rx])
-        ############################################################################################
-        # print rx
-        for f in range(len(rx)) :
-            if len(rx[f])>3 and rx[f][1].isdigit() :
+        
 
+        print "======================="
+        print tx
+        print rx
+        print "======================="
+        for j in xrange(len(tx)):
+            # print "HERE"
+            # print tx[j][1]     
+            used_slots = np.append(used_slots,tx[j][1])  
+
+        for f in range(len(rx)) :
+            # if len(rx[f])>3 and rx[f][1].isdigit() :
+            if len(rx[f])>3 :
                 active_slots = np.append(active_slots,rx[f][1])
                 for j in xrange(len(tx)):
-                    tx[j] = re.split(r'\t+', tx[j])
-                    used_slots = np.append(used_slots,tx[j][0])
-                    # print rx[f][3]
-                    # print tx
+                    # Check frame match
+                    # if rx[f][0] == tx[j][0]:  
+                    #     v += 'f'
                     # Check for slot activity
-                    if rx[f][1] == tx[j][0]:     
+                    if rx[f][1] == tx[j][1]:     
                         v += 's'
                         # Check for matching id
-                        if rx[f][2] == self.ID:     
+                        if rx[f][2] == tx[j][2]:     
                             v += 'i'
                             # Check for matching payload
-                            if rx[f][3][:-1] == tx[j][1][:-1]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
+                            if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
                                 v += 'p'                          # Probably a software bug. Unsolved yet
                             h = f 
 
-                    rx[f][2] == self.ID
-                    tx[j] = '\t'.join(tx[j])
-
-        if not (any(active_slots) and any(used_slots))  :
-            active_slots = used_slots = [0]            
+        if not any(active_slots)  :
+            active_slots = ['0']            
+            # used_slots = [int(tx[0][1])]
         ############################################################################################
-        used_slots = list(dict.fromkeys(used_slots))    # Remove duplicates
+        # used_slots = map(int,list(dict.fromkeys(used_slots)))    # Remove duplicates
+        used_slots = list(dict.fromkeys(used_slots))   # Remove duplicates
         remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
         remaining.sort()
-
+        next = str(int(max(used_slots))+1)
         #################################################################
         # Use all slots
         if self.control == 'all' :
             new_slots = self.bs_slots   
         #################################################################
         elif self.control == 'random' :
-            new_slots = np.random.choice(self.bs_slots, 2).tolist()
+            new_slots = np.random.choice(self.bs_slots, 1).tolist()
         #################################################################
         # Increment each frame
         elif self.control == 'increment' :
             new_slots = [int(used_slots[0])]
             if new_slots[0]+1 not in self.bs_slots :
-                new_slots = [0]
+                new_slots = ['0']
             else:
-                new_slots = [int(used_slots[0]) + 1]
+                new_slots = [next]
 
         #################################################################                
         elif self.control == 'basic' :
             '''
             With basic Control Policy (Othmane):
             If success, keep one of the good usedslots
-            If failure, find remaining unused slots, if none choose 2 random 
+            If failure, increment
+            (old version: find remaining unused slots, if none choose 2 random)
             '''
             if v.count('p') > 0 :
                 new_slots = rx[h][1]
@@ -233,15 +231,26 @@ class data_and_access_control(gr.sync_block):
                 if remaining :
                     new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
                 else :
-                    new_slots = np.random.choice(self.bs_slots, 2).tolist()               
+                    new_slots = np.random.choice(self.bs_slots, 2).tolist()
+
+            # if v.count('p') > 0 :
+            #     # new_slots = [tx[h][1]]
+            #     new_slots = used_slots
+            # else :
+            #     new_slots = [int(used_slots[0])]
+            #     if new_slots[0]+1 not in self.bs_slots :
+            #         new_slots = ['0']
+            #     else:
+            #         new_slots = [next]
+
+
         #################################################################
         # With UCB
         elif self.control == 'ucb' :
-            pass
-            # '''
             #  In this example, nch channels are emulated
             #  then the number of times that this channel is selected is higher.
-            active_slots = map(int, active_slots)
+            # print active_slots
+            # active_slots = map(int, active_slots)
 
             self.watch += 1
             # Emulation of the channel occupancy  (it does not need to be implemented)
@@ -250,23 +259,24 @@ class data_and_access_control(gr.sync_block):
 
             # If for example, bs_slots==[0,1,2,3,4] and active_slots==[1,2,4],
             # result is stat_per = [False,True,True,False,True]
-            stat_per = [(self.bs_slots[i] in active_slots) for i in self.bs_slots]
-            print "[SN "+self.ID+"] STAT PER : ", stat_per
-            print "[SN "+self.ID+"] active_slots: ", active_slots
+            stat_per = [(str(self.bs_slots[i]) in active_slots) for i in self.bs_slots]
+            # print "[SN "+self.ID+"] STAT PER : ", stat_per
+            # print "[SN "+self.ID+"] bs_slots: ", self.bs_slots
+            # print "[SN "+self.ID+"] active_slots: ", active_slots
 
             for k in xrange(nch):
                 if (stat_per[k]==True):
                     self.ratio_ch[k] += 1 
                 ratio_global[k]  = float(self.ratio_ch[k])/float(self.watch)
 
-            print "[SN "+self.ID+"] Ratio of resource occupancy : ", ratio_global
+            # print "[SN "+self.ID+"] Ratio of resource occupancy : ", ratio_global
 
             # UCB learning: it is the function to be included   
             new_indice = self.compute_ucb(nch,stat_per[self.indice],self.watch)
 
             new_slots = [new_indice]
 
-            print "[SN "+self.ID+"] Number of times each resource is selected: ", self.chsel
+            # print "[SN "+self.ID+"] Number of times each resource is selected: ", self.chsel
             # '''
 
 
@@ -277,19 +287,20 @@ class data_and_access_control(gr.sync_block):
             new_slots = used_slots
             
         ############################################################################################
-        # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
-        # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
-        # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
+        print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
+        print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
+        print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
         print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
 
         if v.count('p') > 0 :
-            # if v.count('s') > 0 :
             self.error = 0
             # else :
             #     self.error = 1
         else :
             self.error = 1
-
+        
+        if v.count('s') > 0 and v.count('i') > 0:
+            self.detection_rate = 1
 
         used_slots = list(set(used_slots))
         used_slots.sort()
@@ -340,10 +351,43 @@ class data_and_access_control(gr.sync_block):
                     # Scheduler informs a reset before sending data
                     if self.busy == 'RESET' :
                         self.i = 0
-                        print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
+                    ########################################################################################################
+                    elif self.busy == 'ACTIVE?':
+                        self.active = any(np.random.binomial(1,self.activation_rate,1))    # Generate an activation value following a Bernoulli distribution
+                        
+                        if self.active:
+                            self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("ACTIVE"))
+                        else:
+                            self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("INACTIVE"))
 
-                    # Scheduler informs a frame reset (frame finished)
-                    elif self.busy == 'RESET_FRAME' :
+                    else :
+                    ########################################################################################################
+                    # Scheduler requests node ID and payload array to compute IQ signal length
+                        if self.busy == 'ARRAY' :
+                            # Add ID for scheduler, removed also later by the scheduler
+                            # tmp = self.ID + self.lines[self.i]
+                            tmp = self.lines[self.i]
+                            # print "ARRAY"
+                            # print tmp
+                            if self.active==True:     # If sensor is active for the current frame
+                                self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt(tmp))   # Send 1st char of each line (aka slots)
+                    ########################################################################################################
+                    # Scheduler requests payload array to be sent in PHY chain
+                        elif self.busy == 'DATA' :
+                            # Data is (node_id + line_i)
+                            # data = self.enc_ID + '\t' + self.lines[self.i][2:]     # Remove the first char and tabulation
+                            data = self.lines[self.i][2:]     # Remove frame number and slot number
+                            data = '\t'.join(data)
+                            # print "DATA"
+                            # print data
+                            OUT = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(data),[ord(c) for c in data]))    # Data = encrypted node_id + line_i
+                            self.message_port_pub(pmt.to_pmt("Data"), OUT) 
+                        self.i += 1
+                    ########################################################################################################
+                    # Scheduler informs a frame reset (frame finished or new will start)
+                    if self.busy == 'RESET_FRAME' and self.active==True:
+                    # if self.busy == 'RESET_FRAME' :
+                        print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
                         ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
                         # Activity in DL :
                         if any(self.RX_frame) :
@@ -352,64 +396,53 @@ class data_and_access_control(gr.sync_block):
                                 self.RX_frame = np.reshape(self.RX_frame, (-1, 4))      # Sort received frames by rows
 
                                 # delete overlapping frames = delete array m on axis 0 (array,index,axis)
-                                tmp = self.RX_frame
-                                for m in range(len(self.RX_frame)) :
-                                    if self.RX_frame[m][0] != self.RX[0]:
-                                        tmp = np.delete(self.RX_frame, m, 0)    # delete overlapping erroneous frames = delete array m on axis 0 (array,index,axis)  
-                                self.RX_frame = tmp
+                                # tmp = self.RX_frame
+                                # for m in range(len(self.RX_frame)) :
+                                #     if self.RX_frame[m][0] != self.RX[0]:
+                                #         tmp = np.delete(self.RX_frame, m, 0)    # delete overlapping erroneous frames = delete array m on axis 0 (array,index,axis)  
+                                # self.RX_frame = tmp
 
                                 result = self.compare_pld(self.lines,self.RX_frame)
 
                                 # Generate new payload 
-                                self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
+                                # self.lines = self.gen_rand_pld(self.tmp_data,False,1,result[1])
+                                self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
                                 
-                                print "[SN "+self.ID+"] Score of Frame : " + str(result[0]) + "\n"
+                                print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
                         ###########################################################################################
                         # No activity in DL
                         else:
-                            # print self.lines
-                            result = self.compare_pld(self.lines,self.lines)
-                            # print self.lines
+                            result = self.compare_pld(self.lines,[4*['']])
+                            # print "RESULT"
+                            # print result
                             # Generate new payload 
-                            self.lines = self.gen_rand_pld(self.tmp_data,False,2,result[1])
-                            print "[SN "+self.ID+"] Score of unknown Frame" + " : " + "\n"
+                            self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
+                            # print self.lines
+                            print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
                             self.error = 1
                         ############################################################################################
                         self.RX_frame = [] 
-                        self.error_list = np.append(self.error_list,self.error)
-                        # print "PER counter = " + str(self.cnt)
-                        # Compute self.PER:
-                        if self.cnt%6==0 and self.cnt !=0 :
-                            # Shift PER to the right
-                            self.PER = [0] + self.PER[:-1]
-                            self.PER[0] = (self.PER[4] + self.PER[3] + self.PER[2] + self.PER[1] + sum(self.error_list)/float(self.cnt))/5
+
+                        if self.active==True :
+                            self.error_list = np.append(self.error_list,self.error)
+                            self.PER = self.PER[1:] + [0]
+                            self.PER[-1] = sum(self.error_list)/float(self.cnt+1)
+
                             per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
-                            self.cnt=0
-                            self.error_list = []
                             self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-                        self.cnt += 1   # Frame counter mod N (where N is averaging size)
-                        
-                    ########################################################################################################
-                    else :
-                    # Scheduler requests node ID and payload array to compute IQ signal length
-                        if self.busy == 'ARRAY' :
-                            # Add ID for scheduler, removed also later by the scheduler
-                            tmp = self.ID + self.lines[self.i]
-                            self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt(tmp))   # Send 1st char of each line (aka slots)
-                    ########################################################################################################                            
-                    # Scheduler requests payload array to be sent in PHY chain
-                        elif self.busy == 'DATA' :
-                            # Data is (node_id + line_i)
-                            data = self.enc_ID + '\t' + self.lines[self.i][2:]     # Remove the first char and tabulation
-                            OUT = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(data),[ord(c) for c in data]))    # Data = encrypted node_id + line_i
-                            self.message_port_pub(pmt.to_pmt("Data"), OUT) 
-                        self.i += 1
+                            self.cnt += 1   # Active Frame counter
+                            self.active=-1
+                        self.i=0
+
                 else :
                     self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))
                     self.i = 0 
+                    # print self.error
+                    # print self.error_list
+                    # print self.cnt
+                    # print self.frame_cnt
 
             self.busy = True
-
 
     # Here we process all DL data broadcasted by the BS
     def handle_DL(self, msg_pmt):
@@ -417,22 +450,22 @@ class data_and_access_control(gr.sync_block):
 
             self.watch += 1
             self.DL = pmt.to_python(msg_pmt)
-            # print self.DL[1]
-            # Look for a tab caracter in DL message, to avoid processing beacon message
-            if ord('\t') in self.DL[1] :
-                result = [0]
-                
-                l = [chr(c) for c in self.DL[1]]
-                tab_pos = [pos for pos, char in enumerate(l) if char == '\t']     # \t is the separator
-                l = ''.join(l)
-                self.RX = re.split(r'\t+', l)
-
+            
+            l = [chr(c) for c in self.DL[1]]
+            l = ''.join(l)
+            self.RX = re.split(r'\t+', l)
+            if self.RX[0] == 'corr_est':
+                self.frame_cnt = self.RX[1]
+            # # Look for a tab caracter in DL message, to avoid processing beacon message
+            else:                
                 # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
                 if '\x00' in self.RX[0] :   
                     self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
-
+                print "HERE"
+                print self.RX
                 # If received frame is valid <> 4 fields separated with a \t
                 if len(self.RX)%4 == 0 :
                     self.RX_frame = np.append([self.RX_frame],[self.RX])
 
+            self.RX = ''
             self.DL = '' 
