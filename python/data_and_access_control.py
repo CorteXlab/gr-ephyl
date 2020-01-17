@@ -164,10 +164,10 @@ class data_and_access_control(gr.sync_block):
             rx = [rx]
         
 
-        print "======================="
-        print tx
-        print rx
-        print "======================="
+        # print "======================="
+        # print tx
+        # print rx
+        # print "======================="
         for j in xrange(len(tx)):
             # print "HERE"
             # print tx[j][1]     
@@ -229,9 +229,9 @@ class data_and_access_control(gr.sync_block):
                 new_slots = rx[h][1]
             else :
                 if remaining :
-                    new_slots = np.random.choice(remaining, min(2,len(remaining))).tolist()
+                    new_slots = np.random.choice(remaining, min(1,len(remaining))).tolist()
                 else :
-                    new_slots = np.random.choice(self.bs_slots, 2).tolist()
+                    new_slots = np.random.choice(self.bs_slots, 1).tolist()
 
             # if v.count('p') > 0 :
             #     # new_slots = [tx[h][1]]
@@ -287,10 +287,10 @@ class data_and_access_control(gr.sync_block):
             new_slots = used_slots
             
         ############################################################################################
-        print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
-        print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
-        print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
-        print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
+        # print "[SN "+self.ID+"] Used Slots " + str(used_slots) + "\n"
+        # print "[SN "+self.ID+"] Active Slots " + str(active_slots) + "\n"
+        # print "[SN "+self.ID+"] Remaining Slots " + str(remaining) + "\n"
+        # print "[SN "+self.ID+"] New Slots " + str(new_slots) + "\n"
 
         if v.count('p') > 0 :
             self.error = 0
@@ -348,101 +348,103 @@ class data_and_access_control(gr.sync_block):
 
             if self.busy != True :
                 if self.i < len(self.lines) :
-                    # Scheduler informs a reset before sending data
+                    ## Scheduler informs a reset before sending data
                     if self.busy == 'RESET' :
                         self.i = 0
                     ########################################################################################################
                     elif self.busy == 'ACTIVE?':
-                        self.active = any(np.random.binomial(1,self.activation_rate,1))    # Generate an activation value following a Bernoulli distribution
+                        ## Generate an activation value following a Bernoulli distribution
+                        self.active = any(np.random.binomial(1,self.activation_rate,1))
                         
                         if self.active:
                             self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("ACTIVE"))
                         else:
                             self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("INACTIVE"))
+                            print "INACTIVE"
 
                     else :
                     ########################################################################################################
-                    # Scheduler requests node ID and payload array to compute IQ signal length
+                    ## Scheduler requests node ID and payload array to compute IQ signal length
                         if self.busy == 'ARRAY' :
-                            # Add ID for scheduler, removed also later by the scheduler
-                            # tmp = self.ID + self.lines[self.i]
+                            ## ID is removed later by the scheduler
                             tmp = self.lines[self.i]
-                            # print "ARRAY"
-                            # print tmp
                             if self.active==True:     # If sensor is active for the current frame
                                 self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt(tmp))   # Send 1st char of each line (aka slots)
                     ########################################################################################################
-                    # Scheduler requests payload array to be sent in PHY chain
+                    ## Scheduler requests payload array to be sent in PHY chain
                         elif self.busy == 'DATA' :
-                            # Data is (node_id + line_i)
-                            # data = self.enc_ID + '\t' + self.lines[self.i][2:]     # Remove the first char and tabulation
+                            ## Data is (node_id + line_i)
                             data = self.lines[self.i][2:]     # Remove frame number and slot number
                             data = '\t'.join(data)
-                            # print "DATA"
-                            # print data
                             OUT = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(data),[ord(c) for c in data]))    # Data = encrypted node_id + line_i
                             self.message_port_pub(pmt.to_pmt("Data"), OUT) 
                         self.i += 1
                     ########################################################################################################
-                    # Scheduler informs a frame reset (frame finished or new will start)
-                    if self.busy == 'RESET_FRAME' and self.active==True:
-                    # if self.busy == 'RESET_FRAME' :
-                        print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
-                        ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
-                        # Activity in DL :
-                        if any(self.RX_frame) :
-                            # Check if valid + if multiple or single received frame
-                            if len(self.RX_frame) >= 4 and len(self.RX_frame)%4 == 0 :
-                                self.RX_frame = np.reshape(self.RX_frame, (-1, 4))      # Sort received frames by rows
-
-                                # delete overlapping frames = delete array m on axis 0 (array,index,axis)
-                                # tmp = self.RX_frame
-                                # for m in range(len(self.RX_frame)) :
-                                #     if self.RX_frame[m][0] != self.RX[0]:
-                                #         tmp = np.delete(self.RX_frame, m, 0)    # delete overlapping erroneous frames = delete array m on axis 0 (array,index,axis)  
-                                # self.RX_frame = tmp
-
-                                result = self.compare_pld(self.lines,self.RX_frame)
-
+                    ## Scheduler informs a frame reset (frame finished or new will start)
+                    if self.busy == 'RESET_FRAME' :
+                        if self.active == True :
+                            print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
+                            ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
+                            ## Activity in DL :
+                            if any(self.RX_frame) :
+                                ## Check if valid + if multiple or single received frame
+                                if len(self.RX_frame) >= 4 and len(self.RX_frame)%4 == 0 :
+                                    self.RX_frame = np.reshape(self.RX_frame, (-1, 4))      # Sort received frames by rows
+                                    result = self.compare_pld(self.lines,self.RX_frame)
+                                    ## Generate new payload 
+                                    self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
+                                    print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
+                            ###########################################################################################
+                            ## No activity in DL
+                            else:
+                                # result = self.compare_pld(self.lines,self.lines)
+                                result = self.compare_pld(self.lines,[4*['']])
                                 # Generate new payload 
-                                # self.lines = self.gen_rand_pld(self.tmp_data,False,1,result[1])
                                 self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
-                                
                                 print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
-                        ###########################################################################################
-                        # No activity in DL
-                        else:
-                            result = self.compare_pld(self.lines,[4*['']])
-                            # print "RESULT"
-                            # print result
-                            # Generate new payload 
-                            self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
-                            # print self.lines
-                            print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
-                            self.error = 1
-                        ############################################################################################
-                        self.RX_frame = [] 
-
-                        if self.active==True :
+                                self.error = 1
+                            ############################################################################################
                             self.error_list = np.append(self.error_list,self.error)
+                            self.cnt = len(self.error_list)   # Active Frame counter
                             self.PER = self.PER[1:] + [0]
-                            self.PER[-1] = sum(self.error_list)/float(self.cnt+1)
-
+                            self.PER[-1] = sum(self.error_list)/float(self.cnt)
                             per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
-                            self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-                            self.cnt += 1   # Active Frame counter
-                            self.active=-1
+                            self.message_port_pub(pmt.to_pmt("PER"), per_pdu)
+
+                            # self.active=False
+                            self.RX_frame = [] 
+
+                        elif self.active == False : 
+                            '''
+                            If sensor is inactive, it still has to decide for next frame based on
+                            the last received frame. It doesn't matter if the latter is empty,
+                            since the inactive frame isn't counted for PER
+                            '''
+
+                            result = self.compare_pld(self.lines,self.RX_frame)
+                            self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
+                            # self.active = True
+
                         self.i=0
+
+
+                        # if self.active==True :
+                        #     self.error_list = np.append(self.error_list,self.error)
+                        #     self.cnt = len(self.error_list)   # Active Frame counter
+                        #     self.PER = self.PER[1:] + [0]
+                        #     self.PER[-1] = sum(self.error_list)/float(self.cnt)
+
+                        #     per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
+                        #     self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
+                        #     self.active=False
+
 
                 else :
                     self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))
                     self.i = 0 
-                    # print self.error
-                    # print self.error_list
-                    # print self.cnt
-                    # print self.frame_cnt
 
             self.busy = True
+            # self.error = 0
 
     # Here we process all DL data broadcasted by the BS
     def handle_DL(self, msg_pmt):
@@ -461,8 +463,8 @@ class data_and_access_control(gr.sync_block):
                 # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
                 if '\x00' in self.RX[0] :   
                     self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
-                print "HERE"
-                print self.RX
+                # print "HERE"
+                # print self.RX
                 # If received frame is valid <> 4 fields separated with a \t
                 if len(self.RX)%4 == 0 :
                     self.RX_frame = np.append([self.RX_frame],[self.RX])

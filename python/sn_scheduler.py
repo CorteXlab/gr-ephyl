@@ -129,8 +129,11 @@ class sn_scheduler(gr.basic_block):
                     self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))
                 elif pmt.to_python(slot_pmt) == "ACTIVE" :
                     self.active = True
+                    # print "\nACTIVE"
                 elif pmt.to_python(slot_pmt) == "INACTIVE" :
                     self.active = False
+                    self.state = PROC
+                    # print "\nINACTIVE"
                 else :
                     new_array = pmt.to_python(slot_pmt)
                     # print "NEW ARRAY"
@@ -165,8 +168,6 @@ class sn_scheduler(gr.basic_block):
             if self.state == PKT_GEN :
       
                 if self.phy_option==0 :     # SC-FDMA PHY option
-                    # print "SLOT MSG"
-                    # print len(self.slot_msg)
                     self.signal_len = 2*len(self.slot_msg[0])+12
                     # self.signal_len = 2*len(self.slot_msg[self.slot_cnt])+12
                 elif self.phy_option==1 :   # TurboFSK PHY option
@@ -175,9 +176,7 @@ class sn_scheduler(gr.basic_block):
 
                 self.msg_out = np.append(self.msg_out,pmt.to_python(pmt.cdr(msg_pmt)))   # Collect message data, convert to Python format:
                 self.pdu_cnt += 1
-                # print "A"
                 if self.pdu_cnt == self.signal_len:   # Signal reconstructed 
-                    # print "AAAAAAAAAAAAAAAaaaa"
                     self.pdu_cnt=0
                     self.msg_full = np.array(self.msg_full.tolist() + [self.msg_out.tolist()])    # Store the N signals in N-dim array, analyze carefully before modifying
                     self.msg_out = np.array([])
@@ -198,7 +197,6 @@ class sn_scheduler(gr.basic_block):
                         self.state = BCH
                         self.slot_cnt = 0
                         self.msg_out = self.msg_full[self.slot_cnt]     # Init first msg to be sent
-                        # print "HEEEEEEEEEEEEEEEEEeee"
 
                         try:
                             offset = int(l[2])
@@ -263,10 +261,11 @@ class sn_scheduler(gr.basic_block):
                 elif self.state == SLOT_READ :
                     if self.active == -1:
                         self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ACTIVE?'))
+                        # self.active = False
                         self.slot_cnt = 0
                     elif self.active == True:
                         self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('ARRAY'))
-                    else:
+                    elif self.active == False:
                         self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET_FRAME'))
 
 
