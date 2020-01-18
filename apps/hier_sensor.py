@@ -3,7 +3,7 @@
 # GNU Radio Python Flow Graph
 # Title: IoT Sensor emulator
 # Author: Othmane Oubejja
-# Generated: Fri Dec 20 15:07:48 2019
+# Generated: Thu Jan 16 16:06:59 2020
 ##################################################
 
 from gnuradio import blocks
@@ -19,7 +19,7 @@ import math, sys, numpy as np, random,string
 
 class hier_sensor(gr.hier_block2):
 
-    def __init__(self, M=64, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, bs_slots=range(5), control='all', cp_ratio=0.25, samp_rate=1e6):
+    def __init__(self, M=64, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, bs_slots=range(5), control='all', cp_ratio=0.25, samp_rate=1e6, activation_rate=1):
         gr.hier_block2.__init__(
             self, "IoT Sensor emulator",
             gr.io_signature(0, 0, 0),
@@ -41,6 +41,7 @@ class hier_sensor(gr.hier_block2):
         self.control = control
         self.cp_ratio = cp_ratio
         self.samp_rate = samp_rate
+        self.activation_rate = activation_rate
 
         ##################################################
         # Variables
@@ -66,7 +67,7 @@ class hier_sensor(gr.hier_block2):
         self.fft_vxx_0_0_0 = fft.fft_vcc(M, False, (), True, 1)
         self.fec_extended_tagged_encoder_0 = fec.extended_tagged_encoder(encoder_obj_list=enc_cc, puncpat='11', lentagname='packet_len', mtu=MTU)
         self.ephyl_sn_scheduler_0_0 = ephyl.sn_scheduler(0, len(bs_slots), T_bch, T_g, T_s, T_p, 'corr_est',"packet_len2", int(samp_rate))
-        self.ephyl_data_and_access_control_0 = ephyl.data_and_access_control(bs_slots,control)
+        self.ephyl_data_and_access_control_0 = ephyl.data_and_access_control(bs_slots,control,activation_rate)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr_format, 'packet_len')
         self.digital_ofdm_cyclic_prefixer_0 = digital.ofdm_cyclic_prefixer(M, M+M/4, 0, '')
         self.digital_diff_encoder_bb_0 = digital.diff_encoder_bb(2)
@@ -188,6 +189,12 @@ class hier_sensor(gr.hier_block2):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+
+    def get_activation_rate(self):
+        return self.activation_rate
+
+    def set_activation_rate(self, activation_rate):
+        self.activation_rate = activation_rate
 
     def get_rate(self):
         return self.rate

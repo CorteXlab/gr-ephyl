@@ -14,6 +14,7 @@
     control=$control,
     cp_ratio=$cp_ratio,
     samp_rate=$samp_rate,
+    activation_rate=$activation_rate,
 )</make>
   <callback>set_M($M)</callback>
   <callback>set_N($N)</callback>
@@ -25,6 +26,7 @@
   <callback>set_control($control)</callback>
   <callback>set_cp_ratio($cp_ratio)</callback>
   <callback>set_samp_rate($samp_rate)</callback>
+  <callback>set_activation_rate($activation_rate)</callback>
   <param>
     <name>M</name>
     <key>M</key>
@@ -83,6 +85,12 @@
     <name>Sample rate</name>
     <key>samp_rate</key>
     <value>1e6</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Activation Rate</name>
+    <key>activation_rate</key>
+    <value>1</value>
     <type>raw</type>
   </param>
   <sink>

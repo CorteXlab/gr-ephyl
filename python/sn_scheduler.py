@@ -129,38 +129,27 @@ class sn_scheduler(gr.basic_block):
                     self.message_port_pub(pmt.to_pmt("busy"), pmt.to_pmt('RESET'))
                 elif pmt.to_python(slot_pmt) == "ACTIVE" :
                     self.active = True
-                    # print "\nACTIVE"
                 elif pmt.to_python(slot_pmt) == "INACTIVE" :
                     self.active = False
                     self.state = PROC
-                    # print "\nINACTIVE"
                 else :
                     new_array = pmt.to_python(slot_pmt)
-                    # print "NEW ARRAY"
-                    # print new_array
                     # Extract ID coming from slot control block, and remove it from the message
                     self.Id = new_array[2]
 
                     # Extract Slot
                     tmp_slot = new_array[1]
 
-                    # self.slots.append(int(tmp_slot)) 
                     if tmp_slot.isdigit() :  # FOR DEBUG
                         self.slots.append(int(tmp_slot))     # First character is the slot number to be used
                     else :
                         self.slots.append(int(np.random.choice(range(self.num_slots), 1)))
                     
                     if self.slot_cnt != self.slots[-1] :
-                        # self.slot_msg = np.append(self.slot_msg,['']*(self.slots[-1]-self.slot_cnt))  # Fill unused slots with empty string
                         self.slot_msg = np.append(self.slot_msg,['']*(self.slots[-1]-self.slot_cnt))  # Fill unused slots with empty string
                         self.slot_cnt = self.slots[-1]
 
                     self.slot_msg = ['\t'.join(new_array[2:])]
-                    # print "SLOT MSG"
-                    # print self.slot_msg
-                    # print len(self.slot_msg[self.slot_cnt])
-
-                    # self.slot_msg = np.append(self.slot_msg,new_array)
                     self.slot_cnt += 1
 
     def handle_msg(self, msg_pmt):
@@ -292,11 +281,6 @@ class sn_scheduler(gr.basic_block):
 
                 elif self.state == PROC :
                     # End of frame --> Reset some variables
-
-                    # print "Slots"
-                    # print self.slots
-                    # print "COUNT"
-                    # print self.slot_cnt
                     self.state = SLOT_READ
                     self.msg_full = np.array([])
                     self.msg_out = np.array([])
@@ -305,10 +289,6 @@ class sn_scheduler(gr.basic_block):
                     self.slots = []   
                     self.delay_t = 0
                     self.active = -1
-                    
-                    # print self.i
-                    # print self.frame_len
-                    # print 
                     self.i=0
 
                 elif self.state not in self.STATES[0] :

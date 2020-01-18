@@ -643,6 +643,49 @@
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(416, 68)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>activation_rate</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Activation Rate</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_complex_to_arg</key>
     <param>
       <key>alias</key>
@@ -1871,6 +1914,10 @@
     <param>
       <key>Control</key>
       <value>control</value>
+    </param>
+    <param>
+      <key>activation_rate</key>
+      <value>activation_rate</value>
     </param>
     <param>
       <key>bs_slots</key>

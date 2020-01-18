@@ -237,7 +237,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -438,7 +438,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1000000</value>
+      <value>1e6</value>
     </param>
   </block>
   <block>
@@ -1244,7 +1244,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1472,7 +1472,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>none</value>
+      <value>ucb</value>
     </param>
   </block>
   <block>
@@ -1631,6 +1631,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>exit_frame</key>
+      <value>1000</value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(528, 1452)</value>
     </param>
@@ -1686,6 +1690,10 @@
   <block>
     <key>hier_sensor</key>
     <param>
+      <key>activation_rate</key>
+      <value>.5</value>
+    </param>
+    <param>
       <key>T_bch</key>
       <value>T_bch</value>
     </param>
@@ -1711,7 +1719,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 416)</value>
+      <value>(656, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1764,6 +1772,10 @@
   </block>
   <block>
     <key>hier_sensor</key>
+    <param>
+      <key>activation_rate</key>
+      <value>1</value>
+    </param>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>
@@ -1844,6 +1856,10 @@
   <block>
     <key>hier_sensor</key>
     <param>
+      <key>activation_rate</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>T_bch</key>
       <value>T_bch</value>
     </param>
@@ -1922,6 +1938,10 @@
   </block>
   <block>
     <key>hier_sensor</key>
+    <param>
+      <key>activation_rate</key>
+      <value>.8</value>
+    </param>
     <param>
       <key>T_bch</key>
       <value>T_bch</value>

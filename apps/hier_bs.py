@@ -3,7 +3,7 @@
 # GNU Radio Python Flow Graph
 # Title: IoT BS Emulator
 # Author: Othmane Oubejja
-# Generated: Sat Dec 28 17:52:04 2019
+# Generated: Thu Jan 16 16:40:35 2020
 ##################################################
 
 from gnuradio import blocks
@@ -19,7 +19,7 @@ import math, sys, numpy as np, random
 
 class hier_bs(gr.hier_block2):
 
-    def __init__(self, M=32, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, UHD=True, bs_slots=range(5), cp_ratio=0.25, samp_rate=1e6):
+    def __init__(self, M=32, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, UHD=True, bs_slots=range(5), cp_ratio=0.25, samp_rate=1e6, exit_frame=0):
         gr.hier_block2.__init__(
             self, "IoT BS Emulator",
             gr.io_signature(1, 1, gr.sizeof_gr_complex*1),
@@ -41,6 +41,7 @@ class hier_bs(gr.hier_block2):
         self.bs_slots = bs_slots
         self.cp_ratio = cp_ratio
         self.samp_rate = samp_rate
+        self.exit_frame = exit_frame
 
         ##################################################
         # Variables
@@ -67,12 +68,12 @@ class hier_bs(gr.hier_block2):
         self.ephyl_tag_2_msg_char_0_0 = ephyl.tag_2_msg_char('PUSCH')
         self.ephyl_tag_2_msg_char_0 = ephyl.tag_2_msg_char("FRAME")
         self.ephyl_msg_mux_0 = ephyl.msg_mux()
-        self.ephyl_bs_scheduler_0 = ephyl.bs_scheduler(len(bs_slots), T_bch, T_g, T_s, T_p, int(samp_rate), UHD)
+        self.ephyl_bs_scheduler_0 = ephyl.bs_scheduler(len(bs_slots), T_bch, T_g, T_s, T_p, int(samp_rate), UHD, exit_frame)
         self.digital_map_bb_0 = digital.map_bb(([-1, 1]))
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(2)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(2*3.14/100, 2, False)
         self.digital_correlate_access_code_xx_ts_1 = digital.correlate_access_code_bb_ts(digital.packet_utils.default_access_code,
-          8, 'burst')
+          10, 'burst')
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(constel)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, M)
         self.blocks_tagged_stream_to_pdu_0_0 = blocks.tagged_stream_to_pdu(blocks.byte_t, 'burst')
@@ -177,6 +178,12 @@ class hier_bs(gr.hier_block2):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+
+    def get_exit_frame(self):
+        return self.exit_frame
+
+    def set_exit_frame(self, exit_frame):
+        self.exit_frame = exit_frame
 
     def get_rate(self):
         return self.rate

@@ -41,7 +41,7 @@ The main advantage of using our docker image is avoiding all installing/upgradin
 ```
 ./cxlb-build-toolchain /A/B/compiled_stuff  /D/installed_stuff
 ```
- - You shoiuld run this:
+ - You should run this:
 ```
 echo 'export INSTALL_PATH=/D/installed_stuff' >> ~/.bashrc
 ```

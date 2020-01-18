@@ -14,6 +14,7 @@
     bs_slots=$bs_slots,
     cp_ratio=$cp_ratio,
     samp_rate=$samp_rate,
+    exit_frame=$exit_frame,
 )</make>
   <callback>set_M($M)</callback>
   <callback>set_N($N)</callback>
@@ -25,6 +26,7 @@
   <callback>set_bs_slots($bs_slots)</callback>
   <callback>set_cp_ratio($cp_ratio)</callback>
   <callback>set_samp_rate($samp_rate)</callback>
+  <callback>set_exit_frame($exit_frame)</callback>
   <param>
     <name>M</name>
     <key>M</key>
@@ -83,6 +85,12 @@
     <name>Sample rate</name>
     <key>samp_rate</key>
     <value>1e6</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Exit Frame</name>
+    <key>exit_frame</key>
+    <value>0</value>
     <type>raw</type>
   </param>
   <sink>

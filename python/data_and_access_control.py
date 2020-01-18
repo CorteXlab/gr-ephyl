@@ -98,11 +98,6 @@ class data_and_access_control(gr.sync_block):
         self.time_ucb = 0
         self.indice = 0
 
-
-        ## Encrypt ID
-        # self.enc_ID = self.encrypt(self.ID)
-        self.enc_ID = self.ID
-
         self.tmp_data = self.rand_data(14)      # Created to keep the same data bits
         ## Generate first payload with: 
         ## Frame nb + ID + 1 Slot + False (i.e. slot 0) + 14 random bytes 
@@ -110,6 +105,7 @@ class data_and_access_control(gr.sync_block):
         result = self.compare_pld(self.lines,4*[''])
         self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
         self.error = 0
+        self.detection = 0
 
     def rand_slots(self,len) :
         res = [random.choice(self.bs_slots) for _ in xrange(len)]
@@ -120,17 +116,6 @@ class data_and_access_control(gr.sync_block):
         letters = string.ascii_lowercase
         res =  ''.join(random.choice(letters) for i in xrange(len))
         return res 
-
-    # def encrypt(self,mystr) :
-    #     secret_key = '0123456789ABCDEF' # create new & store somewhere safe
-    #     cipher = AES.new(secret_key,AES.MODE_ECB) 
-    #     try :
-    #         msg_text = mystr.rjust(16)
-    #         encoded = base64.b64encode(cipher.encrypt(msg_text))
-    #         return encoded
-    #     except :
-    #         print "Encryption Error, input must be multiple of 16"
-
 
     # Generate random payload
     def gen_rand_pld(self,ID,n=1,slots=[0],data=False) :    
@@ -155,6 +140,7 @@ class data_and_access_control(gr.sync_block):
         new_slots = []
         remaining = []
         self.error = 0
+        self.detection = 0
         tx = TX
 
         # Verify that rx and tx frames are arrays, to avoid errors when sweeping
@@ -168,35 +154,30 @@ class data_and_access_control(gr.sync_block):
         # print tx
         # print rx
         # print "======================="
-        for j in xrange(len(tx)):
-            # print "HERE"
-            # print tx[j][1]     
+        for j in xrange(len(tx)):    
             used_slots = np.append(used_slots,tx[j][1])  
 
         for f in range(len(rx)) :
-            # if len(rx[f])>3 and rx[f][1].isdigit() :
             if len(rx[f])>3 :
                 active_slots = np.append(active_slots,rx[f][1])
                 for j in xrange(len(tx)):
                     # Check frame match
-                    # if rx[f][0] == tx[j][0]:  
-                    #     v += 'f'
-                    # Check for slot activity
+                    if rx[f][0] == tx[j][0]:  
+                        v += 'f'
+                    ## Check for slot activity
                     if rx[f][1] == tx[j][1]:     
                         v += 's'
-                        # Check for matching id
+                        ## Check for matching id
                         if rx[f][2] == tx[j][2]:     
                             v += 'i'
-                            # Check for matching payload
+                            ## Check for matching payload
                             if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
                                 v += 'p'                          # Probably a software bug. Unsolved yet
                             h = f 
 
         if not any(active_slots)  :
             active_slots = ['0']            
-            # used_slots = [int(tx[0][1])]
         ############################################################################################
-        # used_slots = map(int,list(dict.fromkeys(used_slots)))    # Remove duplicates
         used_slots = list(dict.fromkeys(used_slots))   # Remove duplicates
         remaining = list(set(map(str, self.bs_slots)) - set(active_slots))
         remaining.sort()
@@ -249,8 +230,6 @@ class data_and_access_control(gr.sync_block):
         elif self.control == 'ucb' :
             #  In this example, nch channels are emulated
             #  then the number of times that this channel is selected is higher.
-            # print active_slots
-            # active_slots = map(int, active_slots)
 
             self.watch += 1
             # Emulation of the channel occupancy  (it does not need to be implemented)
@@ -261,8 +240,6 @@ class data_and_access_control(gr.sync_block):
             # result is stat_per = [False,True,True,False,True]
             stat_per = [(str(self.bs_slots[i]) in active_slots) for i in self.bs_slots]
             # print "[SN "+self.ID+"] STAT PER : ", stat_per
-            # print "[SN "+self.ID+"] bs_slots: ", self.bs_slots
-            # print "[SN "+self.ID+"] active_slots: ", active_slots
 
             for k in xrange(nch):
                 if (stat_per[k]==True):
@@ -275,10 +252,6 @@ class data_and_access_control(gr.sync_block):
             new_indice = self.compute_ucb(nch,stat_per[self.indice],self.watch)
 
             new_slots = [new_indice]
-
-            # print "[SN "+self.ID+"] Number of times each resource is selected: ", self.chsel
-            # '''
-
 
         #################################################################
         # With No Control Policy, keep old slots
@@ -294,13 +267,13 @@ class data_and_access_control(gr.sync_block):
 
         if v.count('p') > 0 :
             self.error = 0
-            # else :
-            #     self.error = 1
         else :
             self.error = 1
         
         if v.count('s') > 0 and v.count('i') > 0:
-            self.detection_rate = 1
+            self.detection = 1
+        else:
+            self.detection = 0
 
         used_slots = list(set(used_slots))
         used_slots.sort()
@@ -316,16 +289,13 @@ class data_and_access_control(gr.sync_block):
         # Input variables: rward(packet detection per slot), 
         # chsel (NumberTimesChannelSelected), 
         # watch(GlobalTime)
-
         xmean=nch*[0]
         bias=nch*[0]
         x=nch*[0]
         alfa=0.8
         maxval=-1.0
-
         # Save variables
-        self.time_ucb=time_ucb  
-
+        self.time_ucb=time_ucb
         if  (rewards==True) : 
             self.rward[self.indice]+=1 
         # For each channel 
@@ -360,7 +330,6 @@ class data_and_access_control(gr.sync_block):
                             self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("ACTIVE"))
                         else:
                             self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("INACTIVE"))
-                            print "INACTIVE"
 
                     else :
                     ########################################################################################################
@@ -384,7 +353,7 @@ class data_and_access_control(gr.sync_block):
                     if self.busy == 'RESET_FRAME' :
                         if self.active == True :
                             print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
-                            ##################### PROCESS RECEIVED FRAMES AND COMPUTE PER ##############################
+                            ##################### PROCESS RECEIVED FRAMES ##############################
                             ## Activity in DL :
                             if any(self.RX_frame) :
                                 ## Check if valid + if multiple or single received frame
@@ -394,16 +363,18 @@ class data_and_access_control(gr.sync_block):
                                     ## Generate new payload 
                                     self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
                                     print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
-                            ###########################################################################################
+                            
                             ## No activity in DL
                             else:
-                                # result = self.compare_pld(self.lines,self.lines)
                                 result = self.compare_pld(self.lines,[4*['']])
                                 # Generate new payload 
                                 self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
                                 print "[SN "+self.ID+"] Score of Frame " + str(self.frame_cnt) +  " : " + str(result[0]) + "\n"
                                 self.error = 1
+                                self.detection = 0
                             ############################################################################################
+
+                            ##################### COMPUTE PER #####################
                             self.error_list = np.append(self.error_list,self.error)
                             self.cnt = len(self.error_list)   # Active Frame counter
                             self.PER = self.PER[1:] + [0]
@@ -411,10 +382,21 @@ class data_and_access_control(gr.sync_block):
                             per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
                             self.message_port_pub(pmt.to_pmt("PER"), per_pdu)
 
-                            # self.active=False
-                            self.RX_frame = [] 
+                            ##################### COMPUTE DETECTION RATE #####################
+                            self.detection_list = np.append(self.detection_list,self.detection)
+                            self.detection_rate = self.detection_rate[1:] + [0]
+                            self.detection_rate[-1] = sum(self.detection_list)/float(self.cnt)
+                            # print  "DETECTION RATE :"
+                            # print self.detection_rate[-1]
+                            # print self.detection_list
+                            self.detection = 0
+                            # per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
+                            # self.message_port_pub(pmt.to_pmt("PER"), per_pdu)
 
-                        elif self.active == False : 
+
+
+                            self.RX_frame = [] 
+                        else : 
                             '''
                             If sensor is inactive, it still has to decide for next frame based on
                             the last received frame. It doesn't matter if the latter is empty,
@@ -427,24 +409,11 @@ class data_and_access_control(gr.sync_block):
 
                         self.i=0
 
-
-                        # if self.active==True :
-                        #     self.error_list = np.append(self.error_list,self.error)
-                        #     self.cnt = len(self.error_list)   # Active Frame counter
-                        #     self.PER = self.PER[1:] + [0]
-                        #     self.PER[-1] = sum(self.error_list)/float(self.cnt)
-
-                        #     per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
-                        #     self.message_port_pub(pmt.to_pmt("PER"), per_pdu) 
-                        #     self.active=False
-
-
                 else :
                     self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))
                     self.i = 0 
 
             self.busy = True
-            # self.error = 0
 
     # Here we process all DL data broadcasted by the BS
     def handle_DL(self, msg_pmt):
@@ -463,8 +432,7 @@ class data_and_access_control(gr.sync_block):
                 # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
                 if '\x00' in self.RX[0] :   
                     self.RX = ['0'] + [t.replace('\x00', '') for t in self.RX]
-                # print "HERE"
-                # print self.RX
+
                 # If received frame is valid <> 4 fields separated with a \t
                 if len(self.RX)%4 == 0 :
                     self.RX_frame = np.append([self.RX_frame],[self.RX])
