@@ -89,7 +89,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1323,7 +1323,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>range(8)</value>
+      <value>range(10)</value>
     </param>
   </block>
   <block>
@@ -1429,7 +1429,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>all</value>
+      <value>0:1:2</value>
     </param>
   </block>
   <block>
@@ -1472,7 +1472,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>ucb</value>
+      <value>7:8:9</value>
     </param>
   </block>
   <block>
@@ -1691,7 +1691,7 @@
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>.5</value>
+      <value>1</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -1699,7 +1699,7 @@
     </param>
     <param>
       <key>bs_slots</key>
-      <value>bs_slots_0</value>
+      <value>bs_slots</value>
     </param>
     <param>
       <key>alias</key>
@@ -1719,11 +1719,15 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 420)</value>
+      <value>(656, 400)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>log</key>
+      <value>True</value>
     </param>
     <param>
       <key>T_g</key>
@@ -1809,6 +1813,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>log</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>T_g</key>
       <value>T_g</value>
     </param>
@@ -1892,6 +1900,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>log</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>T_g</key>
       <value>T_g</value>
     </param>
@@ -1940,7 +1952,7 @@
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>.8</value>
+      <value>1</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -1968,11 +1980,15 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 600)</value>
+      <value>(656, 592)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>log</key>
+      <value>True</value>
     </param>
     <param>
       <key>T_g</key>

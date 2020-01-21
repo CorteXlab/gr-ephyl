@@ -25,6 +25,7 @@ import time
 import random
 import threading
 import math
+from decimal import Decimal
 
 from gnuradio import gr, gr_unittest, blocks
 
@@ -39,7 +40,7 @@ class data_and_access_control(gr.sync_block):
     """
     docstring for block data_and_access_control
     """
-    def __init__(self, bs_slots,Control = "random", activation_rate = 1.0):  # only default arguments here
+    def __init__(self, bs_slots,Control = "random", activation_rate = 1.0, save_log = False):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -52,13 +53,14 @@ class data_and_access_control(gr.sync_block):
         self.message_port_register_out(pmt.to_pmt("Data"))
         self.message_port_register_out(pmt.to_pmt("PER"))
 
-
         self.message_port_register_in(pmt.intern("busy"))
         self.set_msg_handler(pmt.intern("busy"), self.handle_busy)
         self.message_port_register_in(pmt.intern("DL"))
         self.set_msg_handler(pmt.intern("DL"), self.handle_DL)        
 
         self.lock = threading.Lock()
+
+        self.ID = random.choice(string.ascii_letters)
 
         self.slot_n = -1
         self.data = []
@@ -69,8 +71,6 @@ class data_and_access_control(gr.sync_block):
 
         self.control = Control
 
-        self.ID = random.choice(string.ascii_letters)
-
         self.bs_slots = bs_slots
         self.activation_rate = activation_rate
         self.active = -1
@@ -79,13 +79,17 @@ class data_and_access_control(gr.sync_block):
         self.detection_rate = 64*[0]
         self.detection_list = []
 
-
         self.PER = 64*[0]
         self.error_list = []
         self.error = 0
         self.cnt = 0
         self.frame_cnt = 0
         
+        self.error_bits = '0'
+        self.error_bit_cnt = 0
+        # self.BER_list = []
+        self.BER = 0.0
+
         self.RX = ''
         self.RX_frame = []
 
@@ -106,6 +110,34 @@ class data_and_access_control(gr.sync_block):
         self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
         self.error = 0
         self.detection = 0
+
+        self.save_log = save_log
+        if self.save_log :
+            self.filename = "SN-"+self.ID+"_"+time.strftime("%d%m%Y-%H%M%S")+".txt"
+            # print "FILENAME"
+            # print self.filename
+            # with open(os.path.join('~',self.filename,"w+")) as f:
+            with open(self.filename,"a+") as f:
+                template =                                          \
+                "SN-"+self.ID                                       \
+                +"\n"+"======================"                      \
+                +"\n"+"Total frames: "+str(self.frame_cnt)          \
+                +"\n"                                               \
+                +"\n"+"======================"                      \
+                +"\n"+"Activation Rate: "                           \
+                +"\n"+str(self.activation_rate)                     \
+                +"\n"+"======================"                      \
+                +"\n"+"Detection Rate: "                            \
+                +"\n"                                               \
+                +"\n"+"======================"                      \
+                +"\n"+"PER (Packet Error Rate): "                   \
+                +"\n"                                               \
+                +"\n"+"======================"                      \
+                +"\n"+"BER (Bit Error Rate): "                      \
+                +"\n"                                               \
+                +"\n"+"======================"
+                f.write(template)
+
 
     def rand_slots(self,len) :
         res = [random.choice(self.bs_slots) for _ in xrange(len)]
@@ -168,12 +200,23 @@ class data_and_access_control(gr.sync_block):
                     if rx[f][1] == tx[j][1]:     
                         v += 's'
                         ## Check for matching id
-                        if rx[f][2] == tx[j][2]:     
-                            v += 'i'
-                            ## Check for matching payload
-                            if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
-                                v += 'p'                          # Probably a software bug. Unsolved yet
-                            h = f 
+                    if rx[f][2] == tx[j][2]:     
+                        v += 'i'
+                        ## Check for matching payload
+                        if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
+                            v += 'p'                          # Probably a software bug. Unsolved yet
+                        # a = "11011111101100110110011001011101000"
+                        # b = "11001011101100111000011100001100001"
+                        
+                        ## Compute BER for detected packets
+                        rx_bits = ''.join(format(ord(x), 'b') for x in rx[f][3][:-2])
+                        tx_bits = ''.join(format(ord(x), 'b') for x in tx[j][3][:-2])
+                        y = int(rx_bits, 2)^int(tx_bits,2)
+                        self.error_bits = bin(y)[2:].zfill(len(tx_bits))
+                        # print " BITS"
+                        # print tx_bits
+                        # print rx_bits
+                        h = f 
 
         if not any(active_slots)  :
             active_slots = ['0']            
@@ -190,6 +233,13 @@ class data_and_access_control(gr.sync_block):
         elif self.control == 'random' :
             new_slots = np.random.choice(self.bs_slots, 1).tolist()
         #################################################################
+        ## Static slots as parameter separated by colon. e.g. '0:2:5:6'
+        elif self.control[0].isdigit() :
+            tmp_slots = map(int,re.split(r':+', self.control))
+            test = [tmp_slots[i] in self.bs_slots for i in range(len(tmp_slots))]
+            if False not in test :
+                new_slots = tmp_slots
+        #################################################################            
         # Increment each frame
         elif self.control == 'increment' :
             new_slots = [int(used_slots[0])]
@@ -270,7 +320,7 @@ class data_and_access_control(gr.sync_block):
         else :
             self.error = 1
         
-        if v.count('s') > 0 and v.count('i') > 0:
+        if v.count('s') > 0 or v.count('i') > 0:
             self.detection = 1
         else:
             self.detection = 0
@@ -351,6 +401,7 @@ class data_and_access_control(gr.sync_block):
                     ########################################################################################################
                     ## Scheduler informs a frame reset (frame finished or new will start)
                     if self.busy == 'RESET_FRAME' :
+                        self.i=0
                         if self.active == True :
                             print "[SN "+self.ID+"] ACCESS POLICY: " + self.control + "\n"
                             ##################### PROCESS RECEIVED FRAMES ##############################
@@ -375,39 +426,59 @@ class data_and_access_control(gr.sync_block):
                             ############################################################################################
 
                             ##################### COMPUTE PER #####################
-                            self.error_list = np.append(self.error_list,self.error)
-                            self.cnt = len(self.error_list)   # Active Frame counter
+                            self.error_list = map(int,np.append(self.error_list,self.error))
+                            self.cnt = len(self.error_list)   # Number of detected packets
                             self.PER = self.PER[1:] + [0]
                             self.PER[-1] = sum(self.error_list)/float(self.cnt)
                             per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
                             self.message_port_pub(pmt.to_pmt("PER"), per_pdu)
 
                             ##################### COMPUTE DETECTION RATE #####################
-                            self.detection_list = np.append(self.detection_list,self.detection)
+                            self.detection_list = map(int,np.append(self.detection_list,self.detection))
                             self.detection_rate = self.detection_rate[1:] + [0]
                             self.detection_rate[-1] = sum(self.detection_list)/float(self.cnt)
-                            # print  "DETECTION RATE :"
-                            # print self.detection_rate[-1]
-                            # print self.detection_list
                             self.detection = 0
-                            # per_pdu = pmt.cons(pmt.make_dict(), pmt.init_f32vector(64,self.PER))    
-                            # self.message_port_pub(pmt.to_pmt("PER"), per_pdu)
+
+                            ##################### COMPUTE BER #####################
+                            self.error_bit_cnt += self.error_bits.count('1')
+                            self.BER = self.error_bit_cnt/float(self.cnt*len(self.error_bits))
+                            print "BER"
+                            print self.BER
+                            ###################### WRITE LOG FILE #########################
+                            if self.save_log :    
+                                # with open(os.path.join('~',self.filename,"a")) as f:
+                                with open(self.filename,"r") as f:
+                                    lines = f.readlines()
+                                    for i in range(len(lines)):
+                                        if 'Total frames' in lines[i]:
+                                            lines[i+1] = self.frame_cnt+'\n'
+                                        if 'Detection' in lines[i]:
+                                            # lines[i+1] = ' '.join(map(str,self.detection_list))+'\n'
+                                            tmp = "{:.2E}".format(self.detection_rate[-1])
+                                            lines[i+1] = tmp+'\n'
+                                        if 'PER' in lines[i]:
+                                            tmp = "{:.2E}".format(self.PER[-1])
+                                            lines[i+1] = tmp+'\n'
+                                            # lines[i+1] = str(self.PER[-1])+'\n'
+                                        if 'BER' in lines[i]:
+                                            tmp = "{:.2E}".format(self.BER)
+                                            lines[i+1] = tmp+'\n'
+                                            # lines[i+1] = str(self.BER)+'\n'
 
 
+                                with open(self.filename,"w") as f:
+                                    f.write(''.join(lines))
 
                             self.RX_frame = [] 
+
                         else : 
                             '''
                             If sensor is inactive, it still has to decide for next frame based on
                             the last received frame. It doesn't matter if the latter is empty,
                             since the inactive frame isn't counted for PER
                             '''
-
                             result = self.compare_pld(self.lines,self.RX_frame)
                             self.lines = self.gen_rand_pld(self.ID,1,result[1],self.tmp_data)
-                            # self.active = True
-
-                        self.i=0
 
                 else :
                     self.message_port_pub(pmt.to_pmt("Array"), pmt.to_pmt("STOP"))

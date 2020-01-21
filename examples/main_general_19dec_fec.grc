@@ -2990,7 +2990,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>value</key>
-      <value>random</value>
+      <value>5</value>
     </param>
   </block>
   <block>
@@ -3190,7 +3190,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>threshold</key>
-      <value>0</value>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -3554,7 +3554,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>activation_rate</key>
-      <value>.5</value>
+      <value>1</value>
     </param>
     <param>
       <key>bs_slots</key>
@@ -3595,6 +3595,10 @@ in order to make less handler calls</value>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>save_log</key>
+      <value>True</value>
     </param>
   </block>
   <block>

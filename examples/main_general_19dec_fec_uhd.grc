@@ -1106,7 +1106,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>100</value>
+      <value>150</value>
     </param>
   </block>
   <block>
@@ -3080,7 +3080,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>threshold</key>
-      <value>10</value>
+      <value>16</value>
     </param>
   </block>
   <block>
@@ -3388,6 +3388,10 @@ in order to make less handler calls</value>
       <value>1</value>
     </param>
     <param>
+      <key>exit_frame</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(176, 680)</value>
     </param>
@@ -3437,6 +3441,10 @@ in order to make less handler calls</value>
     <param>
       <key>Control</key>
       <value>control</value>
+    </param>
+    <param>
+      <key>activation_rate</key>
+      <value>1</value>
     </param>
     <param>
       <key>bs_slots</key>

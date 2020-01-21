@@ -4,7 +4,7 @@
   <key>ephyl_data_and_access_control</key>
   <category>[ephyl]</category>
   <import>import ephyl</import>
-  <make>ephyl.data_and_access_control($bs_slots,$Control,$activation_rate)</make>
+  <make>ephyl.data_and_access_control($bs_slots,$Control,$activation_rate,$save_log)</make>
 
   <param>
     <name>BS Slots</name>
@@ -23,6 +23,12 @@
     <key>activation_rate</key>
     <value>1</value>
     <type>float</type>
+  </param>
+  <param>
+    <name>Save Log</name>
+    <key>save_log</key>
+    <value>False</value>
+    <type>bool</type>
   </param>
 
   <sink>
