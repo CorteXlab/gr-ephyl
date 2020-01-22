@@ -87,7 +87,6 @@ class data_and_access_control(gr.sync_block):
         
         self.error_bits = '0'
         self.error_bit_cnt = 0
-        # self.BER_list = []
         self.BER = 0.0
 
         self.RX = ''
@@ -121,7 +120,10 @@ class data_and_access_control(gr.sync_block):
                 template =                                          \
                 "SN-"+self.ID                                       \
                 +"\n"+"======================"                      \
-                +"\n"+"Total frames: "+str(self.frame_cnt)          \
+                +"\n"+"Access Policy: "+self.control                \
+                +"\n"                                               \
+                +"\n"+"======================"                      \
+                +"\n"+"Total frames: "                              \
                 +"\n"                                               \
                 +"\n"+"======================"                      \
                 +"\n"+"Activation Rate: "                           \
@@ -214,7 +216,8 @@ class data_and_access_control(gr.sync_block):
                         y = int(rx_bits, 2)^int(tx_bits,2)
                         self.error_bits = bin(y)[2:].zfill(len(tx_bits))
                         # print " BITS"
-                        # print tx_bits
+                        # print tx[j][3][:-2]
+                        # print len(tx_bits)
                         # print rx_bits
                         h = f 
 
@@ -442,8 +445,8 @@ class data_and_access_control(gr.sync_block):
                             ##################### COMPUTE BER #####################
                             self.error_bit_cnt += self.error_bits.count('1')
                             self.BER = self.error_bit_cnt/float(self.cnt*len(self.error_bits))
-                            print "BER"
-                            print self.BER
+                            # print "BER"
+                            # print self.BER
                             ###################### WRITE LOG FILE #########################
                             if self.save_log :    
                                 # with open(os.path.join('~',self.filename,"a")) as f:
@@ -464,8 +467,6 @@ class data_and_access_control(gr.sync_block):
                                             tmp = "{:.2E}".format(self.BER)
                                             lines[i+1] = tmp+'\n'
                                             # lines[i+1] = str(self.BER)+'\n'
-
-
                                 with open(self.filename,"w") as f:
                                     f.write(''.join(lines))
 

@@ -10,11 +10,12 @@
     T_g=$T_g,
     T_p=$T_p,
     T_s=$T_s,
+    activation_rate=$activation_rate,
     bs_slots=$bs_slots,
     control=$control,
     cp_ratio=$cp_ratio,
+    log=$log,
     samp_rate=$samp_rate,
-    activation_rate=$activation_rate,
 )</make>
   <callback>set_M($M)</callback>
   <callback>set_N($N)</callback>
@@ -22,11 +23,12 @@
   <callback>set_T_g($T_g)</callback>
   <callback>set_T_p($T_p)</callback>
   <callback>set_T_s($T_s)</callback>
+  <callback>set_activation_rate($activation_rate)</callback>
   <callback>set_bs_slots($bs_slots)</callback>
   <callback>set_control($control)</callback>
   <callback>set_cp_ratio($cp_ratio)</callback>
+  <callback>set_log($log)</callback>
   <callback>set_samp_rate($samp_rate)</callback>
-  <callback>set_activation_rate($activation_rate)</callback>
   <param>
     <name>M</name>
     <key>M</key>
@@ -64,6 +66,12 @@
     <type>raw</type>
   </param>
   <param>
+    <name>Activation Rate</name>
+    <key>activation_rate</key>
+    <value>1</value>
+    <type>raw</type>
+  </param>
+  <param>
     <name>BS Slots</name>
     <key>bs_slots</key>
     <value>range(5)</value>
@@ -82,15 +90,15 @@
     <type>raw</type>
   </param>
   <param>
-    <name>Sample rate</name>
-    <key>samp_rate</key>
-    <value>1e6</value>
+    <name>Generate log file</name>
+    <key>log</key>
+    <value>True</value>
     <type>raw</type>
   </param>
   <param>
-    <name>Activation Rate</name>
-    <key>activation_rate</key>
-    <value>1</value>
+    <name>Sample rate</name>
+    <key>samp_rate</key>
+    <value>1e6</value>
     <type>raw</type>
   </param>
   <sink>
@@ -116,5 +124,5 @@
   </source>
   <doc>Othmane Oubejja
 /home/othmane/.grc_gnuradio/hier_sensor.py</doc>
-  <grc_source>/home/othmane/Bureau/EPHYL/CNERT/demo/local/hier_sensor.grc</grc_source>
+  <grc_source>/home/othmane/comp_dir/gr-ephyl/examples/hier_sensor.grc</grc_source>
 </block>

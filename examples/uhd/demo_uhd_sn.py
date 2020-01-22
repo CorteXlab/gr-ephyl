@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Demo Loop
-# Generated: Tue Jan 21 19:32:02 2020
+# Title: Demo Uhd Sn
+# Generated: Wed Jan 22 15:41:26 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -22,28 +22,28 @@ sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnura
 
 from PyQt4 import Qt
 from gnuradio import blocks
-from gnuradio import channels
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import qtgui
+from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
-from hier_bs import hier_bs  # grc-generated hier_block
 from hier_sensor import hier_sensor  # grc-generated hier_block
 from optparse import OptionParser
 import math, sys, numpy as np, random,string
 import pmt
 import sip
+import time
 from gnuradio import qtgui
 
 
-class demo_loop(gr.top_block, Qt.QWidget):
+class demo_uhd_sn(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, T_sync=50, bs_slots=range(10), control0='0:1:2', control1='7:8:9', control2='basic', control3='ucb', cp_ratio=0.25):
-        gr.top_block.__init__(self, "Demo Loop")
+    def __init__(self, M=32, N=1, T_bch=200, T_g=20, T_p=200, T_s=150, bs_slots=range(10), control0='0:1', control1='8:9', control2='basic', control3='ucb', cp_ratio=0.25):
+        gr.top_block.__init__(self, "Demo Uhd Sn")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Demo Loop")
+        self.setWindowTitle("Demo Uhd Sn")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -61,7 +61,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "demo_loop")
+        self.settings = Qt.QSettings("GNU Radio", "demo_uhd_sn")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -73,7 +73,6 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.T_g = T_g
         self.T_p = T_p
         self.T_s = T_s
-        self.T_sync = T_sync
         self.bs_slots = bs_slots
         self.control0 = control0
         self.control1 = control1
@@ -84,76 +83,29 @@ class demo_loop(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.time_offset = time_offset = 1
-        self.samp_rate = samp_rate = 1e6
-        self.phase = phase = 0
-        self.noise_voltage = noise_voltage = 0
-        self.freq_offset = freq_offset = 0
+        self.samp_rate = samp_rate = 1000000
+        self.gain = gain = 14
         self.freq = freq = 2450e6
-        self.frame_len = frame_len = (T_bch+T_sync+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
+        self.frame_len = frame_len = (T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
+        self.bs_slots_0 = bs_slots_0 = bs_slots[:3]
 
         ##################################################
         # Blocks
         ##################################################
-        self._time_offset_range = Range(0.995, 1.005, 0.00001, 1, 200)
-        self._time_offset_win = RangeWidget(self._time_offset_range, self.set_time_offset, 'Timing Offset', "counter_slider", float)
-        self.top_layout.addWidget(self._time_offset_win)
-        self._phase_range = Range(0, 2*3.14, .01, 0, 200)
-        self._phase_win = RangeWidget(self._phase_range, self.set_phase, 'taps phase', "counter_slider", float)
-        self.top_layout.addWidget(self._phase_win)
-        self._noise_voltage_range = Range(0, 10, .01, 0, 200)
-        self._noise_voltage_win = RangeWidget(self._noise_voltage_range, self.set_noise_voltage, 'Noise Amplitude', "counter_slider", float)
-        self.top_layout.addWidget(self._noise_voltage_win)
-        self._freq_offset_range = Range(-.1, .1, .00001, 0, 200)
-        self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, 'Frequency Offset (Multiples of Sub-carrier spacing)', "counter_slider", float)
-        self.top_layout.addWidget(self._freq_offset_win)
-        self.qtgui_time_sink_x_0_0_0_1_0_0 = qtgui.time_sink_f(
-        	int(frame_len*samp_rate)/int(2*M*(1+cp_ratio)), #size
-        	samp_rate/int(2*M*(1+cp_ratio)), #samp_rate
-        	'BS IQ Frame', #name
-        	1 #number of inputs
+        self._gain_range = Range(0, 25, 1, 14, 200)
+        self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Absolute Gain', "counter_slider", float)
+        self.top_layout.addWidget(self._gain_win)
+        self.uhd_usrp_sink_0 = uhd.usrp_sink(
+        	",".join(('', "")),
+        	uhd.stream_args(
+        		cpu_format="fc32",
+        		channels=range(1),
+        	),
         )
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_y_axis(-1, 400)
-
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0_0_0_1_0_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, .9, 0, 0, 'BCH')
-        self.qtgui_time_sink_x_0_0_0_1_0_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.enable_grid(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.enable_control_panel(False)
-
-        if not True:
-          self.qtgui_time_sink_x_0_0_0_1_0_0.disable_legend()
-
-        labels = ['UL BS', 'UL SN', 'BCH BS', '', '',
-                  '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-                  "magenta", "yellow", "dark red", "dark green", "blue"]
-        styles = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-                   -1, -1, -1, -1, -1]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in xrange(1):
-            if len(labels[i]) == 0:
-                self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_time_sink_x_0_0_0_1_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0_1_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_0_1_0_0_win)
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_sink_0.set_center_freq(freq, 0)
+        self.uhd_usrp_sink_0.set_gain(gain, 0)
+        self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
         	64, #size
         	samp_rate, #samp_rate
@@ -257,32 +209,9 @@ class demo_loop(gr.top_block, Qt.QWidget):
             log=True,
             samp_rate=samp_rate,
         )
-        self.hier_bs_0 = hier_bs(
-            M=M,
-            N=N,
-            T_bch=T_bch,
-            T_g=T_g,
-            T_p=T_p,
-            T_s=T_s,
-            UHD=False,
-            bs_slots=bs_slots,
-            cp_ratio=cp_ratio,
-            exit_frame=1000,
-            samp_rate=samp_rate,
-        )
-        self.channels_channel_model_0 = channels.channel_model(
-        	noise_voltage=noise_voltage,
-        	frequency_offset=freq_offset,
-        	epsilon=time_offset,
-        	taps=(complex(np.cos(phase),np.sin(phase)), ),
-        	noise_seed=0,
-        	block_tags=True
-        )
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', 10000, True)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', 10000, True)
         self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
-        self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
 
         ##################################################
@@ -297,12 +226,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'DL'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'BCN'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'DL'))
-        self.msg_connect((self.hier_bs_0, 'BCH'), (self.blocks_socket_pdu_0, 'pdus'))
-        self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))
-        self.connect((self.blocks_add_xx_0, 0), (self.channels_channel_model_0, 0))
-        self.connect((self.blocks_complex_to_real_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.hier_bs_0, 0))
-        self.connect((self.hier_bs_0, 0), (self.blocks_complex_to_real_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.uhd_usrp_sink_0, 0))
         self.connect((self.hier_sensor_0, 1), (self.blocks_add_xx_0, 0))
         self.connect((self.hier_sensor_0, 0), (self.blocks_null_sink_1, 0))
         self.connect((self.hier_sensor_0, 0), (self.qtgui_time_sink_x_0, 0))
@@ -314,7 +238,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.connect((self.hier_sensor_0_2, 0), (self.qtgui_time_sink_x_0, 1))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "demo_loop")
+        self.settings = Qt.QSettings("GNU Radio", "demo_uhd_sn")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -323,86 +247,72 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_M(self, M):
         self.M = M
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
         self.hier_sensor_0_2.set_M(self.M)
         self.hier_sensor_0_1.set_M(self.M)
         self.hier_sensor_0_0.set_M(self.M)
         self.hier_sensor_0.set_M(self.M)
-        self.hier_bs_0.set_M(self.M)
 
     def get_N(self):
         return self.N
 
     def set_N(self, N):
         self.N = N
-        self.hier_bs_0.set_N(self.N)
 
     def get_T_bch(self):
         return self.T_bch
 
     def set_T_bch(self, T_bch):
         self.T_bch = T_bch
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_bch(self.T_bch)
         self.hier_sensor_0_1.set_T_bch(self.T_bch)
         self.hier_sensor_0_0.set_T_bch(self.T_bch)
         self.hier_sensor_0.set_T_bch(self.T_bch)
-        self.hier_bs_0.set_T_bch(self.T_bch)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
 
     def get_T_g(self):
         return self.T_g
 
     def set_T_g(self, T_g):
         self.T_g = T_g
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_g(self.T_g)
         self.hier_sensor_0_1.set_T_g(self.T_g)
         self.hier_sensor_0_0.set_T_g(self.T_g)
         self.hier_sensor_0.set_T_g(self.T_g)
-        self.hier_bs_0.set_T_g(self.T_g)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
 
     def get_T_p(self):
         return self.T_p
 
     def set_T_p(self, T_p):
         self.T_p = T_p
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_p(self.T_p)
         self.hier_sensor_0_1.set_T_p(self.T_p)
         self.hier_sensor_0_0.set_T_p(self.T_p)
         self.hier_sensor_0.set_T_p(self.T_p)
-        self.hier_bs_0.set_T_p(self.T_p)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
 
     def get_T_s(self):
         return self.T_s
 
     def set_T_s(self, T_s):
         self.T_s = T_s
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_s(self.T_s)
         self.hier_sensor_0_1.set_T_s(self.T_s)
         self.hier_sensor_0_0.set_T_s(self.T_s)
         self.hier_sensor_0.set_T_s(self.T_s)
-        self.hier_bs_0.set_T_s(self.T_s)
-
-    def get_T_sync(self):
-        return self.T_sync
-
-    def set_T_sync(self, T_sync):
-        self.T_sync = T_sync
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
 
     def get_bs_slots(self):
         return self.bs_slots
 
     def set_bs_slots(self, bs_slots):
         self.bs_slots = bs_slots
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_bs_slots(self.bs_slots)
         self.hier_sensor_0_1.set_bs_slots(self.bs_slots)
         self.hier_sensor_0_0.set_bs_slots(self.bs_slots)
         self.hier_sensor_0.set_bs_slots(self.bs_slots)
-        self.hier_bs_0.set_bs_slots(self.bs_slots)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_bs_slots_0(self.bs_slots[:3])
 
     def get_control0(self):
         return self.control0
@@ -437,59 +347,37 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_cp_ratio(self, cp_ratio):
         self.cp_ratio = cp_ratio
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
         self.hier_sensor_0_2.set_cp_ratio(self.cp_ratio)
         self.hier_sensor_0_1.set_cp_ratio(self.cp_ratio)
         self.hier_sensor_0_0.set_cp_ratio(self.cp_ratio)
         self.hier_sensor_0.set_cp_ratio(self.cp_ratio)
-        self.hier_bs_0.set_cp_ratio(self.cp_ratio)
-
-    def get_time_offset(self):
-        return self.time_offset
-
-    def set_time_offset(self, time_offset):
-        self.time_offset = time_offset
-        self.channels_channel_model_0.set_timing_offset(self.time_offset)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.hier_sensor_0_2.set_samp_rate(self.samp_rate)
         self.hier_sensor_0_1.set_samp_rate(self.samp_rate)
         self.hier_sensor_0_0.set_samp_rate(self.samp_rate)
         self.hier_sensor_0.set_samp_rate(self.samp_rate)
-        self.hier_bs_0.set_samp_rate(self.samp_rate)
 
-    def get_phase(self):
-        return self.phase
+    def get_gain(self):
+        return self.gain
 
-    def set_phase(self, phase):
-        self.phase = phase
-        self.channels_channel_model_0.set_taps((complex(np.cos(self.phase),np.sin(self.phase)), ))
+    def set_gain(self, gain):
+        self.gain = gain
+        self.uhd_usrp_sink_0.set_gain(self.gain, 0)
 
-    def get_noise_voltage(self):
-        return self.noise_voltage
-
-    def set_noise_voltage(self, noise_voltage):
-        self.noise_voltage = noise_voltage
-        self.channels_channel_model_0.set_noise_voltage(self.noise_voltage)
-
-    def get_freq_offset(self):
-        return self.freq_offset
-
-    def set_freq_offset(self, freq_offset):
-        self.freq_offset = freq_offset
-        self.channels_channel_model_0.set_frequency_offset(self.freq_offset)
 
     def get_freq(self):
         return self.freq
 
     def set_freq(self, freq):
         self.freq = freq
+        self.uhd_usrp_sink_0.set_center_freq(self.freq, 0)
 
     def get_frame_len(self):
         return self.frame_len
@@ -497,14 +385,20 @@ class demo_loop(gr.top_block, Qt.QWidget):
     def set_frame_len(self, frame_len):
         self.frame_len = frame_len
 
+    def get_bs_slots_0(self):
+        return self.bs_slots_0
+
+    def set_bs_slots_0(self, bs_slots_0):
+        self.bs_slots_0 = bs_slots_0
+
 
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
     parser.add_option(
-        "", "--control0", dest="control0", type="string", default='0:1:2',
+        "", "--control0", dest="control0", type="string", default='0:1',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control1", dest="control1", type="string", default='7:8:9',
+        "", "--control1", dest="control1", type="string", default='8:9',
         help="Set Control [default=%default]")
     parser.add_option(
         "", "--control2", dest="control2", type="string", default='basic',
@@ -515,7 +409,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=demo_loop, options=None):
+def main(top_block_cls=demo_uhd_sn, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 

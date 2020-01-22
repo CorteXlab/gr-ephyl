@@ -11,6 +11,7 @@
     bs_slots=$bs_slots,
     control=$control,
     samp_rate=$samp_rate,
+    activation_rate=$activation_rate,
 )</make>
   <callback>set_T_bch($T_bch)</callback>
   <callback>set_T_g($T_g)</callback>
@@ -19,6 +20,7 @@
   <callback>set_bs_slots($bs_slots)</callback>
   <callback>set_control($control)</callback>
   <callback>set_samp_rate($samp_rate)</callback>
+  <callback>set_activation_rate($activation_rate)</callback>
   <param>
     <name>BCH duration (ms)</name>
     <key>T_bch</key>
@@ -59,6 +61,12 @@
     <name>Sample rate</name>
     <key>samp_rate</key>
     <value>1e6</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Activation Rate</name>
+    <key>activation_rate</key>
+    <value>1</value>
     <type>raw</type>
   </param>
   <sink>

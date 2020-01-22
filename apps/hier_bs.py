@@ -3,7 +3,7 @@
 # GNU Radio Python Flow Graph
 # Title: IoT BS Emulator
 # Author: Othmane Oubejja
-# Generated: Thu Jan 16 16:40:35 2020
+# Generated: Wed Jan 22 15:38:47 2020
 ##################################################
 
 from gnuradio import blocks
@@ -19,7 +19,7 @@ import math, sys, numpy as np, random
 
 class hier_bs(gr.hier_block2):
 
-    def __init__(self, M=32, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, UHD=True, bs_slots=range(5), cp_ratio=0.25, samp_rate=1e6, exit_frame=0):
+    def __init__(self, M=32, N=1, T_bch=10, T_g=20, T_p=50, T_s=50, UHD=True, bs_slots=range(5), cp_ratio=0.25, exit_frame=0, samp_rate=1e6):
         gr.hier_block2.__init__(
             self, "IoT BS Emulator",
             gr.io_signature(1, 1, gr.sizeof_gr_complex*1),
@@ -40,8 +40,8 @@ class hier_bs(gr.hier_block2):
         self.UHD = UHD
         self.bs_slots = bs_slots
         self.cp_ratio = cp_ratio
-        self.samp_rate = samp_rate
         self.exit_frame = exit_frame
+        self.samp_rate = samp_rate
 
         ##################################################
         # Variables
@@ -73,7 +73,7 @@ class hier_bs(gr.hier_block2):
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(2)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(2*3.14/100, 2, False)
         self.digital_correlate_access_code_xx_ts_1 = digital.correlate_access_code_bb_ts(digital.packet_utils.default_access_code,
-          10, 'burst')
+          20, 'burst')
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(constel)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, M)
         self.blocks_tagged_stream_to_pdu_0_0 = blocks.tagged_stream_to_pdu(blocks.byte_t, 'burst')
@@ -173,17 +173,17 @@ class hier_bs(gr.hier_block2):
         self.blocks_keep_m_in_n_0.set_offset(int(self.cp_ratio*self.M))
         self.blocks_keep_m_in_n_0.set_n(int(self.M*(1+self.cp_ratio)))
 
-    def get_samp_rate(self):
-        return self.samp_rate
-
-    def set_samp_rate(self, samp_rate):
-        self.samp_rate = samp_rate
-
     def get_exit_frame(self):
         return self.exit_frame
 
     def set_exit_frame(self, exit_frame):
         self.exit_frame = exit_frame
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
 
     def get_rate(self):
         return self.rate
