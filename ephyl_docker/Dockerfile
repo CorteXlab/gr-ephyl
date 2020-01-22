@@ -22,7 +22,7 @@ ENV INSTALL_PATH "/cortexlab/toolchains/current"
 ENV MCR_PATH "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/extern/include"
 ENV CPATH "$CPATH:${MCR_PATH}"
 
-#
+ENV TEST "TEST"
 WORKDIR /root/cxlb_toolchain_build
 RUN git clone git://github.com/CorteXlab/gr-ephyl.git
 WORKDIR gr-ephyl
