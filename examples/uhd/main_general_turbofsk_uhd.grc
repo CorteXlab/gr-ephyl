@@ -1791,7 +1791,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>UHD</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>Proc_time</key>
@@ -1814,7 +1814,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>activation_rate</key>
-      <value>.5</value>
+      <value>1</value>
     </param>
     <param>
       <key>bs_slots</key>
@@ -2581,7 +2581,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 568)</value>
+      <value>(976, 904)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2873,7 +2873,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>tr_mode</key>
-      <value>qtgui.TRIG_MODE_TAG</value>
+      <value>qtgui.TRIG_MODE_AUTO</value>
     </param>
     <param>
       <key>tr_slope</key>
@@ -6674,6 +6674,12 @@ in order to make less handler calls</value>
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0_0</source_block_id>
+    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_0_0</source_block_id>
     <sink_block_id>uhd_usrp_sink_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -6747,12 +6753,6 @@ in order to make less handler calls</value>
   <connection>
     <source_block_id>ephyl_bs_scheduler_0</source_block_id>
     <sink_block_id>blocks_complex_to_float_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

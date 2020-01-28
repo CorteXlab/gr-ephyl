@@ -231,33 +231,6 @@
     </param>
   </block>
   <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1712, 140)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>eb</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0.22</value>
-    </param>
-  </block>
-  <block>
     <key>variable_cc_encoder_def</key>
     <param>
       <key>padding</key>
@@ -382,69 +355,6 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1482, 0)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>freq_offset</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Frequency Offset (Multiples of Sub-carrier spacing)</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>-.1</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>.00001</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>.1</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
       <value>9</value>
     </param>
     <param>
@@ -539,159 +449,6 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1664, 212)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>nfilts</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>32</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1336, 0)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>noise_voltage</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Noise Amplitude</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>.001</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1336, 120)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>phase</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>taps phase</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>.01</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>2*3.14</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(2112, 1508)</value>
     </param>
     <param>
@@ -759,96 +516,6 @@
     <param>
       <key>value</key>
       <value>int(1e6)</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1640, 140)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>sps</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>2</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1648, 0)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>time_offset</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Timing Offset</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0.995</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>0.00001</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>1.005</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -1107,49 +774,6 @@
     <param>
       <key>value</key>
       <value>150</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(952, 108)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>T_sync</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Sync duration (ms)</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>50</value>
     </param>
   </block>
   <block>
@@ -1638,7 +1262,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2837,7 +2461,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>value</key>
-      <value>range(10)</value>
+      <value>range(5)</value>
     </param>
   </block>
   <block>
@@ -2880,7 +2504,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>value</key>
-      <value>random</value>
+      <value>0:3</value>
     </param>
   </block>
   <block>
@@ -3080,7 +2704,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>threshold</key>
-      <value>16</value>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -3485,6 +3109,10 @@ in order to make less handler calls</value>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>save_log</key>
+      <value>False</value>
     </param>
   </block>
   <block>
@@ -7881,11 +7509,11 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>dc_offs_enb0</key>
-      <value>""</value>
+      <value>True</value>
     </param>
     <param>
       <key>iq_imbal_enb0</key>
-      <value>""</value>
+      <value>True</value>
     </param>
     <param>
       <key>norm_gain0</key>
@@ -9738,92 +9366,6 @@ in order to make less handler calls</value>
     <param>
       <key>stream_id</key>
       <value>bcn</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1064, 4)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>zc</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Correlation sequence (Zadoff-Chu)</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>[complex(1,0),complex(-0.959492973614497,-0.281732556841430),complex(-0.654860733945284,-0.755749574354259),complex(-0.142314838273288,0.989821441880932),-complex(-0.959492973614497,0.281732556841430),-complex(0.415415013001886,0.909631995354519),complex(-0.959492973614501,0.281732556841419),complex(-0.142314838273291,0.989821441880932),complex(-0.654860733945281,-0.755749574354262),-complex(-0.959492973614493,-0.281732556841446),complex(1,-9.82193361864236e-16)]</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>long</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(888, 4)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>zc</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Correlation sequence (Zadoff-Chu)</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>[1.00000000000000 + 0.00000000000000j,0.878221573370229 - 0.478253978621318j,0.0747300935864244 - 0.997203797181180j,-0.988830826225129 - 0.149042266176175j,0.270840468143005 + 0.962624246950012j,0.365341024366395 - 0.930873748644204j,-0.500000000000001 + 0.866025403784438j,0.173648177666931 - 0.984807753012208j,0.623489801858733 + 0.781831482468030j,-0.900968867902420 + 0.433883739117557j,-0.661685837596860 - 0.749781202967734j,0.0747300935864232 - 0.997203797181180j,0.365341024366399 - 0.930873748644203j,0.173648177666941 - 0.984807753012206j,-0.499999999999996 - 0.866025403784441j,-0.988830826225129 + 0.149042266176174j,0.270840468143001 + 0.962624246950013j,0.623489801858741 - 0.781831482468024j,-0.900968867902418 + 0.433883739117562j,0.878221573370231 - 0.478253978621314j,-0.500000000000008 + 0.866025403784434j,-0.499999999999994 - 0.866025403784442j,0.878221573370228 - 0.478253978621319j,0.826238774316003 + 0.563320058063611j,0.365341024366398 + 0.930873748644203j,0.270840468142977 + 0.962624246950020j,0.623489801858712 + 0.781831482468047j,1.00000000000000 + 2.15587355100861e-14j,0.173648177666940 - 0.984807753012207j,-0.988830826225127 + 0.149042266176183j,0.826238774315981 + 0.563320058063643j,-0.661685837596840 - 0.749781202967751j,0.826238774315968 + 0.563320058063662j,-0.988830826225134 + 0.149042266176138j,0.173648177666894 - 0.984807753012215j,1.00000000000000 + 5.48790321370795e-14j,0.623489801858712 + 0.781831482468047j,0.270840468142956 + 0.962624246950026j,0.365341024366384 + 0.930873748644209j,0.826238774315981 + 0.563320058063642j,0.878221573370217 - 0.478253978621340j,-0.499999999999971 - 0.866025403784455j,-0.500000000000025 + 0.866025403784424j,0.878221573370238 - 0.478253978621301j,-0.900968867902421 + 0.433883739117554j,0.623489801858722 - 0.781831482468040j,0.270840468143045 + 0.962624246950001j,-0.988830826225135 + 0.149042266176134j,-0.499999999999997 - 0.866025403784441j,0.173648177667004 - 0.984807753012195j,0.365341024366526 - 0.930873748644153j,0.0747300935863980 - 0.997203797181182j,-0.661685837596838 - 0.749781202967753j,-0.900968867902404 + 0.433883739117591j,0.623489801858728 + 0.781831482468035j,0.173648177666975 - 0.984807753012200j,-0.500000000000068 + 0.866025403784399j,0.365341024366387 - 0.930873748644207j,0.270840468142883 + 0.962624246950047j,-0.988830826225141 - 0.149042266176091j,0.0747300935864645 - 0.997203797181177j,0.878221573370250 - 0.478253978621278j,1.00000000000000 + 4.50694781311690e-14j]</value>
     </param>
   </block>
   <connection>

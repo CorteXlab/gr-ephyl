@@ -120,8 +120,8 @@ class data_and_access_control(gr.sync_block):
                 template =                                          \
                 "SN-"+self.ID                                       \
                 +"\n"+"======================"                      \
-                +"\n"+"Access Policy: "+self.control                \
-                +"\n"                                               \
+                +"\n"+"Access Policy: "                             \
+                +"\n"+self.control                                  \
                 +"\n"+"======================"                      \
                 +"\n"+"Total frames: "                              \
                 +"\n"                                               \
@@ -129,11 +129,17 @@ class data_and_access_control(gr.sync_block):
                 +"\n"+"Activation Rate: "                           \
                 +"\n"+str(self.activation_rate)                     \
                 +"\n"+"======================"                      \
-                +"\n"+"Detection Rate: "                            \
+                +"\n"+"Observed activation rate: "                  \
                 +"\n"                                               \
                 +"\n"+"======================"                      \
-                +"\n"+"PER (Packet Error Rate): "                   \
+                +"\n"+"Active frames: "                             \
                 +"\n"                                               \
+                +"\n"+"======================"                      \
+                +"\n"+"Detection rate: "                            \
+                +"\n\n"                                             \
+                +"\n"+"======================"                      \
+                +"\n"+"PER (Packet Error Rate): "                   \
+                +"\n\n"                                             \
                 +"\n"+"======================"                      \
                 +"\n"+"BER (Bit Error Rate): "                      \
                 +"\n"                                               \
@@ -323,6 +329,7 @@ class data_and_access_control(gr.sync_block):
         else :
             self.error = 1
         
+        # if v.count('s') > 0 and v.count('i') > 0:
         if v.count('s') > 0 or v.count('i') > 0:
             self.detection = 1
         else:
@@ -454,19 +461,23 @@ class data_and_access_control(gr.sync_block):
                                     lines = f.readlines()
                                     for i in range(len(lines)):
                                         if 'Total frames' in lines[i]:
-                                            lines[i+1] = self.frame_cnt+'\n'
-                                        if 'Detection' in lines[i]:
-                                            # lines[i+1] = ' '.join(map(str,self.detection_list))+'\n'
+                                            lines[i+1] = str(int(self.frame_cnt)+1)+'\n'
+                                        if 'Observed activation rate' in lines[i]:
+                                            lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)+1))+'\n'
+                                        if 'Active frames' in lines[i]:
+                                            # lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)+1))+'\n'
+                                            lines[i+1] = self.frame_cnt + ' ' + lines[i+1]
+                                        if 'Detection rate' in lines[i]:
                                             tmp = "{:.2E}".format(self.detection_rate[-1])
                                             lines[i+1] = tmp+'\n'
+                                            lines[i+2] = ' '.join(map(str,self.detection_list))+'\n'
                                         if 'PER' in lines[i]:
                                             tmp = "{:.2E}".format(self.PER[-1])
                                             lines[i+1] = tmp+'\n'
-                                            # lines[i+1] = str(self.PER[-1])+'\n'
+                                            lines[i+2] = ' '.join(map(str,self.error_list))+'\n'
                                         if 'BER' in lines[i]:
                                             tmp = "{:.2E}".format(self.BER)
                                             lines[i+1] = tmp+'\n'
-                                            # lines[i+1] = str(self.BER)+'\n'
                                 with open(self.filename,"w") as f:
                                     f.write(''.join(lines))
 

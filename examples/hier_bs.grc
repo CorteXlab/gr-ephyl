@@ -191,7 +191,7 @@
     </param>
     <param>
       <key>framebits</key>
-      <value>frame_size</value>
+      <value>MTU*8</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -405,7 +405,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>32</value>
+      <value>64</value>
     </param>
   </block>
   <block>
@@ -463,11 +463,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 68)</value>
+      <value>(640, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -491,7 +491,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>10</value>
+      <value>200</value>
     </param>
   </block>
   <block>
@@ -510,7 +510,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 68)</value>
+      <value>(480, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -553,7 +553,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 68)</value>
+      <value>(792, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -565,7 +565,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>Proc duration (ms)</value>
+      <value>Processing duration (ms)</value>
     </param>
     <param>
       <key>short_id</key>
@@ -577,7 +577,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>50</value>
+      <value>200</value>
     </param>
   </block>
   <block>
@@ -596,7 +596,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(504, 68)</value>
+      <value>(328, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -620,7 +620,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>50</value>
+      <value>150</value>
     </param>
   </block>
   <block>
@@ -890,11 +890,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1464, 372)</value>
+      <value>(1496, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1169,7 +1169,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>range(5)</value>
+      <value>range(10)</value>
     </param>
   </block>
   <block>
@@ -1310,7 +1310,7 @@
     </param>
     <param>
       <key>threshold</key>
-      <value>20</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -1713,7 +1713,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1987,7 +1987,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 396)</value>
+      <value>(24, 396)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2135,12 +2135,6 @@
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>digital_constellation_decoder_cb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>pad_sink_0_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -2184,6 +2178,18 @@
   <connection>
     <source_block_id>digital_costas_loop_cc_0</source_block_id>
     <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_costas_loop_cc_0</source_block_id>
+    <sink_block_id>digital_constellation_decoder_cb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>digital_costas_loop_cc_0</source_block_id>
+    <sink_block_id>pad_sink_0_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

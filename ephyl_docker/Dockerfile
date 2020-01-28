@@ -34,7 +34,7 @@ WORKDIR build
 RUN cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH} ..
 RUN make
 RUN make install
-RUN cp ../apps/hier_* /root/.grc_gnuradio/
+RUN cp ../examples/hier_* /root/.grc_gnuradio/
 WORKDIR /root
 RUN /bin/bash -c "source cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf "
 # CMD [ "source", "cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf" ]
