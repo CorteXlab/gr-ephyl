@@ -22,8 +22,9 @@ ENV INSTALL_PATH "/cortexlab/toolchains/current"
 ENV MCR_PATH "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/extern/include"
 ENV CPATH "$CPATH:${MCR_PATH}"
 
-ENV TEST "TEST"
 WORKDIR /root/cxlb_toolchain_build
+# The following command guarantees that git cloning is updated for each new commit
+ADD https://api.github.com/repos/CorteXlab/gr-ephyl/git/refs/heads/master version.json
 RUN git clone git://github.com/CorteXlab/gr-ephyl.git
 WORKDIR gr-ephyl
 
