@@ -73,11 +73,11 @@ class msg_mux(gr.sync_block):
     def handle_frame(self, msg_pmt):
         with self.lock :
             self.frame_n = str(pmt.to_python(pmt.cdr(msg_pmt))[1])
-
+            # print "AAAAAA\n"
     def handle_slot(self, msg_pmt):
         with self.lock :
             self.slot_n = str(pmt.to_python(pmt.cdr(msg_pmt))[1])
-
+            # print "BBBBB\n"
 
     def handle_data(self, msg_pmt):
         with self.lock : 

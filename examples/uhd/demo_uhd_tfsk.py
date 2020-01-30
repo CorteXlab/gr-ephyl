@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Demo Uhd
-# Generated: Wed Jan 29 17:11:23 2020
+# Title: Demo Uhd Tfsk
+# Generated: Wed Jan 29 17:14:20 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -29,8 +29,8 @@ from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
-from hier_bs import hier_bs  # grc-generated hier_block
-from hier_sensor import hier_sensor  # grc-generated hier_block
+from hier_bs_turbofsk import hier_bs_turbofsk  # grc-generated hier_block
+from hier_sensor_turbofsk import hier_sensor_turbofsk  # grc-generated hier_block
 from optparse import OptionParser
 import math, sys, numpy as np, random,string
 import pmt
@@ -39,12 +39,12 @@ import time
 from gnuradio import qtgui
 
 
-class demo_uhd(gr.top_block, Qt.QWidget):
+class demo_uhd_tfsk(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=20, T_p=300, T_s=100, bs_slots=range(10), control0='0:1:2', control1='8:9', control2='basic', control3='ucb', cp_ratio=0.25):
-        gr.top_block.__init__(self, "Demo Uhd")
+    def __init__(self, T_bch=200, T_g=20, T_p=200, T_s=150, bs_slots=range(10), control0='0:1', control1='8:9', control2='basic', control3='ucb'):
+        gr.top_block.__init__(self, "Demo Uhd Tfsk")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Demo Uhd")
+        self.setWindowTitle("Demo Uhd Tfsk")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -62,14 +62,12 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "demo_uhd")
+        self.settings = Qt.QSettings("GNU Radio", "demo_uhd_tfsk")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Parameters
         ##################################################
-        self.M = M
-        self.N = N
         self.T_bch = T_bch
         self.T_g = T_g
         self.T_p = T_p
@@ -79,13 +77,12 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         self.control1 = control1
         self.control2 = control2
         self.control3 = control3
-        self.cp_ratio = cp_ratio
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 1000000
-        self.gain = gain = 9
+        self.gain = gain = 14
         self.freq = freq = 2450e6
         self.frame_len = frame_len = (T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
         self.bs_slots_0 = bs_slots_0 = bs_slots[:3]
@@ -93,11 +90,11 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._gain_range = Range(0, 25, 1, 9, 200)
+        self._gain_range = Range(0, 25, 1, 14, 200)
         self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Absolute Gain', "counter_slider", float)
         self.top_layout.addWidget(self._gain_win)
         self.uhd_usrp_source_0_0 = uhd.usrp_source(
-        	",".join(('addr=192.168.10.3', "")),
+        	",".join(('addr=192.168.10.2', "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
@@ -107,10 +104,8 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         self.uhd_usrp_source_0_0.set_center_freq(freq, 0)
         self.uhd_usrp_source_0_0.set_gain(gain, 0)
         self.uhd_usrp_source_0_0.set_antenna('TX/RX', 0)
-        self.uhd_usrp_source_0_0.set_auto_dc_offset(True, 0)
-        self.uhd_usrp_source_0_0.set_auto_iq_balance(True, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(('addr=192.168.10.2', "")),
+        	",".join(('addr=192.168.10.3', "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
@@ -120,9 +115,9 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_center_freq(freq, 0)
         self.uhd_usrp_sink_0.set_gain(gain, 0)
         self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
-        self.qtgui_time_sink_x_0_0_0_1_0_0 = qtgui.time_sink_c(
-        	int(frame_len*samp_rate)/int(2*M*(1+cp_ratio)), #size
-        	samp_rate/int(2*M*(1+cp_ratio)), #samp_rate
+        self.qtgui_time_sink_x_0_0_0_1_0_0 = qtgui.time_sink_f(
+        	int(frame_len*samp_rate), #size
+        	samp_rate, #samp_rate
         	'BS IQ Frame', #name
         	1 #number of inputs
         )
@@ -154,12 +149,9 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
                   1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in xrange(2*1):
+        for i in xrange(1):
             if len(labels[i]) == 0:
-                if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, "Data {0}".format(i))
             else:
                 self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_label(i, labels[i])
             self.qtgui_time_sink_x_0_0_0_1_0_0.set_line_width(i, widths[i])
@@ -217,37 +209,7 @@ class demo_uhd(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
-        self.hier_sensor_0_2 = hier_sensor(
-            M=M,
-            N=1,
-            T_bch=T_bch,
-            T_g=T_g,
-            T_p=T_p,
-            T_s=T_s,
-            activation_rate=1,
-            bs_slots=bs_slots,
-            control=control1,
-            cp_ratio=cp_ratio,
-            log=True,
-            samp_rate=samp_rate,
-        )
-        self.hier_sensor_0_1 = hier_sensor(
-            M=M,
-            N=1,
-            T_bch=T_bch,
-            T_g=T_g,
-            T_p=T_p,
-            T_s=T_s,
-            activation_rate=1,
-            bs_slots=bs_slots,
-            control=control3,
-            cp_ratio=cp_ratio,
-            log=True,
-            samp_rate=samp_rate,
-        )
-        self.hier_sensor_0_0 = hier_sensor(
-            M=M,
-            N=1,
+        self.hier_sensor_turbofsk_0_1_0 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
@@ -255,93 +217,87 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control2,
-            cp_ratio=cp_ratio,
-            log=True,
             samp_rate=samp_rate,
         )
-        self.hier_sensor_0 = hier_sensor(
-            M=M,
-            N=1,
+        self.hier_sensor_turbofsk_0_1 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
             activation_rate=1,
             bs_slots=bs_slots,
-            control=control0,
-            cp_ratio=cp_ratio,
-            log=False,
+            control=control2,
             samp_rate=samp_rate,
         )
-        self.hier_bs_0 = hier_bs(
-            M=M,
-            N=N,
+        self.hier_sensor_turbofsk_0_0 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
-            UHD=True,
+            activation_rate=1,
+            bs_slots=bs_slots_0,
+            control=control0,
+            samp_rate=samp_rate,
+        )
+        self.hier_sensor_turbofsk_0 = hier_sensor_turbofsk(
+            T_bch=T_bch,
+            T_g=T_g,
+            T_p=T_p,
+            T_s=T_s,
+            activation_rate=1,
             bs_slots=bs_slots,
-            cp_ratio=cp_ratio,
-            exit_frame=0,
+            control=control1,
+            samp_rate=samp_rate,
+        )
+        self.hier_bs_turbofsk_0 = hier_bs_turbofsk(
+            T_bch=T_bch,
+            T_g=T_g,
+            T_p=T_p,
+            T_s=T_s,
+            UHD=False,
+            bs_slots=bs_slots,
+            n=35,
             samp_rate=samp_rate,
         )
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', 10000, True)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', 10000, True)
+        self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
-        self.blocks_message_debug_0 = blocks.message_debug()
+        self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_socket_pdu_0_0, 'pdus'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'DL'))
-        self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_message_debug_0, 'print'))
-        self.msg_connect((self.hier_bs_0, 'BCH'), (self.blocks_socket_pdu_0, 'pdus'))
-        self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0, 'BCN'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0, 'DL'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_0, 'BCN'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_0, 'DL'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1, 'BCN'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1, 'DL'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1_0, 'BCN'))
+        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1_0, 'DL'))
+        self.msg_connect((self.hier_bs_turbofsk_0, 'BCH'), (self.blocks_socket_pdu_0, 'pdus'))
+        self.msg_connect((self.hier_bs_turbofsk_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))
         self.connect((self.blocks_add_xx_0, 0), (self.uhd_usrp_sink_0, 0))
-        self.connect((self.hier_bs_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0, 0))
-        self.connect((self.hier_sensor_0, 1), (self.blocks_add_xx_0, 0))
-        self.connect((self.hier_sensor_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.hier_sensor_0_0, 1), (self.blocks_add_xx_0, 2))
-        self.connect((self.hier_sensor_0_0, 0), (self.qtgui_time_sink_x_0, 2))
-        self.connect((self.hier_sensor_0_1, 1), (self.blocks_add_xx_0, 3))
-        self.connect((self.hier_sensor_0_1, 0), (self.qtgui_time_sink_x_0, 3))
-        self.connect((self.hier_sensor_0_2, 1), (self.blocks_add_xx_0, 1))
-        self.connect((self.hier_sensor_0_2, 0), (self.qtgui_time_sink_x_0, 1))
-        self.connect((self.uhd_usrp_source_0_0, 0), (self.hier_bs_0, 0))
+        self.connect((self.blocks_complex_to_real_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0, 0))
+        self.connect((self.hier_bs_turbofsk_0, 0), (self.blocks_complex_to_real_0, 0))
+        self.connect((self.hier_sensor_turbofsk_0, 1), (self.blocks_add_xx_0, 1))
+        self.connect((self.hier_sensor_turbofsk_0, 0), (self.qtgui_time_sink_x_0, 1))
+        self.connect((self.hier_sensor_turbofsk_0_0, 1), (self.blocks_add_xx_0, 0))
+        self.connect((self.hier_sensor_turbofsk_0_0, 0), (self.blocks_null_sink_1, 0))
+        self.connect((self.hier_sensor_turbofsk_0_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.hier_sensor_turbofsk_0_1, 1), (self.blocks_add_xx_0, 2))
+        self.connect((self.hier_sensor_turbofsk_0_1, 0), (self.qtgui_time_sink_x_0, 2))
+        self.connect((self.hier_sensor_turbofsk_0_1_0, 1), (self.blocks_add_xx_0, 3))
+        self.connect((self.hier_sensor_turbofsk_0_1_0, 0), (self.qtgui_time_sink_x_0, 3))
+        self.connect((self.uhd_usrp_source_0_0, 0), (self.hier_bs_turbofsk_0, 0))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "demo_uhd")
+        self.settings = Qt.QSettings("GNU Radio", "demo_uhd_tfsk")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
-
-    def get_M(self):
-        return self.M
-
-    def set_M(self, M):
-        self.M = M
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
-        self.hier_sensor_0_2.set_M(self.M)
-        self.hier_sensor_0_1.set_M(self.M)
-        self.hier_sensor_0_0.set_M(self.M)
-        self.hier_sensor_0.set_M(self.M)
-        self.hier_bs_0.set_M(self.M)
-
-    def get_N(self):
-        return self.N
-
-    def set_N(self, N):
-        self.N = N
-        self.hier_bs_0.set_N(self.N)
 
     def get_T_bch(self):
         return self.T_bch
@@ -349,11 +305,11 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_T_bch(self, T_bch):
         self.T_bch = T_bch
         self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_0_2.set_T_bch(self.T_bch)
-        self.hier_sensor_0_1.set_T_bch(self.T_bch)
-        self.hier_sensor_0_0.set_T_bch(self.T_bch)
-        self.hier_sensor_0.set_T_bch(self.T_bch)
-        self.hier_bs_0.set_T_bch(self.T_bch)
+        self.hier_sensor_turbofsk_0_1_0.set_T_bch(self.T_bch)
+        self.hier_sensor_turbofsk_0_1.set_T_bch(self.T_bch)
+        self.hier_sensor_turbofsk_0_0.set_T_bch(self.T_bch)
+        self.hier_sensor_turbofsk_0.set_T_bch(self.T_bch)
+        self.hier_bs_turbofsk_0.set_T_bch(self.T_bch)
 
     def get_T_g(self):
         return self.T_g
@@ -361,11 +317,11 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_T_g(self, T_g):
         self.T_g = T_g
         self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_0_2.set_T_g(self.T_g)
-        self.hier_sensor_0_1.set_T_g(self.T_g)
-        self.hier_sensor_0_0.set_T_g(self.T_g)
-        self.hier_sensor_0.set_T_g(self.T_g)
-        self.hier_bs_0.set_T_g(self.T_g)
+        self.hier_sensor_turbofsk_0_1_0.set_T_g(self.T_g)
+        self.hier_sensor_turbofsk_0_1.set_T_g(self.T_g)
+        self.hier_sensor_turbofsk_0_0.set_T_g(self.T_g)
+        self.hier_sensor_turbofsk_0.set_T_g(self.T_g)
+        self.hier_bs_turbofsk_0.set_T_g(self.T_g)
 
     def get_T_p(self):
         return self.T_p
@@ -373,11 +329,11 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_T_p(self, T_p):
         self.T_p = T_p
         self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_0_2.set_T_p(self.T_p)
-        self.hier_sensor_0_1.set_T_p(self.T_p)
-        self.hier_sensor_0_0.set_T_p(self.T_p)
-        self.hier_sensor_0.set_T_p(self.T_p)
-        self.hier_bs_0.set_T_p(self.T_p)
+        self.hier_sensor_turbofsk_0_1_0.set_T_p(self.T_p)
+        self.hier_sensor_turbofsk_0_1.set_T_p(self.T_p)
+        self.hier_sensor_turbofsk_0_0.set_T_p(self.T_p)
+        self.hier_sensor_turbofsk_0.set_T_p(self.T_p)
+        self.hier_bs_turbofsk_0.set_T_p(self.T_p)
 
     def get_T_s(self):
         return self.T_s
@@ -385,11 +341,11 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_T_s(self, T_s):
         self.T_s = T_s
         self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_0_2.set_T_s(self.T_s)
-        self.hier_sensor_0_1.set_T_s(self.T_s)
-        self.hier_sensor_0_0.set_T_s(self.T_s)
-        self.hier_sensor_0.set_T_s(self.T_s)
-        self.hier_bs_0.set_T_s(self.T_s)
+        self.hier_sensor_turbofsk_0_1_0.set_T_s(self.T_s)
+        self.hier_sensor_turbofsk_0_1.set_T_s(self.T_s)
+        self.hier_sensor_turbofsk_0_0.set_T_s(self.T_s)
+        self.hier_sensor_turbofsk_0.set_T_s(self.T_s)
+        self.hier_bs_turbofsk_0.set_T_s(self.T_s)
 
     def get_bs_slots(self):
         return self.bs_slots
@@ -397,52 +353,39 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_bs_slots(self, bs_slots):
         self.bs_slots = bs_slots
         self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_0_2.set_bs_slots(self.bs_slots)
-        self.hier_sensor_0_1.set_bs_slots(self.bs_slots)
-        self.hier_sensor_0_0.set_bs_slots(self.bs_slots)
-        self.hier_sensor_0.set_bs_slots(self.bs_slots)
-        self.hier_bs_0.set_bs_slots(self.bs_slots)
         self.set_bs_slots_0(self.bs_slots[:3])
+        self.hier_sensor_turbofsk_0_1_0.set_bs_slots(self.bs_slots)
+        self.hier_sensor_turbofsk_0_1.set_bs_slots(self.bs_slots)
+        self.hier_sensor_turbofsk_0.set_bs_slots(self.bs_slots)
+        self.hier_bs_turbofsk_0.set_bs_slots(self.bs_slots)
 
     def get_control0(self):
         return self.control0
 
     def set_control0(self, control0):
         self.control0 = control0
-        self.hier_sensor_0.set_control(self.control0)
+        self.hier_sensor_turbofsk_0_0.set_control(self.control0)
 
     def get_control1(self):
         return self.control1
 
     def set_control1(self, control1):
         self.control1 = control1
-        self.hier_sensor_0_2.set_control(self.control1)
+        self.hier_sensor_turbofsk_0.set_control(self.control1)
 
     def get_control2(self):
         return self.control2
 
     def set_control2(self, control2):
         self.control2 = control2
-        self.hier_sensor_0_0.set_control(self.control2)
+        self.hier_sensor_turbofsk_0_1_0.set_control(self.control2)
+        self.hier_sensor_turbofsk_0_1.set_control(self.control2)
 
     def get_control3(self):
         return self.control3
 
     def set_control3(self, control3):
         self.control3 = control3
-        self.hier_sensor_0_1.set_control(self.control3)
-
-    def get_cp_ratio(self):
-        return self.cp_ratio
-
-    def set_cp_ratio(self, cp_ratio):
-        self.cp_ratio = cp_ratio
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
-        self.hier_sensor_0_2.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_1.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_0.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0.set_cp_ratio(self.cp_ratio)
-        self.hier_bs_0.set_cp_ratio(self.cp_ratio)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -451,13 +394,13 @@ class demo_uhd(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.uhd_usrp_source_0_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
+        self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
-        self.hier_sensor_0_2.set_samp_rate(self.samp_rate)
-        self.hier_sensor_0_1.set_samp_rate(self.samp_rate)
-        self.hier_sensor_0_0.set_samp_rate(self.samp_rate)
-        self.hier_sensor_0.set_samp_rate(self.samp_rate)
-        self.hier_bs_0.set_samp_rate(self.samp_rate)
+        self.hier_sensor_turbofsk_0_1_0.set_samp_rate(self.samp_rate)
+        self.hier_sensor_turbofsk_0_1.set_samp_rate(self.samp_rate)
+        self.hier_sensor_turbofsk_0_0.set_samp_rate(self.samp_rate)
+        self.hier_sensor_turbofsk_0.set_samp_rate(self.samp_rate)
+        self.hier_bs_turbofsk_0.set_samp_rate(self.samp_rate)
 
     def get_gain(self):
         return self.gain
@@ -488,12 +431,13 @@ class demo_uhd(gr.top_block, Qt.QWidget):
 
     def set_bs_slots_0(self, bs_slots_0):
         self.bs_slots_0 = bs_slots_0
+        self.hier_sensor_turbofsk_0_0.set_bs_slots(self.bs_slots_0)
 
 
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
     parser.add_option(
-        "", "--control0", dest="control0", type="string", default='0:1:2',
+        "", "--control0", dest="control0", type="string", default='0:1',
         help="Set Control [default=%default]")
     parser.add_option(
         "", "--control1", dest="control1", type="string", default='8:9',
@@ -507,7 +451,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=demo_uhd, options=None):
+def main(top_block_cls=demo_uhd_tfsk, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop
-# Generated: Tue Jan 28 18:46:43 2020
+# Generated: Thu Jan 30 14:55:04 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -40,7 +40,7 @@ from gnuradio import qtgui
 
 class demo_loop(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, T_sync=50, bs_slots=range(10), control0='0:1:2', control1='7:8:9', control2='basic', control3='ucb', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, T_sync=50, bs_slots=range(10), control0='0:1:2', control1='7:8:9', control2='basic', control3='ucb:2', cp_ratio=0.25):
         gr.top_block.__init__(self, "Demo Loop")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Demo Loop")
@@ -91,6 +91,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.freq_offset = freq_offset = 0
         self.freq = freq = 2450e6
         self.frame_len = frame_len = (T_bch+T_sync+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
+        self.MTU = MTU = 1500
 
         ##################################################
         # Blocks
@@ -208,11 +209,10 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
-            activation_rate=1,
+            activation_rate=0.5,
             bs_slots=bs_slots,
             control=control1,
-            cp_ratio=cp_ratio,
-            log=False,
+            log=True,
             samp_rate=samp_rate,
         )
         self.hier_sensor_0_1 = hier_sensor(
@@ -225,8 +225,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control3,
-            cp_ratio=cp_ratio,
-            log=False,
+            log=True,
             samp_rate=samp_rate,
         )
         self.hier_sensor_0_0 = hier_sensor(
@@ -239,8 +238,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control2,
-            cp_ratio=cp_ratio,
-            log=False,
+            log=True,
             samp_rate=samp_rate,
         )
         self.hier_sensor_0 = hier_sensor(
@@ -250,10 +248,9 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
-            activation_rate=.23,
+            activation_rate=0.5,
             bs_slots=bs_slots,
             control=control0,
-            cp_ratio=cp_ratio,
             log=True,
             samp_rate=samp_rate,
         )
@@ -266,8 +263,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_s=T_s,
             UHD=False,
             bs_slots=bs_slots,
-            cp_ratio=cp_ratio,
-            exit_frame=1000,
+            exit_frame=200,
             samp_rate=samp_rate,
         )
         self.channels_channel_model_0 = channels.channel_model(
@@ -278,8 +274,8 @@ class demo_loop(gr.top_block, Qt.QWidget):
         	noise_seed=0,
         	block_tags=True
         )
-        self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', 10000, True)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', 10000, True)
+        self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', MTU, True)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', MTU, True)
         self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
@@ -438,11 +434,6 @@ class demo_loop(gr.top_block, Qt.QWidget):
     def set_cp_ratio(self, cp_ratio):
         self.cp_ratio = cp_ratio
         self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
-        self.hier_sensor_0_2.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_1.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_0.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0.set_cp_ratio(self.cp_ratio)
-        self.hier_bs_0.set_cp_ratio(self.cp_ratio)
 
     def get_time_offset(self):
         return self.time_offset
@@ -497,6 +488,12 @@ class demo_loop(gr.top_block, Qt.QWidget):
     def set_frame_len(self, frame_len):
         self.frame_len = frame_len
 
+    def get_MTU(self):
+        return self.MTU
+
+    def set_MTU(self, MTU):
+        self.MTU = MTU
+
 
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
@@ -510,7 +507,7 @@ def argument_parser():
         "", "--control2", dest="control2", type="string", default='basic',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control3", dest="control3", type="string", default='ucb',
+        "", "--control3", dest="control3", type="string", default='ucb:2',
         help="Set Control [default=%default]")
     return parser
 

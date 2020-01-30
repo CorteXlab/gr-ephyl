@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Main Turbo
-# Generated: Fri Jan 24 15:07:12 2020
+# Generated: Wed Jan 29 13:44:20 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -37,7 +37,7 @@ from gnuradio import qtgui
 
 class main_turbo(gr.top_block, Qt.QWidget):
 
-    def __init__(self, T_bch=200, T_g=20, T_p=200, T_s=150, bs_slots=range(1), control='none'):
+    def __init__(self, T_bch=200, T_g=20, T_p=500, T_s=1000, bs_slots=range(1), control='none'):
         gr.top_block.__init__(self, "Main Turbo")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Main Turbo")
@@ -167,26 +167,26 @@ class main_turbo(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_1_0_win = sip.wrapinstance(self.qtgui_time_sink_x_1_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_1_0_win)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0 = qtgui.time_sink_c(
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0 = qtgui.time_sink_c(
         	int(samp_rate*frame_len), #size
         	samp_rate, #samp_rate
         	'BS', #name
         	1 #number of inputs
         )
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_y_axis(-40, 40)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_y_axis(-40, 40)
 
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_AUTO, qtgui.TRIG_SLOPE_POS, 0.1, 0, 0, 'BCH')
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.enable_grid(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.enable_tags(-1, True)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_TAG, qtgui.TRIG_SLOPE_POS, 0.1, 0, 0, 'BCH')
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.enable_grid(True)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.enable_control_panel(False)
 
         if not True:
-          self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.disable_legend()
+          self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.disable_legend()
 
         labels = ['res', 'ref', '', '', '',
                   '', '', '', '', '']
@@ -204,19 +204,19 @@ class main_turbo(gr.top_block, Qt.QWidget):
         for i in xrange(2*1):
             if len(labels[i]) == 0:
                 if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
                 else:
-                    self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_win)
+        self._qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
         	64, #size
         	samp_rate, #samp_rate
@@ -323,7 +323,6 @@ class main_turbo(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_float_to_char_0, 0), (self.ephyl_tag_2_msg_char_0, 0))
         self.connect((self.blocks_float_to_char_0, 0), (self.ephyl_tag_2_msg_char_0_0, 0))
         self.connect((self.blocks_float_to_complex_1, 0), (self.blocks_stream_to_tagged_stream_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.uhd_usrp_sink_0_1, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_2_2, 0))
         self.connect((self.blocks_pdu_to_tagged_stream_0_0, 0), (self.blocks_null_sink_0, 0))
@@ -332,6 +331,7 @@ class main_turbo(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_repack_bits_bb_2_2, 0), (self.ephyl_turbofsk_tx_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_to_pdu_0_0_0, 0))
         self.connect((self.ephyl_bs_scheduler_0, 0), (self.blocks_complex_to_float_0, 0))
+        self.connect((self.ephyl_bs_scheduler_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0, 0))
         self.connect((self.ephyl_sn_scheduler_0, 0), (self.blocks_multiply_const_vxx_0_0, 0))
         self.connect((self.ephyl_turbofsk_rx_0, 0), (self.blocks_char_to_float_0_0, 0))
         self.connect((self.ephyl_turbofsk_rx_0, 0), (self.blocks_repack_bits_bb_1, 0))
@@ -406,7 +406,7 @@ class main_turbo(gr.top_block, Qt.QWidget):
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
         self.uhd_usrp_sink_0_1.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_1_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_phase(self):

@@ -720,7 +720,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>200</value>
+      <value>500</value>
     </param>
   </block>
   <block>
@@ -763,7 +763,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>150</value>
+      <value>1000</value>
     </param>
   </block>
   <block>
@@ -2577,7 +2577,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2940,11 +2940,11 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 568)</value>
+      <value>(560, 568)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3216,7 +3216,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>size</key>
-      <value>int(samp_rate*frame_len)*2</value>
+      <value>int(samp_rate*frame_len)</value>
     </param>
     <param>
       <key>srate</key>
@@ -3236,7 +3236,7 @@ in order to make less handler calls</value>
     </param>
     <param>
       <key>tr_mode</key>
-      <value>qtgui.TRIG_MODE_AUTO</value>
+      <value>qtgui.TRIG_MODE_TAG</value>
     </param>
     <param>
       <key>tr_slope</key>
@@ -6753,6 +6753,12 @@ in order to make less handler calls</value>
   <connection>
     <source_block_id>ephyl_bs_scheduler_0</source_block_id>
     <sink_block_id>blocks_complex_to_float_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ephyl_bs_scheduler_0</source_block_id>
+    <sink_block_id>qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

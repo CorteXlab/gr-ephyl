@@ -89,6 +89,33 @@
     </param>
     <param>
       <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(480, 28)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>MTU</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1500</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
       <value>0</value>
     </param>
     <param>
@@ -1146,7 +1173,7 @@
     </param>
     <param>
       <key>mtu</key>
-      <value>10000</value>
+      <value>MTU</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1205,7 +1232,7 @@
     </param>
     <param>
       <key>mtu</key>
-      <value>10000</value>
+      <value>MTU</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1558,7 +1585,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>ucb</value>
+      <value>ucb:2</value>
     </param>
   </block>
   <block>
@@ -1632,7 +1659,7 @@
     </param>
     <param>
       <key>exit_frame</key>
-      <value>1000</value>
+      <value>200</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1682,16 +1709,12 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>.23</value>
+      <value>0.5</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -1769,10 +1792,6 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
@@ -1814,7 +1833,7 @@
     </param>
     <param>
       <key>log</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>T_g</key>
@@ -1855,10 +1874,6 @@
     <param>
       <key>T_s</key>
       <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
     </param>
   </block>
   <block>
@@ -1901,7 +1916,7 @@
     </param>
     <param>
       <key>log</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>T_g</key>
@@ -1943,16 +1958,12 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>1</value>
+      <value>0.5</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -1988,7 +1999,7 @@
     </param>
     <param>
       <key>log</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>T_g</key>
@@ -2029,10 +2040,6 @@
     <param>
       <key>T_s</key>
       <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
     </param>
   </block>
   <block>

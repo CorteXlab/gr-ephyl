@@ -93,6 +93,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(208, 260)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>MTU</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1500</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(208, 196)</value>
     </param>
     <param>
@@ -464,7 +491,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>200</value>
+      <value>300</value>
     </param>
   </block>
   <block>
@@ -824,7 +851,7 @@
     </param>
     <param>
       <key>mtu</key>
-      <value>10000</value>
+      <value>MTU</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -902,54 +929,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(568, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>control0</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Control</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>string</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>5</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 304)</value>
+      <value>(560, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -988,54 +972,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(656, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>control1</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Control</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>string</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>none</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 304)</value>
+      <value>(648, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1269,10 +1210,6 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
@@ -1355,10 +1292,6 @@
     <param>
       <key>T_s</key>
       <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
     </param>
   </block>
   <block>
@@ -1443,10 +1376,6 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
@@ -1530,10 +1459,6 @@
       <key>T_s</key>
       <value>T_s</value>
     </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
-    </param>
   </block>
   <block>
     <key>hier_sensor</key>
@@ -1616,10 +1541,6 @@
     <param>
       <key>T_s</key>
       <value>T_s</value>
-    </param>
-    <param>
-      <key>cp_ratio</key>
-      <value>cp_ratio</value>
     </param>
   </block>
   <block>

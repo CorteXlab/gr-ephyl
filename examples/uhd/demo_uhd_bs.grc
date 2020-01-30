@@ -93,6 +93,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(208, 260)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>MTU</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1500</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(208, 196)</value>
     </param>
     <param>
@@ -464,7 +491,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>200</value>
+      <value>300</value>
     </param>
   </block>
   <block>
@@ -581,7 +608,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 1640)</value>
+      <value>(800, 728)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -749,7 +776,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 1456)</value>
+      <value>(872, 544)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -765,7 +792,7 @@
     </param>
     <param>
       <key>mtu</key>
-      <value>10000</value>
+      <value>MTU</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1219,11 +1246,11 @@
     </param>
     <param>
       <key>exit_frame</key>
-      <value>0</value>
+      <value>200</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 1452)</value>
+      <value>(520, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2052,7 +2079,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1040, 1616)</value>
+      <value>(1032, 704)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -4386,7 +4413,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 1488)</value>
+      <value>(208, 576)</value>
     </param>
     <param>
       <key>_rotation</key>

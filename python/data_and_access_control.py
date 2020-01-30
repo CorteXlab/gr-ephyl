@@ -69,6 +69,8 @@ class data_and_access_control(gr.sync_block):
         self.i = 0
         self.DL = ''
 
+        self.frame_offset = 0
+
         self.control = Control
 
         self.bs_slots = bs_slots
@@ -113,9 +115,6 @@ class data_and_access_control(gr.sync_block):
         self.save_log = save_log
         if self.save_log :
             self.filename = "SN-"+self.ID+"_"+time.strftime("%d%m%Y-%H%M%S")+".txt"
-            # print "FILENAME"
-            # print self.filename
-            # with open(os.path.join('~',self.filename,"w+")) as f:
             with open(self.filename,"a+") as f:
                 template =                                          \
                 "SN-"+self.ID                                       \
@@ -143,7 +142,8 @@ class data_and_access_control(gr.sync_block):
                 +"\n"+"======================"                      \
                 +"\n"+"BER (Bit Error Rate): "                      \
                 +"\n"                                               \
-                +"\n"+"======================"
+                +"\n"+"======================"                      \
+                +"\n"
                 f.write(template)
 
 
@@ -211,20 +211,15 @@ class data_and_access_control(gr.sync_block):
                     if rx[f][2] == tx[j][2]:     
                         v += 'i'
                         ## Check for matching payload
-                        if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) changed,      
+                        if rx[f][3][:-2] == tx[j][3][:-2]:    # Some sporadic bug causes the last sample to be (sometimes) corrupted,      
                             v += 'p'                          # Probably a software bug. Unsolved yet
-                        # a = "11011111101100110110011001011101000"
-                        # b = "11001011101100111000011100001100001"
                         
                         ## Compute BER for detected packets
                         rx_bits = ''.join(format(ord(x), 'b') for x in rx[f][3][:-2])
                         tx_bits = ''.join(format(ord(x), 'b') for x in tx[j][3][:-2])
                         y = int(rx_bits, 2)^int(tx_bits,2)
                         self.error_bits = bin(y)[2:].zfill(len(tx_bits))
-                        # print " BITS"
-                        # print tx[j][3][:-2]
-                        # print len(tx_bits)
-                        # print rx_bits
+
                         h = f 
 
         if not any(active_slots)  :
@@ -286,9 +281,15 @@ class data_and_access_control(gr.sync_block):
 
         #################################################################
         # With UCB
-        elif self.control == 'ucb' :
+        elif 'ucb' in self.control:
             #  In this example, nch channels are emulated
             #  then the number of times that this channel is selected is higher.
+            try :
+                tmp = re.split(r':+', self.control)
+                self.alfa = float(tmp[1])
+            except:
+                print "UCB : Invalid alpha parameter. Setting it to 0.8"
+                self.alfa=0.8
 
             self.watch += 1
             # Emulation of the channel occupancy  (it does not need to be implemented)
@@ -330,7 +331,7 @@ class data_and_access_control(gr.sync_block):
             self.error = 1
         
         # if v.count('s') > 0 and v.count('i') > 0:
-        if v.count('s') > 0 or v.count('i') > 0:
+        if v.count('s') > 0 and v.count('i') > 0:
             self.detection = 1
         else:
             self.detection = 0
@@ -352,7 +353,7 @@ class data_and_access_control(gr.sync_block):
         xmean=nch*[0]
         bias=nch*[0]
         x=nch*[0]
-        alfa=0.8
+        # self.alfa=0.8
         maxval=-1.0
         # Save variables
         self.time_ucb=time_ucb
@@ -361,7 +362,7 @@ class data_and_access_control(gr.sync_block):
         # For each channel 
         for k in xrange(nch):
             xmean[k]=float(self.rward[k])/float(1+self.chsel[k])
-            bias[k]=math.sqrt(  alfa*math.log(1+self.time_ucb)/float(1+self.chsel[k]) )
+            bias[k]=math.sqrt(  self.alfa*math.log(1+self.time_ucb)/float(1+self.chsel[k]) )
             x[k]=xmean[k]+bias[k]
             if x[k]>maxval:
                maxval=x[k]
@@ -456,16 +457,20 @@ class data_and_access_control(gr.sync_block):
                             # print self.BER
                             ###################### WRITE LOG FILE #########################
                             if self.save_log :    
-                                # with open(os.path.join('~',self.filename,"a")) as f:
                                 with open(self.filename,"r") as f:
                                     lines = f.readlines()
                                     for i in range(len(lines)):
                                         if 'Total frames' in lines[i]:
                                             lines[i+1] = str(int(self.frame_cnt)+1)+'\n'
                                         if 'Observed activation rate' in lines[i]:
-                                            lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)+1))+'\n'
+                                            if self.activation_rate == 1 :
+                                                lines[i+1] = '1.0\n'
+                                            else:
+                                                try :
+                                                    lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)-self.frame_offset+1))+'\n'
+                                                except :
+                                                    lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)+1))+'\n'
                                         if 'Active frames' in lines[i]:
-                                            # lines[i+1] = str(len(self.detection_list)/(float(self.frame_cnt)+1))+'\n'
                                             lines[i+1] = self.frame_cnt + ' ' + lines[i+1]
                                         if 'Detection rate' in lines[i]:
                                             tmp = "{:.2E}".format(self.detection_rate[-1])
@@ -510,7 +515,18 @@ class data_and_access_control(gr.sync_block):
             self.RX = re.split(r'\t+', l)
             if self.RX[0] == 'corr_est':
                 self.frame_cnt = self.RX[1]
-            # # Look for a tab caracter in DL message, to avoid processing beacon message
+                '''
+                In case SN starts way later than BS, 
+                frame_cnt will have a start "offset", 
+                which has to be taken into account in 
+                the computing of the Observed activation rate
+                '''
+                if int(self.frame_cnt) != 0 and self.frame_offset == 0 :
+                    self.frame_offset = int(self.frame_cnt) + 1
+                elif int(self.frame_cnt) == 0 :
+                    self.frame_offset = 'NaN'
+
+            ## Look for a tab caracter in DL message, to avoid processing beacon message
             else:                
                 # Correct a silly bug where a '0' is converted to '\x00', not the optimal correction
                 if '\x00' in self.RX[0] :   

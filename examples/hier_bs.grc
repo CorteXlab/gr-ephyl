@@ -160,6 +160,33 @@
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(584, 4)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cp_ratio</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.25</value>
+    </param>
+  </block>
+  <block>
     <key>variable_cc_decoder_def</key>
     <param>
       <key>padding</key>
@@ -839,7 +866,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1120, 372)</value>
+      <value>(1408, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1000,7 +1027,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 372)</value>
+      <value>(792, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1098,7 +1125,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(936, 372)</value>
+      <value>(1200, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1184,7 +1211,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1310,7 +1337,7 @@
     </param>
     <param>
       <key>threshold</key>
-      <value>4</value>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -1333,7 +1360,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1272, 376)</value>
+      <value>(584, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1768,7 +1795,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_size</key>
@@ -1780,7 +1807,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 344)</value>
+      <value>(976, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2123,13 +2150,19 @@
   </connection>
   <connection>
     <source_block_id>blocks_keep_m_in_n_0</source_block_id>
-    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+    <sink_block_id>digital_costas_loop_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_1</source_block_id>
-    <sink_block_id>digital_costas_loop_cc_0</sink_block_id>
+    <sink_block_id>digital_constellation_decoder_cb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_1</source_block_id>
+    <sink_block_id>pad_sink_0_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2183,13 +2216,7 @@
   </connection>
   <connection>
     <source_block_id>digital_costas_loop_cc_0</source_block_id>
-    <sink_block_id>digital_constellation_decoder_cb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>digital_costas_loop_cc_0</source_block_id>
-    <sink_block_id>pad_sink_0_0_1</sink_block_id>
+    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

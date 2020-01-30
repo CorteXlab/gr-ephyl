@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop Turbofsk
-# Generated: Mon Jan 27 17:30:29 2020
+# Generated: Wed Jan 29 13:43:07 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -208,40 +208,40 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
+            activation_rate=1,
             bs_slots=bs_slots,
             control=control2,
             samp_rate=samp_rate,
-            activation_rate=1,
         )
         self.hier_sensor_turbofsk_0_1 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
+            activation_rate=1,
             bs_slots=bs_slots,
             control=control2,
             samp_rate=samp_rate,
-            activation_rate=1,
         )
         self.hier_sensor_turbofsk_0_0 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
+            activation_rate=1,
             bs_slots=bs_slots_0,
             control=control0,
             samp_rate=samp_rate,
-            activation_rate=1,
         )
         self.hier_sensor_turbofsk_0 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
+            activation_rate=1,
             bs_slots=bs_slots,
             control=control1,
             samp_rate=samp_rate,
-            activation_rate=1,
         )
         self.hier_bs_turbofsk_0 = hier_bs_turbofsk(
             T_bch=T_bch,
