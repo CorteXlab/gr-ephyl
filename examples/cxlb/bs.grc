@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>qt_gui</value>
+      <value>no_gui</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -66,7 +66,7 @@
     </param>
     <param>
       <key>run_options</key>
-      <value>prompt</value>
+      <value>run</value>
     </param>
     <param>
       <key>run</key>
@@ -170,11 +170,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>15</value>
+      <value>25</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -223,6 +223,33 @@
     <param>
       <key>widget</key>
       <value>counter_slider</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1152, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>gain</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>25</value>
     </param>
   </block>
   <block>
@@ -421,7 +448,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>20</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -464,7 +491,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>300</value>
+      <value>1000</value>
     </param>
   </block>
   <block>
@@ -577,7 +604,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -620,11 +647,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 888)</value>
+      <value>(760, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -702,6 +729,53 @@
     </param>
     <param>
       <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(848, 648)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_null_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_null_sink</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bus_conns</key>
+      <value>[[0,],]</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
       <value>0</value>
     </param>
     <param>
@@ -749,7 +823,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(872, 544)</value>
+      <value>(856, 536)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1223,7 +1297,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(520, 524)</value>
+      <value>(504, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2028,7 +2102,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -4784,12 +4858,6 @@
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
     <sink_block_id>hier_sensor_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>BCN</sink_key>
@@ -4850,9 +4918,21 @@
   </connection>
   <connection>
     <source_block_id>hier_bs_0</source_block_id>
+    <sink_block_id>blocks_null_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_bs_0</source_block_id>
     <sink_block_id>virtual_sink_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_bs_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>DL</source_key>
+    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>hier_bs_0</source_block_id>

@@ -186,7 +186,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>18</value>
+      <value>25</value>
     </param>
   </block>
   <block>
@@ -412,7 +412,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>20</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -455,7 +455,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>300</value>
+      <value>1000</value>
     </param>
   </block>
   <block>
