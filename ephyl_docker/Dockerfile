@@ -36,6 +36,10 @@ RUN cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH} ..
 RUN make
 RUN make install
 RUN cp ../examples/hier_* /root/.grc_gnuradio/
+# RUN grcc /root/cxlb_toolchain_build/gr-ephyl/examples/hier_sensor.grc
+# RUN grcc /root/cxlb_toolchain_build/gr-ephyl/examples/bs.grc
+# RUN grcc /root/cxlb_toolchain_build/gr-ephyl/examples/hier_sensor_turbofsk.grc
+# RUN grcc /root/cxlb_toolchain_build/gr-ephyl/examples/hier_bs_turbofsk.grc
 WORKDIR /root
 RUN /bin/bash -c "source cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf "
 # CMD [ "source", "cxlb_toolchain_build/gr-ephyl/ephyl_docker/env_conf" ]
