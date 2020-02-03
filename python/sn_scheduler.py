@@ -62,7 +62,7 @@ class sn_scheduler(gr.basic_block):
         ## Processing time (PROC state) for sensor only serves to reset variables, that's why it lasts Proc_time/2 
         self.STATES = [range(8) \
             ,['SLOT_READ','IDLE','PKT_GEN','LISTEN','BCH','EMIT','GUARD','PROC'] \
-            ,[0,0,0,float("inf"),bch_time,Slot_time,guard_time,Proc_time/2]]
+            ,[0,0,0,float("inf"),bch_time,Slot_time,guard_time,Proc_time]]
 
         self.wanted_tag = wanted_tag
         self.message_port_register_in(pmt.intern("in"))

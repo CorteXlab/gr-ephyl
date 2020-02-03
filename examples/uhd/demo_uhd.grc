@@ -421,7 +421,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>20</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -581,7 +581,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 1320)</value>
+      <value>(888, 1320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -706,7 +706,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 1472)</value>
+      <value>(888, 1488)</value>
     </param>
     <param>
       <key>_rotation</key>

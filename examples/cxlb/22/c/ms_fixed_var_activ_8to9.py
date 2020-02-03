@@ -52,7 +52,7 @@ class ms_fixed_var_activ_8to9(gr.top_block):
         self.gain = gain = 25
         self.freq = freq = 2450e6
         self.frame_len = frame_len = (T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
-        self.MTU = MTU = 1500
+        self.MTU = MTU = 10000
 
         ##################################################
         # Blocks

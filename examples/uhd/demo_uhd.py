@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Uhd
-# Generated: Wed Jan 29 17:11:23 2020
+# Generated: Mon Feb  3 16:58:58 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -41,7 +41,7 @@ from gnuradio import qtgui
 
 class demo_uhd(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=20, T_p=300, T_s=100, bs_slots=range(10), control0='0:1:2', control1='8:9', control2='basic', control3='ucb', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=300, T_s=100, bs_slots=range(10), control0='0:1:2', control1='8:9', control2='basic', control3='ucb', cp_ratio=0.25):
         gr.top_block.__init__(self, "Demo Uhd")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Demo Uhd")
@@ -227,7 +227,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control1,
-            cp_ratio=cp_ratio,
             log=True,
             samp_rate=samp_rate,
         )
@@ -241,7 +240,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control3,
-            cp_ratio=cp_ratio,
             log=True,
             samp_rate=samp_rate,
         )
@@ -255,7 +253,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control2,
-            cp_ratio=cp_ratio,
             log=True,
             samp_rate=samp_rate,
         )
@@ -269,7 +266,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control0,
-            cp_ratio=cp_ratio,
             log=False,
             samp_rate=samp_rate,
         )
@@ -282,7 +278,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
             T_s=T_s,
             UHD=True,
             bs_slots=bs_slots,
-            cp_ratio=cp_ratio,
             exit_frame=0,
             samp_rate=samp_rate,
         )
@@ -438,11 +433,6 @@ class demo_uhd(gr.top_block, Qt.QWidget):
     def set_cp_ratio(self, cp_ratio):
         self.cp_ratio = cp_ratio
         self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/int(2*self.M*(1+self.cp_ratio)))
-        self.hier_sensor_0_2.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_1.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0_0.set_cp_ratio(self.cp_ratio)
-        self.hier_sensor_0.set_cp_ratio(self.cp_ratio)
-        self.hier_bs_0.set_cp_ratio(self.cp_ratio)
 
     def get_samp_rate(self):
         return self.samp_rate
