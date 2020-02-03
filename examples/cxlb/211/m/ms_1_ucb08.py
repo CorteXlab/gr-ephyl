@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Ms 1 Basic
-# Generated: Fri Jan 31 17:11:56 2020
+# Title: Ms 1 Ucb08
+# Generated: Fri Jan 31 17:11:06 2020
 ##################################################
 
 import os
@@ -23,10 +23,10 @@ import pmt
 import time
 
 
-class ms_1_basic(gr.top_block):
+class ms_1_ucb08(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar1=1, bs_slots=range(10), control0='basic', cp_ratio=0.25):
-        gr.top_block.__init__(self, "Ms 1 Basic")
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar1=1, bs_slots=range(10), control0='ucb:0.8', cp_ratio=0.25):
+        gr.top_block.__init__(self, "Ms 1 Ucb08")
 
         ##################################################
         # Parameters
@@ -217,12 +217,12 @@ def argument_parser():
         "", "--ar1", dest="ar1", type="eng_float", default=eng_notation.num_to_str(1),
         help="Set Activation rate [default=%default]")
     parser.add_option(
-        "", "--control0", dest="control0", type="string", default='basic',
+        "", "--control0", dest="control0", type="string", default='ucb:0.8',
         help="Set Control [default=%default]")
     return parser
 
 
-def main(top_block_cls=ms_1_basic, options=None):
+def main(top_block_cls=ms_1_ucb08, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 

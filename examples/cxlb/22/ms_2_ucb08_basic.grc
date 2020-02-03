@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>ms_1_basic</value>
+      <value>ms_2_ucb08_basic</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -556,7 +556,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -689,11 +689,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1200, 672)</value>
+      <value>(984, 600)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -717,7 +717,7 @@
     </param>
     <param>
       <key>num_inputs</key>
-      <value>4</value>
+      <value>2</value>
     </param>
     <param>
       <key>vlen</key>
@@ -963,7 +963,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1132,7 +1132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>basic</value>
+      <value>ucb:0.8</value>
     </param>
   </block>
   <block>
@@ -1147,7 +1147,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1175,7 +1175,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>basic</value>
     </param>
   </block>
   <block>
@@ -1584,7 +1584,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2705,7 +2705,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1032, 444)</value>
+      <value>(1216, 556)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3157,12 +3157,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_sensor_0</source_block_id>
-    <sink_block_id>uhd_usrp_sink_0_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>hier_sensor_0_0</source_block_id>
     <sink_block_id>blocks_null_sink_0_1</sink_block_id>
     <source_key>0</source_key>
@@ -3175,12 +3169,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>hier_sensor_0_0</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>2</sink_key>
-  </connection>
-  <connection>
     <source_block_id>hier_sensor_0_1</source_block_id>
     <sink_block_id>blocks_null_sink_0_0</sink_block_id>
     <source_key>0</source_key>
@@ -3191,12 +3179,6 @@
     <sink_block_id>virtual_sink_0_1_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>hier_sensor_0_1</source_block_id>
-    <sink_block_id>blocks_add_xx_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>3</sink_key>
   </connection>
   <connection>
     <source_block_id>hier_sensor_0_2</source_block_id>
