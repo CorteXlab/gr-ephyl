@@ -25,7 +25,7 @@ import time
 
 class ms_fixed_var_activ_0to3(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar0=0.1, ar1=0.3, ar2=0.5, ar3=0.7, bs_slots=range(10), control0='0', control1='1', control2='2', control3='3', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=2000, T_s=150, ar0=0.1, ar1=0.3, ar2=0.5, ar3=0.7, bs_slots=range(10), control0='0', control1='1', control2='2', control3='3', cp_ratio=0.25):
         gr.top_block.__init__(self, "Ms Fixed Var Activ 0To3")
 
         ##################################################

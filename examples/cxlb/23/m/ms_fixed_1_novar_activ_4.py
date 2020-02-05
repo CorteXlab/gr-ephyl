@@ -25,7 +25,7 @@ import time
 
 class ms_fixed_1_novar_activ_4(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar0=1, bs_slots=range(10), control0='4', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=2000, T_s=150, ar0=1, bs_slots=range(10), control0='4', cp_ratio=0.25):
         gr.top_block.__init__(self, "Ms Fixed 1 Novar Activ 4")
 
         ##################################################

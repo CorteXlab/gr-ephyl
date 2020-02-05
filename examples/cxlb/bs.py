@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Bs
-# Generated: Fri Jan 31 17:07:56 2020
+# Generated: Wed Feb  5 16:55:15 2020
 ##################################################
 
 import os
@@ -24,7 +24,7 @@ import time
 
 class bs(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, bs_slots=range(10), cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=2000, T_s=150, bs_slots=range(10), cp_ratio=0.25):
         gr.top_block.__init__(self, "Bs")
 
         ##################################################
@@ -76,7 +76,7 @@ class bs(gr.top_block):
             T_s=T_s,
             UHD=True,
             bs_slots=bs_slots,
-            exit_frame=200,
+            exit_frame=1000,
             samp_rate=samp_rate,
         )
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', MTU, True)

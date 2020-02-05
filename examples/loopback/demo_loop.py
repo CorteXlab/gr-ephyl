@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop
-# Generated: Mon Feb  3 14:26:15 2020
+# Generated: Wed Feb  5 08:05:27 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -274,6 +274,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         	noise_seed=0,
         	block_tags=True
         )
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', MTU, True)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', MTU, True)
         self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
@@ -297,7 +298,8 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))
         self.connect((self.blocks_add_xx_0, 0), (self.channels_channel_model_0, 0))
         self.connect((self.blocks_complex_to_real_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.hier_bs_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.hier_bs_0, 0))
+        self.connect((self.channels_channel_model_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.hier_bs_0, 0), (self.blocks_complex_to_real_0, 0))
         self.connect((self.hier_sensor_0, 1), (self.blocks_add_xx_0, 0))
         self.connect((self.hier_sensor_0, 0), (self.blocks_null_sink_1, 0))
@@ -454,6 +456,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.hier_sensor_0_0.set_samp_rate(self.samp_rate)
         self.hier_sensor_0.set_samp_rate(self.samp_rate)
         self.hier_bs_0.set_samp_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_phase(self):
         return self.phase

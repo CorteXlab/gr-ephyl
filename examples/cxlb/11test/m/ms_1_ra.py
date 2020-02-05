@@ -25,7 +25,7 @@ import time
 
 class ms_1_ra(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar1=1, bs_slots=range(10), control0='random', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=2000, T_s=150, ar1=1, bs_slots=range(10), control0='random', cp_ratio=0.25):
         gr.top_block.__init__(self, "Ms 1 Ra")
 
         ##################################################
