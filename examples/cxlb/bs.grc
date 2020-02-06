@@ -4927,6 +4927,12 @@
   </connection>
   <connection>
     <source_block_id>hier_bs_0</source_block_id>
+    <sink_block_id>zeromq_push_msg_sink_0</sink_block_id>
+    <source_key>BCH</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_bs_0</source_block_id>
     <sink_block_id>blocks_complex_to_real_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
