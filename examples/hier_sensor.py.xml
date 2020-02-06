@@ -98,11 +98,6 @@
     <type>message</type>
     <optional>1</optional>
   </sink>
-  <sink>
-    <name>BCN</name>
-    <type>message</type>
-    <optional>1</optional>
-  </sink>
   <source>
     <name>PER</name>
     <type>float</type>

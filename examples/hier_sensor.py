@@ -3,7 +3,7 @@
 # GNU Radio Python Flow Graph
 # Title: IoT Sensor emulator
 # Author: Othmane Oubejja
-# Generated: Thu Jan 30 10:55:27 2020
+# Generated: Thu Feb  6 12:08:20 2020
 ##################################################
 
 from gnuradio import blocks
@@ -26,7 +26,6 @@ class hier_sensor(gr.hier_block2):
             gr.io_signaturev(2, 2, [gr.sizeof_float*1, gr.sizeof_gr_complex*1]),
         )
         self.message_port_register_hier_in("DL")
-        self.message_port_register_hier_in("BCN")
 
         ##################################################
         # Parameters
@@ -99,7 +98,7 @@ class hier_sensor(gr.hier_block2):
         self.msg_connect((self.ephyl_data_and_access_control_0, 'Array'), (self.ephyl_sn_scheduler_0_0, 'slot'))
         self.msg_connect((self.ephyl_sn_scheduler_0_0, 'busy'), (self.ephyl_data_and_access_control_0, 'busy'))
         self.msg_connect((self, 'DL'), (self.ephyl_data_and_access_control_0, 'DL'))
-        self.msg_connect((self, 'BCN'), (self.ephyl_sn_scheduler_0_0, 'trig'))
+        self.msg_connect((self, 'DL'), (self.ephyl_sn_scheduler_0_0, 'trig'))
         self.connect((self.blocks_complex_to_arg_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_complex_to_arg_0, 0), (self.blocks_tag_gate_0, 0))
         self.connect((self.blocks_delay_0, 0), (self.blocks_sub_xx_0_0, 0))
