@@ -25,7 +25,7 @@ import time
 
 class ms_fixed_var_activ_8to9(gr.top_block):
 
-    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=2000, T_s=150, ar0=0.9, ar1=1, bs_slots=range(10), control0='8', control1='9', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=200, T_g=50, T_p=1000, T_s=150, ar0=0.9, ar1=1, bs_slots=range(10), control0='8', control1='9', cp_ratio=0.25):
         gr.top_block.__init__(self, "Ms Fixed Var Activ 8To9")
 
         ##################################################
