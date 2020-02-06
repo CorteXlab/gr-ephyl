@@ -2344,7 +2344,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2929,6 +2929,12 @@
   <connection>
     <source_block_id>pad_source_0</source_block_id>
     <sink_block_id>virtual_sink_0_1_0_0_0_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>virtual_sink_0_1_0_0_0_0_0</sink_block_id>
     <source_key>out</source_key>
     <sink_key>in</sink_key>
   </connection>

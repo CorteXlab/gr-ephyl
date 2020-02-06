@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop
-# Generated: Wed Feb  5 08:05:27 2020
+# Generated: Thu Feb  6 12:08:57 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -286,13 +286,9 @@ class demo_loop(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_socket_pdu_0_0, 'pdus'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'BCN'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'BCN'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'BCN'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'BCN'))
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'DL'))
         self.msg_connect((self.hier_bs_0, 'BCH'), (self.blocks_socket_pdu_0, 'pdus'))
         self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))

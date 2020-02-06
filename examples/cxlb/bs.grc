@@ -819,7 +819,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -4838,6 +4838,45 @@
       <value>PER 2</value>
     </param>
   </block>
+  <block>
+    <key>zeromq_push_msg_sink</key>
+    <param>
+      <key>address</key>
+      <value>tcp://*:5556</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(800, 516)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>zeromq_push_msg_sink_0</value>
+    </param>
+    <param>
+      <key>timeout</key>
+      <value>100</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>uhd_usrp_sink_0</sink_block_id>
@@ -4860,19 +4899,7 @@
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
     <sink_block_id>hier_sensor_0</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
-    <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
@@ -4884,19 +4911,7 @@
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
     <sink_block_id>hier_sensor_0_1</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
-    <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
@@ -4939,6 +4954,12 @@
     <sink_block_id>blocks_socket_pdu_0</sink_block_id>
     <source_key>DL</source_key>
     <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hier_bs_0</source_block_id>
+    <sink_block_id>zeromq_push_msg_sink_0</sink_block_id>
+    <source_key>DL</source_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>hier_sensor_0</source_block_id>

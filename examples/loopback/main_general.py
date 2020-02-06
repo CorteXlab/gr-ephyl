@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Main General
-# Generated: Wed Jan 29 16:59:50 2020
+# Generated: Thu Feb  6 12:00:19 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -25,6 +25,7 @@ from gnuradio import fec
 from gnuradio import fft
 from gnuradio import gr
 from gnuradio import qtgui
+from gnuradio import zeromq
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
@@ -32,7 +33,6 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import ephyl
 import math, sys, numpy as np, random, string
-import pmt
 import sip
 import sys
 from gnuradio import qtgui
@@ -40,7 +40,7 @@ from gnuradio import qtgui
 
 class main_general(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=50, T_g=40, T_p=200, T_s=100, bs_slots=range(6), control='0:1', cp_ratio=0.25, frame_size=12000, hdr_format=digital.header_format_default(digital.packet_utils.default_access_code, 0), modulation=4, puncpat='11'):
+    def __init__(self, M=32, N=1, T_bch=50, T_g=40, T_p=200, T_s=100, bs_slots=range(6), control='0:2:4', cp_ratio=0.25, frame_size=12000, hdr_format=digital.header_format_default(digital.packet_utils.default_access_code, 0), modulation=4, puncpat='11'):
         gr.top_block.__init__(self, "Main General")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Main General")
@@ -124,6 +124,8 @@ class main_general(gr.top_block, Qt.QWidget):
         self._freq_offset_range = Range(-.1, .1, .00001, 0, 200)
         self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, 'Frequency Offset (Multiples of Sub-carrier spacing)', "counter_slider", float)
         self.top_layout.addWidget(self._freq_offset_win)
+        self.zeromq_push_msg_sink_0 = zeromq.push_msg_sink('tcp://127.0.0.1:5556', 100)
+        self.zeromq_pull_msg_source_0 = zeromq.pull_msg_source('tcp://127.0.0.1:5556', 100)
         self.qtgui_time_sink_x_0_0_0_1_0_0_0_0_0_0_0_0 = qtgui.time_sink_c(
         	int(samp_rate*frame_len)/int(2*M*(1+cp_ratio)), #size
         	samp_rate/int(2*M*(1+cp_ratio)), #samp_rate
@@ -229,7 +231,7 @@ class main_general(gr.top_block, Qt.QWidget):
         self.ephyl_tag_2_msg_char_0 = ephyl.tag_2_msg_char("FRAME")
         self.ephyl_sn_scheduler_0 = ephyl.sn_scheduler(0, len(bs_slots), T_bch, T_g, T_s, T_p, 'corr_est',"packet_len2", samp_rate)
         self.ephyl_msg_mux_0 = ephyl.msg_mux()
-        self.ephyl_data_and_access_control_0 = ephyl.data_and_access_control(bs_slots,control,1,True)
+        self.ephyl_data_and_access_control_0 = ephyl.data_and_access_control(bs_slots,control,1,False)
         self.ephyl_bs_scheduler_0 = ephyl.bs_scheduler(len(bs_slots), T_bch, T_g, T_s, T_p, samp_rate, False, 0)
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr_format, 'packet_len')
         self.digital_ofdm_cyclic_prefixer_0 = digital.ofdm_cyclic_prefixer(M, M+M/4, 0, '')
@@ -262,8 +264,6 @@ class main_general(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, M)
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_gr_complex, 1, int(M*(1+cp_ratio))*2*8, "packet_len2")
         self.blocks_stream_mux_0 = blocks.stream_mux(gr.sizeof_gr_complex*1, (1, M-1))
-        self.blocks_socket_pdu_0_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', 10000, True)
-        self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', 10000, True)
         self.blocks_repack_bits_bb_2_2 = blocks.repack_bits_bb(8, 1, "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_1 = blocks.repack_bits_bb(1, 8, 'burst', True, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(1, 8, 'packet_len', True, gr.GR_MSB_FIRST)
@@ -272,7 +272,6 @@ class main_general(gr.top_block, Qt.QWidget):
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, 'packet_len')
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((1.0/M, ))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
         self.blocks_message_debug_2 = blocks.message_debug()
         self.blocks_keep_one_in_n_1 = blocks.keep_one_in_n(gr.sizeof_gr_complex*1, M*2)
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_gr_complex, M, int(M*(1+cp_ratio)), int(cp_ratio*M))
@@ -284,20 +283,19 @@ class main_general(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_socket_pdu_0_0_0, 'pdus'))
-        self.msg_connect((self.blocks_socket_pdu_0_0_0, 'pdus'), (self.ephyl_data_and_access_control_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0_0, 'pdus'), (self.ephyl_sn_scheduler_0, 'trig'))
         self.msg_connect((self.blocks_tagged_stream_to_pdu_0_0, 'pdus'), (self.ephyl_msg_mux_0, 'data'))
         self.msg_connect((self.blocks_tagged_stream_to_pdu_0_0_0, 'pdus'), (self.ephyl_sn_scheduler_0, 'in'))
-        self.msg_connect((self.ephyl_bs_scheduler_0, 'bcn'), (self.blocks_socket_pdu_0_0, 'pdus'))
+        self.msg_connect((self.ephyl_bs_scheduler_0, 'bcn'), (self.zeromq_push_msg_sink_0, 'in'))
         self.msg_connect((self.ephyl_data_and_access_control_0, 'Data'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))
         self.msg_connect((self.ephyl_data_and_access_control_0, 'PER'), (self.blocks_pdu_to_tagged_stream_0_0, 'pdus'))
         self.msg_connect((self.ephyl_data_and_access_control_0, 'Array'), (self.ephyl_sn_scheduler_0, 'slot'))
         self.msg_connect((self.ephyl_msg_mux_0, 'final_msg'), (self.blocks_message_debug_2, 'print'))
-        self.msg_connect((self.ephyl_msg_mux_0, 'final_msg'), (self.blocks_socket_pdu_0_0, 'pdus'))
+        self.msg_connect((self.ephyl_msg_mux_0, 'final_msg'), (self.zeromq_push_msg_sink_0, 'in'))
         self.msg_connect((self.ephyl_sn_scheduler_0, 'busy'), (self.ephyl_data_and_access_control_0, 'busy'))
         self.msg_connect((self.ephyl_tag_2_msg_char_0, 'slot_msg'), (self.ephyl_msg_mux_0, 'frame_n'))
         self.msg_connect((self.ephyl_tag_2_msg_char_0_0, 'slot_msg'), (self.ephyl_msg_mux_0, 'slot_n'))
+        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.ephyl_data_and_access_control_0, 'DL'))
+        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.ephyl_sn_scheduler_0, 'trig'))
         self.connect((self.blocks_char_to_float_1, 0), (self.fec_extended_tagged_decoder_1, 0))
         self.connect((self.blocks_complex_to_arg_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_complex_to_arg_0, 0), (self.blocks_tag_gate_0, 0))
@@ -555,7 +553,7 @@ class main_general(gr.top_block, Qt.QWidget):
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
     parser.add_option(
-        "", "--control", dest="control", type="string", default='0:1',
+        "", "--control", dest="control", type="string", default='0:2:4',
         help="Set Access control [default=%default]")
     parser.add_option(
         "", "--frame-size", dest="frame_size", type="intx", default=12000,
