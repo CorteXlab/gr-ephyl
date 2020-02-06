@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Ms Fixed Even
-# Generated: Fri Jan 31 17:10:50 2020
+# Generated: Thu Feb  6 15:05:58 2020
 ##################################################
 
 import os
@@ -14,12 +14,12 @@ from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import uhd
+from gnuradio import zeromq
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from hier_sensor import hier_sensor  # grc-generated hier_block
 from optparse import OptionParser
 import math, sys, numpy as np, random,string
-import pmt
 import time
 
 
@@ -61,6 +61,7 @@ class ms_fixed_even(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
+        self.zeromq_pull_msg_source_0 = zeromq.pull_msg_source('tcp://mnode3:5556', 100)
         self.uhd_usrp_sink_0_0 = uhd.usrp_sink(
         	",".join(('', "")),
         	uhd.stream_args(
@@ -127,26 +128,17 @@ class ms_fixed_even(gr.top_block):
             log=log,
             samp_rate=samp_rate,
         )
-        self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", 'mnode3', '52002', MTU, True)
         self.blocks_null_sink_0_2 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_socket_pdu_0_0, 'pdus'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_1, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_0_2, 'DL'))
+        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.hier_sensor_0, 'DL'))
+        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.hier_sensor_0_2, 'DL'))
         self.connect((self.blocks_add_xx_0, 0), (self.uhd_usrp_sink_0_0, 0))
         self.connect((self.hier_sensor_0, 1), (self.blocks_add_xx_0, 0))
         self.connect((self.hier_sensor_0, 0), (self.blocks_null_sink_0, 0))

@@ -756,53 +756,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_strobe</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(0, 652)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_strobe_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>msg</key>
-      <value>pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1]))</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>period</key>
-      <value>.01</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_null_sink</key>
     <param>
       <key>alias</key>
@@ -988,65 +941,6 @@
     <param>
       <key>vlen</key>
       <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_socket_pdu</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>host : mnodeX, where x is the id of the BS</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(248, 640)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>host</key>
-      <value>mnode3</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_socket_pdu_0_0</value>
-    </param>
-    <param>
-      <key>mtu</key>
-      <value>MTU</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>port</key>
-      <value>52002</value>
-    </param>
-    <param>
-      <key>tcp_no_delay</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>"UDP_CLIENT"</value>
     </param>
   </block>
   <block>
@@ -3072,71 +2966,58 @@
       <value>PER 1</value>
     </param>
   </block>
+  <block>
+    <key>zeromq_pull_msg_source</key>
+    <param>
+      <key>address</key>
+      <value>tcp://mnode3:5556</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(96, 772)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>zeromq_pull_msg_source_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>timeout</key>
+      <value>100</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>uhd_usrp_sink_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_message_strobe_0</source_block_id>
-    <sink_block_id>blocks_socket_pdu_0_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>pdus</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>DL</sink_key>
   </connection>
   <connection>
     <source_block_id>hier_sensor_0</source_block_id>
@@ -3233,5 +3114,29 @@
     <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>zeromq_pull_msg_source_0</source_block_id>
+    <sink_block_id>hier_sensor_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>DL</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>zeromq_pull_msg_source_0</source_block_id>
+    <sink_block_id>hier_sensor_0_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>DL</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>zeromq_pull_msg_source_0</source_block_id>
+    <sink_block_id>hier_sensor_0_1</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>DL</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>zeromq_pull_msg_source_0</source_block_id>
+    <sink_block_id>hier_sensor_0_2</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>DL</sink_key>
   </connection>
 </flow_graph>
