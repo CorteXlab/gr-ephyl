@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Ms Fixed 1 Novar Activ 4
-# Generated: Thu Feb  6 15:09:33 2020
+# Generated: Fri Feb  7 14:22:26 2020
 ##################################################
 
 import os
@@ -55,7 +55,7 @@ class ms_fixed_1_novar_activ_4(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
-        self.zeromq_pull_msg_source_0 = zeromq.pull_msg_source('tcp://mnode3:5556', 100)
+        self.zeromq_sub_msg_source_0 = zeromq.sub_msg_source('tcp://mnode3:5556', 100)
         self.uhd_usrp_sink_0_0 = uhd.usrp_sink(
         	",".join(('', "")),
         	uhd.stream_args(
@@ -88,7 +88,7 @@ class ms_fixed_1_novar_activ_4(gr.top_block):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.hier_sensor_0, 'DL'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_0, 'DL'))
         self.connect((self.hier_sensor_0, 0), (self.blocks_null_sink_0, 0))
         self.connect((self.hier_sensor_0, 1), (self.uhd_usrp_sink_0_0, 0))
 

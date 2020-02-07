@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Bs
-# Generated: Thu Feb  6 17:30:32 2020
+# Generated: Fri Feb  7 14:29:16 2020
 ##################################################
 
 import os
@@ -52,7 +52,7 @@ class bs(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
-        self.zeromq_push_msg_sink_0 = zeromq.push_msg_sink('tcp://*:5556', 100)
+        self.zeromq_pub_msg_sink_0 = zeromq.pub_msg_sink('tcp://*:5556', 100)
         self.uhd_usrp_source_0_0 = uhd.usrp_source(
         	",".join(('', "")),
         	uhd.stream_args(
@@ -88,8 +88,8 @@ class bs(gr.top_block):
         # Connections
         ##################################################
         self.msg_connect((self.hier_bs_0, 'DL'), (self.blocks_message_debug_0, 'print'))
-        self.msg_connect((self.hier_bs_0, 'DL'), (self.zeromq_push_msg_sink_0, 'in'))
-        self.msg_connect((self.hier_bs_0, 'BCH'), (self.zeromq_push_msg_sink_0, 'in'))
+        self.msg_connect((self.hier_bs_0, 'DL'), (self.zeromq_pub_msg_sink_0, 'in'))
+        self.msg_connect((self.hier_bs_0, 'BCH'), (self.zeromq_pub_msg_sink_0, 'in'))
         self.connect((self.hier_bs_0, 0), (self.blocks_null_sink_0, 0))
         self.connect((self.uhd_usrp_source_0_0, 0), (self.hier_bs_0, 0))
 

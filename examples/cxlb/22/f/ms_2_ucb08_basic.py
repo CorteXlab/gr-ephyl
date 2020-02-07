@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Ms 2 Ucb08 Basic
-# Generated: Thu Feb  6 15:08:21 2020
+# Generated: Fri Feb  7 14:21:46 2020
 ##################################################
 
 import os
@@ -57,7 +57,7 @@ class ms_2_ucb08_basic(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
-        self.zeromq_pull_msg_source_0 = zeromq.pull_msg_source('tcp://mnode3:5556', 100)
+        self.zeromq_sub_msg_source_0 = zeromq.sub_msg_source('tcp://mnode3:5556', 100)
         self.uhd_usrp_sink_0_0 = uhd.usrp_sink(
         	",".join(('', "")),
         	uhd.stream_args(
@@ -105,8 +105,8 @@ class ms_2_ucb08_basic(gr.top_block):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.hier_sensor_0, 'DL'))
-        self.msg_connect((self.zeromq_pull_msg_source_0, 'out'), (self.hier_sensor_0_2, 'DL'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_0, 'DL'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_0_2, 'DL'))
         self.connect((self.blocks_add_xx_0, 0), (self.uhd_usrp_sink_0_0, 0))
         self.connect((self.hier_sensor_0, 1), (self.blocks_add_xx_0, 0))
         self.connect((self.hier_sensor_0, 0), (self.blocks_null_sink_0, 0))
