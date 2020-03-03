@@ -836,6 +836,10 @@ for nbits = IN = 128 bits --&gt; OUT = 14652</value>
       <key>minoutbuf</key>
       <value>0</value>
     </param>
+    <param>
+      <key>save_log</key>
+      <value>log</value>
+    </param>
   </block>
   <block>
     <key>ephyl_sn_scheduler</key>
@@ -986,6 +990,49 @@ for nbits = IN = 128 bits --&gt; OUT = 14652</value>
     <param>
       <key>import</key>
       <value>import math, sys, numpy as np, random,string</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(472, 104)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>log</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Generate log file</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>True</value>
     </param>
   </block>
   <block>

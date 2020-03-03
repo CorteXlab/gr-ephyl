@@ -331,7 +331,7 @@ class data_and_access_control(gr.sync_block):
             self.error = 1
         
         # if v.count('s') > 0 and v.count('i') > 0:
-        if v.count('s') > 0 or v.count('i') > 0:
+        if v.count('s') > 0 and v.count('i') > 0:
             self.detection = 1
         else:
             self.detection = 0

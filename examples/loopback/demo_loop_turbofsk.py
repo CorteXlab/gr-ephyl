@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop Turbofsk
-# Generated: Mon Feb  3 14:07:54 2020
+# Generated: Tue Mar  3 16:41:16 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -26,6 +26,7 @@ from gnuradio import channels
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import qtgui
+from gnuradio import zeromq
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
@@ -33,14 +34,13 @@ from hier_bs_turbofsk import hier_bs_turbofsk  # grc-generated hier_block
 from hier_sensor_turbofsk import hier_sensor_turbofsk  # grc-generated hier_block
 from optparse import OptionParser
 import math, sys, numpy as np, random,string
-import pmt
 import sip
 from gnuradio import qtgui
 
 
 class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, T_sync=50, bs_slots=range(6), control0='all', control1='none', control2='basic', control3='ucb', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, bs_slots=range(10), control0='0:1:2:3:4:5:6:7:8', control1='ucb:2', cp_ratio=0.25):
         gr.top_block.__init__(self, "Demo Loop Turbofsk")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Demo Loop Turbofsk")
@@ -73,12 +73,9 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         self.T_g = T_g
         self.T_p = T_p
         self.T_s = T_s
-        self.T_sync = T_sync
         self.bs_slots = bs_slots
         self.control0 = control0
         self.control1 = control1
-        self.control2 = control2
-        self.control3 = control3
         self.cp_ratio = cp_ratio
 
         ##################################################
@@ -91,8 +88,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         self.gain = gain = 32
         self.freq_offset = freq_offset = 0
         self.freq = freq = 2450e6
-        self.frame_len = frame_len = (T_bch+T_sync+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
-        self.bs_slots_0 = bs_slots_0 = bs_slots[:-3]
+        self.frame_len = frame_len = (T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
 
         ##################################################
         # Blocks
@@ -109,6 +105,8 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         self._freq_offset_range = Range(-.1, .1, .00001, 0, 200)
         self._freq_offset_win = RangeWidget(self._freq_offset_range, self.set_freq_offset, 'Frequency Offset (Multiples of Sub-carrier spacing)', "counter_slider", float)
         self.top_layout.addWidget(self._freq_offset_win)
+        self.zeromq_sub_msg_source_0 = zeromq.sub_msg_source('tcp://127.0.0.1:5556', 100)
+        self.zeromq_pub_msg_sink_0 = zeromq.pub_msg_sink('tcp://*:5556', 100)
         self.qtgui_time_sink_x_0_0_0_1_0_0 = qtgui.time_sink_f(
         	int(frame_len*samp_rate), #size
         	samp_rate/80, #samp_rate
@@ -160,7 +158,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         	64, #size
         	samp_rate, #samp_rate
         	'Packet Error rate', #name
-        	4 #number of inputs
+        	2 #number of inputs
         )
         self.qtgui_time_sink_x_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0.set_y_axis(0, 1)
@@ -177,7 +175,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_time_sink_x_0.disable_legend()
 
-        labels = [control0, control1, control2, control3, '',
+        labels = [control0, control1, 'control2', 'control3', '',
                   '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
@@ -190,7 +188,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
                   1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in xrange(4):
+        for i in xrange(2):
             if len(labels[i]) == 0:
                 self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
@@ -203,34 +201,15 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
-        self.hier_sensor_turbofsk_0_1_0 = hier_sensor_turbofsk(
-            T_bch=T_bch,
-            T_g=T_g,
-            T_p=T_p,
-            T_s=T_s,
-            activation_rate=1,
-            bs_slots=bs_slots,
-            control=control2,
-            samp_rate=samp_rate,
-        )
-        self.hier_sensor_turbofsk_0_1 = hier_sensor_turbofsk(
-            T_bch=T_bch,
-            T_g=T_g,
-            T_p=T_p,
-            T_s=T_s,
-            activation_rate=1,
-            bs_slots=bs_slots,
-            control=control2,
-            samp_rate=samp_rate,
-        )
         self.hier_sensor_turbofsk_0_0 = hier_sensor_turbofsk(
             T_bch=T_bch,
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
             activation_rate=1,
-            bs_slots=bs_slots_0,
+            bs_slots=bs_slots,
             control=control0,
+            log=True,
             samp_rate=samp_rate,
         )
         self.hier_sensor_turbofsk_0 = hier_sensor_turbofsk(
@@ -241,6 +220,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
             activation_rate=1,
             bs_slots=bs_slots,
             control=control1,
+            log=True,
             samp_rate=samp_rate,
         )
         self.hier_bs_turbofsk_0 = hier_bs_turbofsk(
@@ -252,6 +232,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
             bs_slots=bs_slots,
             n=35,
             samp_rate=samp_rate,
+            exit_frame=1000,
         )
         self._gain_range = Range(0, 40, 1, 32, 200)
         self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Absolute Gain', "counter_slider", float)
@@ -264,11 +245,9 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         	noise_seed=0,
         	block_tags=True
         )
-        self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_CLIENT", '127.0.0.1', '52002', 10000, True)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", '', '52002', 10000, True)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_null_sink_1_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(1,[1])), .01)
         self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
@@ -276,21 +255,17 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.blocks_socket_pdu_0_0, 'pdus'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_0, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1, 'DL'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1_0, 'BCN'))
-        self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.hier_sensor_turbofsk_0_1_0, 'DL'))
-        self.msg_connect((self.hier_bs_turbofsk_0, 'BCH'), (self.blocks_message_debug_0, 'print'))
-        self.msg_connect((self.hier_bs_turbofsk_0, 'BCH'), (self.blocks_socket_pdu_0, 'pdus'))
-        self.msg_connect((self.hier_bs_turbofsk_0, 'DL'), (self.blocks_socket_pdu_0, 'pdus'))
+        self.msg_connect((self.hier_bs_turbofsk_0, 'DL'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.hier_bs_turbofsk_0, 'BCH'), (self.zeromq_pub_msg_sink_0, 'in'))
+        self.msg_connect((self.hier_bs_turbofsk_0, 'DL'), (self.zeromq_pub_msg_sink_0, 'in'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_turbofsk_0, 'BCN'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_turbofsk_0, 'DL'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_turbofsk_0_0, 'BCN'))
+        self.msg_connect((self.zeromq_sub_msg_source_0, 'out'), (self.hier_sensor_turbofsk_0_0, 'DL'))
         self.connect((self.blocks_add_xx_0, 0), (self.channels_channel_model_0, 0))
         self.connect((self.blocks_complex_to_real_0, 0), (self.qtgui_time_sink_x_0_0_0_1_0_0, 0))
-        self.connect((self.channels_channel_model_0, 0), (self.hier_bs_turbofsk_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.hier_bs_turbofsk_0, 0))
+        self.connect((self.channels_channel_model_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.hier_bs_turbofsk_0, 0), (self.blocks_complex_to_real_0, 0))
         self.connect((self.hier_sensor_turbofsk_0, 1), (self.blocks_add_xx_0, 1))
         self.connect((self.hier_sensor_turbofsk_0, 0), (self.blocks_null_sink_1_0, 0))
@@ -298,10 +273,6 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         self.connect((self.hier_sensor_turbofsk_0_0, 1), (self.blocks_add_xx_0, 0))
         self.connect((self.hier_sensor_turbofsk_0_0, 0), (self.blocks_null_sink_1, 0))
         self.connect((self.hier_sensor_turbofsk_0_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.hier_sensor_turbofsk_0_1, 1), (self.blocks_add_xx_0, 2))
-        self.connect((self.hier_sensor_turbofsk_0_1, 0), (self.qtgui_time_sink_x_0, 2))
-        self.connect((self.hier_sensor_turbofsk_0_1_0, 1), (self.blocks_add_xx_0, 3))
-        self.connect((self.hier_sensor_turbofsk_0_1_0, 0), (self.qtgui_time_sink_x_0, 3))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "demo_loop_turbofsk")
@@ -325,9 +296,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
     def set_T_bch(self, T_bch):
         self.T_bch = T_bch
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_turbofsk_0_1_0.set_T_bch(self.T_bch)
-        self.hier_sensor_turbofsk_0_1.set_T_bch(self.T_bch)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_turbofsk_0_0.set_T_bch(self.T_bch)
         self.hier_sensor_turbofsk_0.set_T_bch(self.T_bch)
         self.hier_bs_turbofsk_0.set_T_bch(self.T_bch)
@@ -337,9 +306,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
     def set_T_g(self, T_g):
         self.T_g = T_g
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_turbofsk_0_1_0.set_T_g(self.T_g)
-        self.hier_sensor_turbofsk_0_1.set_T_g(self.T_g)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_turbofsk_0_0.set_T_g(self.T_g)
         self.hier_sensor_turbofsk_0.set_T_g(self.T_g)
         self.hier_bs_turbofsk_0.set_T_g(self.T_g)
@@ -349,9 +316,7 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
     def set_T_p(self, T_p):
         self.T_p = T_p
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_turbofsk_0_1_0.set_T_p(self.T_p)
-        self.hier_sensor_turbofsk_0_1.set_T_p(self.T_p)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_turbofsk_0_0.set_T_p(self.T_p)
         self.hier_sensor_turbofsk_0.set_T_p(self.T_p)
         self.hier_bs_turbofsk_0.set_T_p(self.T_p)
@@ -361,29 +326,18 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
 
     def set_T_s(self, T_s):
         self.T_s = T_s
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.hier_sensor_turbofsk_0_1_0.set_T_s(self.T_s)
-        self.hier_sensor_turbofsk_0_1.set_T_s(self.T_s)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_turbofsk_0_0.set_T_s(self.T_s)
         self.hier_sensor_turbofsk_0.set_T_s(self.T_s)
         self.hier_bs_turbofsk_0.set_T_s(self.T_s)
-
-    def get_T_sync(self):
-        return self.T_sync
-
-    def set_T_sync(self, T_sync):
-        self.T_sync = T_sync
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
 
     def get_bs_slots(self):
         return self.bs_slots
 
     def set_bs_slots(self, bs_slots):
         self.bs_slots = bs_slots
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-        self.set_bs_slots_0(self.bs_slots[:-3])
-        self.hier_sensor_turbofsk_0_1_0.set_bs_slots(self.bs_slots)
-        self.hier_sensor_turbofsk_0_1.set_bs_slots(self.bs_slots)
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.hier_sensor_turbofsk_0_0.set_bs_slots(self.bs_slots)
         self.hier_sensor_turbofsk_0.set_bs_slots(self.bs_slots)
         self.hier_bs_turbofsk_0.set_bs_slots(self.bs_slots)
 
@@ -400,20 +354,6 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
     def set_control1(self, control1):
         self.control1 = control1
         self.hier_sensor_turbofsk_0.set_control(self.control1)
-
-    def get_control2(self):
-        return self.control2
-
-    def set_control2(self, control2):
-        self.control2 = control2
-        self.hier_sensor_turbofsk_0_1_0.set_control(self.control2)
-        self.hier_sensor_turbofsk_0_1.set_control(self.control2)
-
-    def get_control3(self):
-        return self.control3
-
-    def set_control3(self, control3):
-        self.control3 = control3
 
     def get_cp_ratio(self):
         return self.cp_ratio
@@ -435,11 +375,10 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.qtgui_time_sink_x_0_0_0_1_0_0.set_samp_rate(self.samp_rate/80)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
-        self.hier_sensor_turbofsk_0_1_0.set_samp_rate(self.samp_rate)
-        self.hier_sensor_turbofsk_0_1.set_samp_rate(self.samp_rate)
         self.hier_sensor_turbofsk_0_0.set_samp_rate(self.samp_rate)
         self.hier_sensor_turbofsk_0.set_samp_rate(self.samp_rate)
         self.hier_bs_turbofsk_0.set_samp_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_phase(self):
         return self.phase
@@ -480,27 +419,14 @@ class demo_loop_turbofsk(gr.top_block, Qt.QWidget):
     def set_frame_len(self, frame_len):
         self.frame_len = frame_len
 
-    def get_bs_slots_0(self):
-        return self.bs_slots_0
-
-    def set_bs_slots_0(self, bs_slots_0):
-        self.bs_slots_0 = bs_slots_0
-        self.hier_sensor_turbofsk_0_0.set_bs_slots(self.bs_slots_0)
-
 
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
     parser.add_option(
-        "", "--control0", dest="control0", type="string", default='all',
+        "", "--control0", dest="control0", type="string", default='0:1:2:3:4:5:6:7:8',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control1", dest="control1", type="string", default='none',
-        help="Set Control [default=%default]")
-    parser.add_option(
-        "", "--control2", dest="control2", type="string", default='basic',
-        help="Set Control [default=%default]")
-    parser.add_option(
-        "", "--control3", dest="control3", type="string", default='ucb',
+        "", "--control1", dest="control1", type="string", default='ucb:2',
         help="Set Control [default=%default]")
     return parser
 
@@ -515,7 +441,7 @@ def main(top_block_cls=demo_loop_turbofsk, options=None):
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
 
-    tb = top_block_cls(control0=options.control0, control1=options.control1, control2=options.control2, control3=options.control3)
+    tb = top_block_cls(control0=options.control0, control1=options.control1)
     tb.start()
     tb.show()
 

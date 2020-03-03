@@ -159,7 +159,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>(T_bch+T_sync+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)</value>
+      <value>(T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)</value>
     </param>
   </block>
   <block>
@@ -801,7 +801,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1275,7 +1275,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1512, 708)</value>
+      <value>(1512, 740)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1385,7 +1385,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1288, 672)</value>
+      <value>(1288, 704)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1456,7 +1456,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0:1:2</value>
+      <value>0:1:2:3</value>
     </param>
   </block>
   <block>
@@ -1499,7 +1499,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>7:8:9</value>
+      <value>4:5:6</value>
     </param>
   </block>
   <block>
@@ -1542,7 +1542,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>basic</value>
+      <value>7</value>
     </param>
   </block>
   <block>
@@ -1585,7 +1585,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>ucb:2</value>
+      <value>random</value>
     </param>
   </block>
   <block>
@@ -1659,7 +1659,7 @@
     </param>
     <param>
       <key>exit_frame</key>
-      <value>200</value>
+      <value>600</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1714,7 +1714,7 @@
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>0.5</value>
+      <value>1</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -1963,7 +1963,7 @@
     <key>hier_sensor</key>
     <param>
       <key>activation_rate</key>
-      <value>0.5</value>
+      <value>1</value>
     </param>
     <param>
       <key>T_bch</key>
@@ -3174,7 +3174,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1696, 708)</value>
+      <value>(1712, 740)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3255,7 +3255,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 1012)</value>
+      <value>(896, 1012)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3553,19 +3553,7 @@
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
     <sink_block_id>hier_sensor_0</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0</sink_block_id>
-    <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
@@ -3577,19 +3565,7 @@
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>
     <sink_block_id>hier_sensor_0_1</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_1</sink_block_id>
-    <source_key>pdus</source_key>
     <sink_key>DL</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0_0</source_block_id>
-    <sink_block_id>hier_sensor_0_2</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>BCN</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0_0</source_block_id>

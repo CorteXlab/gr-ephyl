@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Demo Loop
-# Generated: Fri Feb  7 14:03:25 2020
+# Generated: Mon Mar  2 16:10:09 2020
 ##################################################
 
 if __name__ == '__main__':
@@ -40,7 +40,7 @@ from gnuradio import qtgui
 
 class demo_loop(gr.top_block, Qt.QWidget):
 
-    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, T_sync=50, bs_slots=range(10), control0='0:1:2', control1='7:8:9', control2='basic', control3='ucb:2', cp_ratio=0.25):
+    def __init__(self, M=32, N=1, T_bch=50, T_g=20, T_p=100, T_s=50, bs_slots=range(10), control0='0:1:2:3', control1='4:5:6', control2='7', control3='random', cp_ratio=0.25):
         gr.top_block.__init__(self, "Demo Loop")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Demo Loop")
@@ -73,7 +73,6 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.T_g = T_g
         self.T_p = T_p
         self.T_s = T_s
-        self.T_sync = T_sync
         self.bs_slots = bs_slots
         self.control0 = control0
         self.control1 = control1
@@ -90,7 +89,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
         self.noise_voltage = noise_voltage = 0
         self.freq_offset = freq_offset = 0
         self.freq = freq = 2450e6
-        self.frame_len = frame_len = (T_bch+T_sync+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
+        self.frame_len = frame_len = (T_bch+len(bs_slots)*(T_s+T_g)+T_p)/float(1000)
         self.MTU = MTU = 1500
 
         ##################################################
@@ -209,7 +208,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
-            activation_rate=0.5,
+            activation_rate=1,
             bs_slots=bs_slots,
             control=control1,
             log=True,
@@ -248,7 +247,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_g=T_g,
             T_p=T_p,
             T_s=T_s,
-            activation_rate=0.5,
+            activation_rate=1,
             bs_slots=bs_slots,
             control=control0,
             log=True,
@@ -263,7 +262,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
             T_s=T_s,
             UHD=False,
             bs_slots=bs_slots,
-            exit_frame=200,
+            exit_frame=600,
             samp_rate=samp_rate,
         )
         self.channels_channel_model_0 = channels.channel_model(
@@ -336,7 +335,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_T_bch(self, T_bch):
         self.T_bch = T_bch
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_bch(self.T_bch)
         self.hier_sensor_0_1.set_T_bch(self.T_bch)
         self.hier_sensor_0_0.set_T_bch(self.T_bch)
@@ -348,7 +347,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_T_g(self, T_g):
         self.T_g = T_g
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_g(self.T_g)
         self.hier_sensor_0_1.set_T_g(self.T_g)
         self.hier_sensor_0_0.set_T_g(self.T_g)
@@ -360,7 +359,7 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_T_p(self, T_p):
         self.T_p = T_p
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_p(self.T_p)
         self.hier_sensor_0_1.set_T_p(self.T_p)
         self.hier_sensor_0_0.set_T_p(self.T_p)
@@ -372,26 +371,19 @@ class demo_loop(gr.top_block, Qt.QWidget):
 
     def set_T_s(self, T_s):
         self.T_s = T_s
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_T_s(self.T_s)
         self.hier_sensor_0_1.set_T_s(self.T_s)
         self.hier_sensor_0_0.set_T_s(self.T_s)
         self.hier_sensor_0.set_T_s(self.T_s)
         self.hier_bs_0.set_T_s(self.T_s)
 
-    def get_T_sync(self):
-        return self.T_sync
-
-    def set_T_sync(self, T_sync):
-        self.T_sync = T_sync
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
-
     def get_bs_slots(self):
         return self.bs_slots
 
     def set_bs_slots(self, bs_slots):
         self.bs_slots = bs_slots
-        self.set_frame_len((self.T_bch+self.T_sync+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
+        self.set_frame_len((self.T_bch+len(self.bs_slots)*(self.T_s+self.T_g)+self.T_p)/float(1000))
         self.hier_sensor_0_2.set_bs_slots(self.bs_slots)
         self.hier_sensor_0_1.set_bs_slots(self.bs_slots)
         self.hier_sensor_0_0.set_bs_slots(self.bs_slots)
@@ -497,16 +489,16 @@ class demo_loop(gr.top_block, Qt.QWidget):
 def argument_parser():
     parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
     parser.add_option(
-        "", "--control0", dest="control0", type="string", default='0:1:2',
+        "", "--control0", dest="control0", type="string", default='0:1:2:3',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control1", dest="control1", type="string", default='7:8:9',
+        "", "--control1", dest="control1", type="string", default='4:5:6',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control2", dest="control2", type="string", default='basic',
+        "", "--control2", dest="control2", type="string", default='7',
         help="Set Control [default=%default]")
     parser.add_option(
-        "", "--control3", dest="control3", type="string", default='ucb:2',
+        "", "--control3", dest="control3", type="string", default='random',
         help="Set Control [default=%default]")
     return parser
 
